@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<circuit>
+  <version>2</version>
+  <attributes/>
+  <visualElements>
+    <visualElement>
+      <elementName>8_REGISTER_BANK.dig</elementName>
+      <elementAttributes/>
+      <pos x="-20" y="500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>256_INSTR_MEM.dig</elementName>
+      <elementAttributes/>
+      <pos x="-440" y="280"/>
+    </visualElement>
+    <visualElement>
+      <elementName>256B_MEM.dig</elementName>
+      <elementAttributes/>
+      <pos x="320" y="480"/>
+    </visualElement>
+    <visualElement>
+      <elementName>ALU_8.dig</elementName>
+      <elementAttributes/>
+      <pos x="120" y="500"/>
+    </visualElement>
+    <visualElement>
+      <elementName>REGISTER_8.dig</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>PC</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-580" y="260"/>
+    </visualElement>
+    <visualElement>
+      <elementName>CTRL_UNIT.dig</elementName>
+      <elementAttributes/>
+      <pos x="-280" y="320"/>
+    </visualElement>
+    <visualElement>
+      <elementName>In</elementName>
+      <elementAttributes>
+        <entry>
+          <string>Label</string>
+          <string>CLK</string>
+        </entry>
+      </elementAttributes>
+      <pos x="-800" y="300"/>
+    </visualElement>
+  </visualElements>
+  <wires>
+    <wire>
+      <p1 x="-360" y="320"/>
+      <p2 x="-280" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="320"/>
+      <p2 x="-40" y="320"/>
+    </wire>
+    <wire>
+      <p1 x="-100" y="580"/>
+      <p2 x="-20" y="580"/>
+    </wire>
+    <wire>
+      <p1 x="-60" y="520"/>
+      <p2 x="-20" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="60" y="520"/>
+      <p2 x="120" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="180" y="520"/>
+      <p2 x="220" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="360"/>
+      <p2 x="-80" y="360"/>
+    </wire>
+    <wire>
+      <p1 x="-800" y="300"/>
+      <p2 x="-600" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="300"/>
+      <p2 x="-580" y="300"/>
+    </wire>
+    <wire>
+      <p1 x="-60" y="560"/>
+      <p2 x="-20" y="560"/>
+    </wire>
+    <wire>
+      <p1 x="-40" y="500"/>
+      <p2 x="-20" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="60" y="500"/>
+      <p2 x="120" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="340"/>
+      <p2 x="-60" y="340"/>
+    </wire>
+    <wire>
+      <p1 x="-60" y="660"/>
+      <p2 x="220" y="660"/>
+    </wire>
+    <wire>
+      <p1 x="-520" y="280"/>
+      <p2 x="-440" y="280"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="600"/>
+      <p2 x="-20" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="540"/>
+      <p2 x="-20" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="-160" y="380"/>
+      <p2 x="-100" y="380"/>
+    </wire>
+    <wire>
+      <p1 x="-100" y="380"/>
+      <p2 x="-100" y="580"/>
+    </wire>
+    <wire>
+      <p1 x="-40" y="320"/>
+      <p2 x="-40" y="500"/>
+    </wire>
+    <wire>
+      <p1 x="-600" y="300"/>
+      <p2 x="-600" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="-60" y="340"/>
+      <p2 x="-60" y="520"/>
+    </wire>
+    <wire>
+      <p1 x="-60" y="560"/>
+      <p2 x="-60" y="660"/>
+    </wire>
+    <wire>
+      <p1 x="220" y="520"/>
+      <p2 x="220" y="660"/>
+    </wire>
+    <wire>
+      <p1 x="-80" y="360"/>
+      <p2 x="-80" y="540"/>
+    </wire>
+  </wires>
+  <measurementOrdering/>
+</circuit>
