@@ -1,1 +1,0 @@
-8 bit computer (8 bit addresses, 8 bit ALU, 8 bit registers, ...)

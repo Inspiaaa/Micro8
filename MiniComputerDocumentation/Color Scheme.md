@@ -1,6 +1,0 @@
-Arithmetic
-
-Memory
-
-Control
-
