@@ -46,15 +46,20 @@
       <elementName>Multiplexer</elementName>
       <elementAttributes>
         <entry>
-          <string>flipSelPos</string>
-          <boolean>true</boolean>
-        </entry>
-        <entry>
           <string>Bits</string>
           <int>8</int>
         </entry>
+        <entry>
+          <string>flipSelPos</string>
+          <boolean>true</boolean>
+        </entry>
       </elementAttributes>
       <pos x="220" y="520"/>
+    </visualElement>
+    <visualElement>
+      <elementName>256_INSTR_MEM.dig</elementName>
+      <elementAttributes/>
+      <pos x="-420" y="440"/>
     </visualElement>
   </visualElements>
   <wires>
