@@ -2,24 +2,44 @@ package inspiaaa.assembler.parser;
 
 public class ErrorReporter {
     private final String[] lines;
-    private final int numberOfLinesToShow;
+    private final int numberOfLinesToShowOnError;
+    private final int numberOfLinesToShowOnWarning;
 
-    public ErrorReporter(String code, int numberOfLinesToShow) {
+    public ErrorReporter(String code, int numberOfLinesToShowOnError, int numberOfLinesToShowOnWarning) {
         this.lines = code.split("\n");
-        this.numberOfLinesToShow = numberOfLinesToShow;
+        this.numberOfLinesToShowOnError = numberOfLinesToShowOnError;
+        this.numberOfLinesToShowOnWarning = numberOfLinesToShowOnWarning;
+    }
+
+    private void ensureIsValidLine(int line) {
+        if (line <= 0 || line > lines.length) {
+            throw new RuntimeException("Internal error: Line (" + line + ") passed to ErrorReporter is out of bounds.");
+        }
+    }
+
+    public void reportWarning(String message, int line) {
+        ensureIsValidLine(line);
+
+        System.out.println();
+
+        System.out.println("Warning in line " + line + ":");
+        printCodeFence(line, numberOfLinesToShowOnWarning);
+        System.out.println(message);
     }
 
     public void reportError(String message, int line) {
+        ensureIsValidLine(line);
+
         System.out.println();
 
         System.out.println("Error in line " + line + ":");
-        printCodeFence(line);
+        printCodeFence(line, numberOfLinesToShowOnError);
         System.out.println(message);
 
         System.exit(-1);
     }
 
-    private void printCodeFence(int line) {
+    private void printCodeFence(int line, int numberOfLinesToShow) {
         if (numberOfLinesToShow <= 0) {
             return;
         }
@@ -28,7 +48,7 @@ public class ErrorReporter {
 
         int numberOfDigits = Integer.toString(line).length();
 
-        int startLine = Math.max(0, lineIndex - numberOfLinesToShow);
+        int startLine = Math.max(0, lineIndex - numberOfLinesToShow + 1);
         for (int i = startLine; i <= lineIndex; i ++) {
             String lineNumber = String.format("%" + numberOfDigits + "s", i + 1);
             String lineContents = lines[i];

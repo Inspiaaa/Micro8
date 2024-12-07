@@ -19,7 +19,21 @@ addi sp, 0b101
 lw x0, 10(x1) # Comment
 .org 0x50
 """;
-        ErrorReporter errorReporter = new ErrorReporter(code, 3);
+        ErrorReporter errorReporter = new ErrorReporter(code, 3, 1);
+
+        SymbolTable symtable = new SymbolTable(errorReporter);
+
+        symtable.declareBuiltinSymbol(new Symbol("x0", SymbolType.REGISTER, 0));
+        symtable.declareBuiltinSymbol(new Symbol("x1", SymbolType.REGISTER, 1));
+        symtable.declareBuiltinSymbol(new Symbol("x2", SymbolType.REGISTER, 2));
+        symtable.declareBuiltinSymbol(new Symbol("x3", SymbolType.REGISTER, 3));
+        symtable.declareBuiltinSymbol(new Symbol("x4", SymbolType.REGISTER, 4));
+        symtable.declareBuiltinSymbol(new Symbol("x5", SymbolType.REGISTER, 5));
+        symtable.declareBuiltinSymbol(new Symbol("x6", SymbolType.REGISTER, 6));
+        symtable.declareBuiltinSymbol(new Symbol("x7", SymbolType.REGISTER, 7));
+
+        symtable.declareSynonym("x7", "sp");
+        symtable.declareSynonym("x6", "ra");
 
         List<List<Token>> tokensByLine = Lexer.lex(code, errorReporter);
 

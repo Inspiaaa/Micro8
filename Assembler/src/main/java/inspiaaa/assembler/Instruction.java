@@ -1,23 +1,34 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.parser.ErrorReporter;
+
+import java.util.List;
+
 public class Instruction {
     // Everything is an instruction:
     // - Labels
     // - Assembler directives
     // - Actual instructions
 
-    private int address;
+    protected int address = -1;
+    protected int line;
 
-    public void preprocess() {
-        // Labels register themselves into the symbol table here.
+    // Execution order:
+    // 1. Lower.
+    // 2. Assign addresses.
+    // 3. Preprocess (in parallel to above, but after each assignAddress call).
+    // 4. Compile.
+
+    public void preprocess(SymbolTable symtable) {
+
     }
 
-    public void allocateAddress() {
-
+    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
+        this.address = context.getAddress();
     }
 
-    public void lower() {
-
+    public List<Instruction> lower() {
+        return List.of(this);
     }
 
     public void compile() {
