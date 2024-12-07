@@ -43,4 +43,24 @@ public class SymbolTable {
 
         symbolsByName.put(synonym, symbolsByName.get(primaryName));
     }
+
+    public Symbol getSymbol(String name, int line) {
+        if (!symbolsByName.containsKey(name)) {
+            errorReporter.reportError("Symbol '" + name + "' not found.", line);
+        }
+
+        return symbolsByName.get(name);
+    }
+
+    public int getNumericValue(String name, int line) {
+        Symbol symbol = getSymbol(name, line);
+
+        if (!symbol.hasNumericValue()) {
+            errorReporter.reportError(
+                "'" + name + "' (" + symbol.getType() + ") does not have a numeric representation.",
+                line);
+        }
+
+        return symbol.getValue();
+    }
 }
