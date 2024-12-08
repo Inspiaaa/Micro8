@@ -97,6 +97,9 @@ public class Memory {
     }
 
     public static boolean[] integerToBits(long value, int numBits) {
+        // Note: Negative numbers are automatically encoded in 2's complement, as Java encodes
+        // negative numbers in 2's complement by default.
+
         boolean[] bits = new boolean[numBits];
 
         for (int i = 0; i < numBits; i ++) {

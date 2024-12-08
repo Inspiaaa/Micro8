@@ -32,8 +32,10 @@ public class ALUImmInstruction extends ProgramInstruction {
         memory.write(
             address,
             line,
-            Memory.toBits(1, 0),
-            Memory.integerToBits(operation, 3)
+            Memory.toBits(0, 1),
+            Memory.integerToBits(operation, 3),
+            Memory.integerToBits(immediate.getValue(symtable), 8),
+            Memory.integerToBits(register.getValue(symtable), 3)
         );
     }
 }

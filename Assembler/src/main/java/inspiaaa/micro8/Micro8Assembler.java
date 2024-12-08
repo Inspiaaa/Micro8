@@ -5,9 +5,12 @@ import inspiaaa.assembler.directives.AlignDirective;
 import inspiaaa.assembler.directives.DataSectionDirective;
 import inspiaaa.assembler.directives.OrgDirective;
 import inspiaaa.assembler.directives.TextSectionDirective;
+import inspiaaa.assembler.memory.Memory;
 import inspiaaa.micro8.instructions.ALUImmInstruction;
 import inspiaaa.micro8.instructions.ALUInstruction;
 import inspiaaa.micro8.instructions.LoadByteInstruction;
+
+import java.util.Arrays;
 
 public class Micro8Assembler {
     private Assembler assembler;
@@ -83,11 +86,10 @@ public class Micro8Assembler {
 
     public static void main(String[] args) {
         String code = """
-.data
 start:
-addi r0, 15
-add r0, r1, r2
-addi sp, 0b101
+addi x0, -15
+add sp, x0, x1
+addi ra, 0b101
 
 # Comment
 
