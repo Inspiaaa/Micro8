@@ -13,6 +13,10 @@ public class Instruction {
     protected int address = -1;
     protected int line;
 
+    public Instruction(int line) {
+        this.line = line;
+    }
+
     // Execution order:
     // 1. Lower.
     // 2. Assign addresses.
@@ -28,7 +32,7 @@ public class Instruction {
     }
 
     public List<Instruction> lower() {
-        return List.of(this);
+        return null;
     }
 
     public void compile() {

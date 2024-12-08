@@ -8,7 +8,8 @@ import inspiaaa.assembler.SymbolType;
 public class LabelDirective extends Instruction {
     private final String label;
 
-    public LabelDirective(String label) {
+    public LabelDirective(String label, int line) {
+        super(line);
         this.label = label;
     }
 

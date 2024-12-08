@@ -9,7 +9,8 @@ import inspiaaa.assembler.parser.ErrorReporter;
 public class OrgDirective extends Instruction {
     private final Expression targetAddressExpression;
 
-    public OrgDirective(Expression targetAddress) {
+    public OrgDirective(Expression targetAddress, int line) {
+        super(line);
         this.targetAddressExpression = targetAddress;
     }
 

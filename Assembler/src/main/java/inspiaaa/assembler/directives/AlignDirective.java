@@ -9,7 +9,8 @@ import inspiaaa.assembler.parser.ErrorReporter;
 public class AlignDirective extends Instruction {
     private final Expression alignmentExpression;
 
-    public AlignDirective(Expression alignment) {
+    public AlignDirective(Expression alignment, int line) {
+        super(line);
         this.alignmentExpression = alignment;
     }
 
