@@ -1,5 +1,6 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.parser.ErrorReporter;
 
 import java.util.List;

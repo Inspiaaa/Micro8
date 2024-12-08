@@ -1,4 +1,4 @@
-package inspiaaa.assembler;
+package inspiaaa.assembler.memory;
 
 // Helper class for allocating addresses.
 public class AddressContext {

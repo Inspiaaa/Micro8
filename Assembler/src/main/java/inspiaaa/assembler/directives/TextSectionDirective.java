@@ -1,8 +1,8 @@
 package inspiaaa.assembler.directives;
 
-import inspiaaa.assembler.AddressContext;
+import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.MemorySection;
+import inspiaaa.assembler.memory.MemorySection;
 import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.ErrorReporter;
 

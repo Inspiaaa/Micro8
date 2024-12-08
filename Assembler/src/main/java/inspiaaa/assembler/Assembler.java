@@ -1,6 +1,7 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.directives.LabelDirective;
+import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.parser.*;
 
 import java.util.*;

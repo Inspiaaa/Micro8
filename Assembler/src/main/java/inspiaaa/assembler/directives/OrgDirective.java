@@ -1,6 +1,6 @@
 package inspiaaa.assembler.directives;
 
-import inspiaaa.assembler.AddressContext;
+import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Expression;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.SymbolTable;
