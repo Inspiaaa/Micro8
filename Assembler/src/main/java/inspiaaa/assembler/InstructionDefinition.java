@@ -63,9 +63,9 @@ public class InstructionDefinition {
         string.append(" ");
         string.append(parameters[0]);
 
-        for (ParameterType param : parameters) {
+        for (int i = 1; i < parameters.length; i ++) {
             string.append(", ");
-            string.append(param);
+            string.append(parameters[i]);
         }
 
         return string.toString();
