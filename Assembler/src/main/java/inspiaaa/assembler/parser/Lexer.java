@@ -70,8 +70,8 @@ public class Lexer {
             Matcher matcher = rule.pattern.matcher(code);
 
             if (matcher.find(index) && matcher.start() == index) {
+                index += matcher.group().length();
                 String value = matcher.group(matcher.groupCount());
-                index += value.length();
                 return new Token(rule.tokenType, value, lineNumber);
             }
         }
