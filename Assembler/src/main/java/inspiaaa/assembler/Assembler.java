@@ -35,7 +35,7 @@ public class Assembler {
     - Compile.
     */
 
-    private void assemble(String code, ErrorReporter errorReporter) {
+    public void assemble() {
         List<List<Token>> tokensByLine = Lexer.scan(code, errorReporter);
 
         List<Instruction> instructions = new ArrayList<Instruction>();
@@ -81,7 +81,7 @@ public class Assembler {
         List<InstructionDefinition> overloads = instructionOverloadsByName.get(name);
 
         for (InstructionDefinition overload : overloads) {
-            Instruction instruction = overload.tryCompile(call);
+            Instruction instruction = overload.tryConvert(call);
             if (instruction != null) {
                 return instruction;
             }
@@ -95,7 +95,7 @@ public class Assembler {
     private void reportNoSuitableOverload(List<InstructionDefinition> overloads, int line) {
         var message = new StringBuilder();
 
-        message.append("No suitable overload found. Candidates:");
+        message.append("No suitable instruction overload found. Candidates:");
 
         for (InstructionDefinition overload : overloads) {
             message.append("\n- ");

@@ -24,7 +24,7 @@ public class InstructionDefinition {
         }
     }
 
-    public Instruction tryCompile(InstructionCallData call) {
+    public Instruction tryConvert(InstructionCallData call) {
         String name = call.getName();
         List<Expression> arguments = call.getArguments();
 

@@ -5,7 +5,7 @@ public class AddressContext {
     private final int dataCellBitWidth;
     private final int instructionCellBitWidth;
 
-    private MemorySection section;
+    private MemorySection section = MemorySection.INSTRUCTION;
     private int address;
 
     private int lastDataAddress;
