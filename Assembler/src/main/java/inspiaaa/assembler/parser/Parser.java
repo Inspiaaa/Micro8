@@ -86,12 +86,24 @@ public class Parser {
 
     private Expression tokenToExpression(Token token, int line) {
         return switch (token.getType()) {
-            case BIN_LITERAL -> new NumericExpression(Integer.parseInt(token.getValue(), 2), line);
-            case HEX_LITERAL -> new NumericExpression(Integer.parseInt(token.getValue(), 16), line);
-            case DEC_LITERAL -> new NumericExpression(Integer.parseInt(token.getValue()), line);
+            case BIN_LITERAL -> new NumericExpression(parseBinaryNumber(token), line);
+            case HEX_LITERAL -> new NumericExpression(parseHexNumber(token), line);
+            case DEC_LITERAL -> new NumericExpression(parseDecimalNumber(token), line);
             case SYMBOL -> new SymbolicExpression(token.getValue(), line);
             default -> null;
         };
+    }
+
+    private int parseBinaryNumber(Token token) {
+        return Integer.parseInt(token.getValue().replace("0b", ""), 2);
+    }
+
+    private int parseHexNumber(Token token) {
+        return Integer.parseInt(token.getValue().replace("0x", ""), 16);
+    }
+
+    private int parseDecimalNumber(Token token) {
+        return Integer.parseInt(token.getValue());
     }
 
     // Parse second part of relative addressing mode: E.g. '(sp)' in '4(sp)'.

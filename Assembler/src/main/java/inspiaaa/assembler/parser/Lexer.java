@@ -17,9 +17,9 @@ public class Lexer {
     }
 
     private static final Rule[] tokenPatterns = {
-            new Rule("0b([01]+)", TokenType.BIN_LITERAL),
-            new Rule("0x([0-9a-zA-Z]+)", TokenType.HEX_LITERAL),
-            new Rule("\\d+", TokenType.DEC_LITERAL),
+            new Rule("-?0b[01]+", TokenType.BIN_LITERAL),
+            new Rule("-?0x[0-9a-zA-Z]+", TokenType.HEX_LITERAL),
+            new Rule("-?\\d+", TokenType.DEC_LITERAL),
             new Rule("[.a-zA-Z_][.a-zA-Z0-9]*", TokenType.SYMBOL),
             new Rule(",", TokenType.COMMA),
             new Rule("\\(", TokenType.L_PAREN),
