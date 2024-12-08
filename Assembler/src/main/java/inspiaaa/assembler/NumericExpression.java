@@ -12,4 +12,9 @@ public class NumericExpression extends Expression {
     public int getValue(SymbolTable symtable) {
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "NumericExpression(" + value + ")";
+    }
 }

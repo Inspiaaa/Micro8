@@ -8,4 +8,8 @@ public abstract class Expression {
     }
 
     public abstract int getValue(SymbolTable symtable);
+
+    public int getLine() {
+        return line;
+    }
 }

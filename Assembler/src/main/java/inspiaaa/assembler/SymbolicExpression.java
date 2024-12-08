@@ -8,8 +8,17 @@ public class SymbolicExpression extends Expression {
         this.symbol = symbol;
     }
 
+    public String getSymbol() {
+        return symbol;
+    }
+
     @Override
     public int getValue(SymbolTable symtable) {
         return symtable.getNumericValue(symbol, line);
+    }
+
+    @Override
+    public String toString() {
+        return "SymbolicExpression(" + symbol + ")";
     }
 }
