@@ -97,4 +97,22 @@ public class Assembler {
     public SymbolTable getSymtable() {
         return symtable;
     }
+
+    public void addConstant(String name, SymbolType type, int value, String... synonyms) {
+        symtable.declareBuiltinSymbol(new Symbol(name, type, value));
+
+        for (String synonym : synonyms) {
+            symtable.declareSynonym(name, synonym);
+        }
+    }
+
+    public void addInstruction(String name) {
+        // TODO: Params, impl
+        symtable.declareBuiltinSymbol(new Symbol(name, SymbolType.INSTRUCTION, false));
+    }
+
+    public void addDirective(String name) {
+        // TODO: Params, impl
+        symtable.declareBuiltinSymbol(new Symbol(name, SymbolType.DIRECTIVE, false));
+    }
 }
