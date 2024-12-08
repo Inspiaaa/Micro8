@@ -1,9 +1,6 @@
 package inspiaaa.assembler;
 
-import inspiaaa.assembler.parser.ErrorReporter;
-import inspiaaa.assembler.parser.Lexer;
-import inspiaaa.assembler.parser.Parser;
-import inspiaaa.assembler.parser.Token;
+import inspiaaa.assembler.parser.*;
 
 import java.util.List;
 
@@ -44,6 +41,35 @@ lw x0, 10(x1) # Comment
             }
         }
 
-        Parser.parseLabel(tokensByLine.get(0), errorReporter);
+        System.out.println();
+
+        var parser = new Parser(errorReporter);
+
+        String label = parser.parseLabelIfPossible(tokensByLine.get(0));
+        System.out.println("Label: " + label);
+
+        InstructionCallData icall = parser.parseInstruction(tokensByLine.get(1));
+        System.out.println(icall.getName());
+        System.out.println(icall.getArguments());
+
+        System.out.println();
+        icall = parser.parseInstruction(tokensByLine.get(2));
+        System.out.println(icall.getName());
+        System.out.println(icall.getArguments());
+
+        System.out.println();
+        icall = parser.parseInstruction(tokensByLine.get(3));
+        System.out.println(icall.getName());
+        System.out.println(icall.getArguments());
+
+        System.out.println();
+        icall = parser.parseInstruction(tokensByLine.get(4));
+        System.out.println(icall.getName());
+        System.out.println(icall.getArguments());
+
+        System.out.println();
+        icall = parser.parseInstruction(tokensByLine.get(0));
+        System.out.println(icall.getName());
+        System.out.println(icall.getArguments());
     }
 }

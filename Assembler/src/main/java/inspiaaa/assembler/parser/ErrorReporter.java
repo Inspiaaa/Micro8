@@ -58,4 +58,8 @@ public class ErrorReporter {
         System.out.print(" ".repeat(numberOfDigits + 3));
         System.out.println("^".repeat(lines[lineIndex].length()));
     }
+
+    public void reportSyntaxError(String message, int line) {
+        reportError("Syntax Error: " + message, line);
+    }
 }
