@@ -149,10 +149,6 @@ public class Assembler {
         return newInstructions;
     }
 
-    public SymbolTable getSymtable() {
-        return symtable;
-    }
-
     public void defineConstant(String name, SymbolType type, int value, String... synonyms) {
         symtable.declareBuiltinSymbol(new Symbol(name, type, value));
 
@@ -182,5 +178,13 @@ public class Assembler {
         }
 
         overloads.add(def);
+    }
+
+    public SymbolTable getSymtable() {
+        return symtable;
+    }
+
+    public Memory getMemory() {
+        return memory;
     }
 }

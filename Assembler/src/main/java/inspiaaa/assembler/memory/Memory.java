@@ -5,6 +5,9 @@ import inspiaaa.assembler.parser.ErrorReporter;
 import java.util.BitSet;
 
 public class Memory {
+    private static final char[] intToHexCharMap
+            = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
+
     private final int dataMemorySize;
     private final int instructionMemorySize;
     private final int dataCellBitWidth;
@@ -94,6 +97,74 @@ public class Memory {
         for (int i = 0; i < bits.length; i ++) {
             memory.set(startBit + i, bits[i]);
         }
+    }
+
+    public String format(MemorySection section, boolean asBinary, int charactersPerGroup, int groupsPerLine) {
+        BitSet memory = null;
+        int memorySize = -1;
+
+        switch (section) {
+            case DATA:
+                memory = dataMemory;
+                memorySize = dataMemorySize * dataCellBitWidth;
+                break;
+            case INSTRUCTION:
+                memory = instructionMemory;
+                memorySize = instructionMemorySize * instructionCellBitWidth;
+        }
+
+        String text = asBinary ? formatAsBinary(memory, memorySize) : formatAsHex(memory, memorySize);
+        return formatPretty(text, charactersPerGroup, groupsPerLine);
+    }
+
+    private String formatAsBinary(BitSet bits, int size) {
+        StringBuilder result = new StringBuilder(size);
+        for (int i = 0; i < size; i ++) {
+            result.append(bits.get(i) ? '1' : '0');
+        }
+        return result.toString();
+    }
+
+    private String formatAsHex(BitSet bits, int size) {
+        StringBuilder result = new StringBuilder(size);
+
+        for (int i = 0; i < size; i += 4) {
+            result.append(bitsToHexChar(bits, size, i));
+        }
+
+        return result.toString();
+    }
+
+    private char bitsToHexChar(BitSet bits, int size, int bitAddress) {
+        byte value = 0;
+
+        for (int i = 0; i < 4; i ++) {
+            int address = bitAddress + i;
+            if (address >= size) break;
+
+            value += (bits.get(address) ? 1 : 0) << i;
+        }
+
+        return intToHexCharMap[value];
+    }
+
+    private String formatPretty(String rawData, int charactersPerGroup, int groupsPerLine) {
+        StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < rawData.length(); i ++) {
+            if (i > 0) {
+                if (i % (charactersPerGroup * groupsPerLine) == 0) {
+                    result.append('\n');
+                }
+                else if (i % charactersPerGroup == 0) {
+                    result.append(' ');
+                }
+            }
+
+            result.append(rawData.charAt(i));
+        }
+
+        return result.toString();
     }
 
     public static boolean[] integerToBits(long value, int numBits) {

@@ -5,12 +5,10 @@ import inspiaaa.assembler.directives.AlignDirective;
 import inspiaaa.assembler.directives.DataSectionDirective;
 import inspiaaa.assembler.directives.OrgDirective;
 import inspiaaa.assembler.directives.TextSectionDirective;
-import inspiaaa.assembler.memory.Memory;
+import inspiaaa.assembler.memory.MemorySection;
 import inspiaaa.micro8.instructions.ALUImmInstruction;
 import inspiaaa.micro8.instructions.ALUInstruction;
 import inspiaaa.micro8.instructions.LoadByteInstruction;
-
-import java.util.Arrays;
 
 public class Micro8Assembler {
     private Assembler assembler;
@@ -85,6 +83,9 @@ public class Micro8Assembler {
     }
 
     public static void main(String[] args) {
+        // TODO: Instructions with variadic argument count
+        // TODO: Arch info for start address for data and instruction sections, start memory section.
+
         String code = """
 start:
 addi x0, -15
@@ -99,5 +100,16 @@ lb x0, 10(x1) # Comment
 
         var assembler = new Micro8Assembler(code);
         assembler.assembler.assemble();
+
+        System.out.println();
+
+        System.out.println("INSTRUCTION");
+        System.out.println(assembler.assembler.getMemory().format(MemorySection.INSTRUCTION, true, 16, 4));
+        // System.out.println(assembler.assembler.getMemory().format(MemorySection.INSTRUCTION, false, 4, 16));
+
+        System.out.println();
+
+        System.out.println("DATA");
+        System.out.println(assembler.assembler.getMemory().format(MemorySection.DATA, false, 2, 16));
     }
 }
