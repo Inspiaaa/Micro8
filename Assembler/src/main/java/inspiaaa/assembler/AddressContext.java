@@ -2,11 +2,19 @@ package inspiaaa.assembler;
 
 // Helper class for allocating addresses.
 public class AddressContext {
+    private final int dataCellBitWidth;
+    private final int instructionCellBitWidth;
+
     private MemorySection section;
     private int address;
 
     private int lastDataAddress;
     private int lastInstructionAddress;
+
+    public AddressContext(int dataCellBitWidth, int instructionCellBitWidth) {
+        this.dataCellBitWidth = dataCellBitWidth;
+        this.instructionCellBitWidth = instructionCellBitWidth;
+    }
 
     public void setSection(MemorySection newSection) {
         if (section == newSection)
@@ -28,6 +36,11 @@ public class AddressContext {
         address += addresses;
     }
 
+    public void reserveBits(int bits) {
+        int width = getCurrentCellWidthInBits();
+        address += (bits + width - 1) / width;  // Round up.
+    }
+
     public void setAddress(int address) {
         this.address = address;
     }
@@ -38,5 +51,12 @@ public class AddressContext {
 
     public MemorySection getSection() {
         return section;
+    }
+
+    private int getCurrentCellWidthInBits() {
+        return switch (section) {
+            case DATA -> dataCellBitWidth;
+            case INSTRUCTION -> instructionCellBitWidth;
+        };
     }
 }

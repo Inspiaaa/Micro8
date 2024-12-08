@@ -7,11 +7,13 @@ import java.util.*;
 
 public class Assembler {
     private final String code;
+    private final ArchitectureInformation arch;
     private final ErrorReporter errorReporter;
     private final SymbolTable symtable;
 
-    public Assembler(String code) {
+    public Assembler(String code, ArchitectureInformation architectureInformation) {
         this.code = code;
+        this.arch = architectureInformation;
         this.errorReporter = new ErrorReporter(code, 3, 1);
         this.symtable = new SymbolTable(errorReporter);
     }
@@ -42,7 +44,7 @@ public class Assembler {
 
         instructions = lowerInstructions(instructions);
 
-        var addressContext = new AddressContext();
+        var addressContext = new AddressContext(arch.getDataCellBitWidth(), arch.getInstructionCellBitWidth());
 
         for (Instruction instruction : instructions) {
             instruction.assignAddress(addressContext, symtable, errorReporter);

@@ -16,7 +16,15 @@ addi sp, 0b101
 lw x0, 10(x1) # Comment
 .org 0x50
 """;
-        Assembler assembler = new Assembler(code);
+
+        var arch = new ArchitectureInformation(
+                256,
+                256,
+                8,
+                16
+        );
+
+        Assembler assembler = new Assembler(code, arch);
         SymbolTable symtable = assembler.getSymtable();
 
         symtable.declareBuiltinSymbol(new Symbol("x0", SymbolType.REGISTER, 0));
