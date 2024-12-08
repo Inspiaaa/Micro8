@@ -22,7 +22,7 @@ public class ErrorReporter {
 
         System.out.println();
 
-        System.out.println("Warning in line " + line + ":");
+        System.out.println("Warning on line " + line + ":");
         printCodeFence(line, numberOfLinesToShowOnWarning);
         System.out.println(message);
     }
@@ -32,7 +32,7 @@ public class ErrorReporter {
 
         System.out.println();
 
-        System.out.println("Error in line " + line + ":");
+        System.out.println("Error on line " + line + ":");
         printCodeFence(line, numberOfLinesToShowOnError);
         System.out.println(message);
 
