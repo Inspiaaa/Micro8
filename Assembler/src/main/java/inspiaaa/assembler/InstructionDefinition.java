@@ -4,6 +4,7 @@ import inspiaaa.assembler.parser.InstructionCallData;
 
 import java.util.List;
 
+// Helper class for converting InstructionCallData objects to Instruction objects.
 public class InstructionDefinition {
     private String name;
     private ParameterType[] parameters;
