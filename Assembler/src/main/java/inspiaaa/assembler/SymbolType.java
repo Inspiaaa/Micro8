@@ -1,5 +1,5 @@
 package inspiaaa.assembler;
 
 public enum SymbolType {
-    LABEL, VARIABLE, INSTRUCTION, DIRECTIVE, REGISTER;
+    LABEL, VARIABLE, INSTRUCTION, REGISTER;
 }

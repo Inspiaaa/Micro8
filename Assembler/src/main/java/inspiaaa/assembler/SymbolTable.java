@@ -19,18 +19,16 @@ public class SymbolTable {
     }
 
     public void declareBuiltinSymbol(Symbol symbol) {
-        ensureSymbolNotInTable(symbol.getName());
-        symbolsByName.put(symbol.getName(), symbol);
-    }
+        String name = symbol.getName();
 
-    private void reportErrorOnRedeclaration(String symbolName, int line) {
-        if (symbolsByName.containsKey(symbolName)) {
-            errorReporter.reportError("Redeclaration of symbol '" + symbolName + "'.", line);
+        // Special rule for instruction overloads.
+        if (symbol.getType() == SymbolType.INSTRUCTION
+                && isSymbolDefined(name)
+                && symbolsByName.get(name).getType() == SymbolType.INSTRUCTION) {
+            return;
         }
-    }
 
-    public void declare(Symbol symbol, int line) {
-        reportErrorOnRedeclaration(symbol.getName(), line);
+        ensureSymbolNotInTable(symbol.getName());
         symbolsByName.put(symbol.getName(), symbol);
     }
 
@@ -42,6 +40,17 @@ public class SymbolTable {
         }
 
         symbolsByName.put(synonym, symbolsByName.get(primaryName));
+    }
+
+    private void reportErrorOnRedeclaration(String symbolName, int line) {
+        if (symbolsByName.containsKey(symbolName)) {
+            errorReporter.reportError("Redeclaration of symbol '" + symbolName + "'.", line);
+        }
+    }
+
+    public void declare(Symbol symbol, int line) {
+        reportErrorOnRedeclaration(symbol.getName(), line);
+        symbolsByName.put(symbol.getName(), symbol);
     }
 
     public Symbol getSymbol(String name, int line) {
