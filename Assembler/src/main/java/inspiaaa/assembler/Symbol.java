@@ -38,4 +38,14 @@ public class Symbol {
     public boolean hasNumericValue() {
         return hasNumericValue;
     }
+
+    @Override
+    public String toString() {
+        if (hasNumericValue) {
+            return "Symbol('" + name + "', type=" + type + ", value=" + value + ")";
+        }
+        else {
+            return "Symbol('" + name + "', type=" + type + ")";
+        }
+    }
 }
