@@ -16,9 +16,8 @@ addi sp, 0b101
 lw x0, 10(x1) # Comment
 .org 0x50
 """;
-        ErrorReporter errorReporter = new ErrorReporter(code, 3, 1);
-
-        SymbolTable symtable = new SymbolTable(errorReporter);
+        Assembler assembler = new Assembler(code);
+        SymbolTable symtable = assembler.getSymtable();
 
         symtable.declareBuiltinSymbol(new Symbol("x0", SymbolType.REGISTER, 0));
         symtable.declareBuiltinSymbol(new Symbol("x1", SymbolType.REGISTER, 1));
@@ -31,6 +30,8 @@ lw x0, 10(x1) # Comment
 
         symtable.declareSynonym("x7", "sp");
         symtable.declareSynonym("x6", "ra");
+
+        ErrorReporter errorReporter = new ErrorReporter(code, 3, 1);
 
         List<List<Token>> tokensByLine = Lexer.scan(code, errorReporter);
 
@@ -49,26 +50,6 @@ lw x0, 10(x1) # Comment
         System.out.println("Label: " + label);
 
         InstructionCallData icall = parser.parseInstruction(tokensByLine.get(1));
-        System.out.println(icall.getName());
-        System.out.println(icall.getArguments());
-
-        System.out.println();
-        icall = parser.parseInstruction(tokensByLine.get(2));
-        System.out.println(icall.getName());
-        System.out.println(icall.getArguments());
-
-        System.out.println();
-        icall = parser.parseInstruction(tokensByLine.get(3));
-        System.out.println(icall.getName());
-        System.out.println(icall.getArguments());
-
-        System.out.println();
-        icall = parser.parseInstruction(tokensByLine.get(4));
-        System.out.println(icall.getName());
-        System.out.println(icall.getArguments());
-
-        System.out.println();
-        icall = parser.parseInstruction(tokensByLine.get(0));
         System.out.println(icall.getName());
         System.out.println(icall.getArguments());
     }

@@ -1,5 +1,6 @@
 package inspiaaa.assembler;
 
+// Helper class for allocating addresses.
 public class AddressContext {
     private MemorySection section;
     private int address;
