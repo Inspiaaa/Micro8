@@ -83,6 +83,7 @@ public class Micro8Assembler {
 
     public static void main(String[] args) {
         String code = """
+.data
 start:
 addi r0, 15
 add r0, r1, r2

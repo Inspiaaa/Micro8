@@ -2,6 +2,7 @@ package inspiaaa.assembler;
 
 import inspiaaa.assembler.memory.Address;
 import inspiaaa.assembler.memory.AddressContext;
+import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.parser.ErrorReporter;
 
 import java.util.List;
@@ -38,11 +39,11 @@ public class Instruction {
         return null;
     }
 
-    public void validate(SymbolType symtable, ErrorReporter er) {
+    public void validate(SymbolTable symtable, TypeChecker typeChecker, ErrorReporter er) {
 
     }
 
-    public void compile() {
+    public void compile(Memory memory, SymbolTable symtable, ErrorReporter er) {
 
     }
 }

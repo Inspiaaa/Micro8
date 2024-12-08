@@ -2,6 +2,7 @@ package inspiaaa.assembler;
 
 import inspiaaa.assembler.directives.LabelDirective;
 import inspiaaa.assembler.memory.AddressContext;
+import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.parser.*;
 
 import java.util.*;
@@ -15,12 +16,22 @@ public class Assembler {
     private final SymbolTable symtable;
     private final HashMap<String, ArrayList<InstructionDefinition>> instructionOverloadsByName;
 
+    private final Memory memory;
+
     public Assembler(String code, ArchitectureInformation architectureInformation) {
         this.code = code;
         this.arch = architectureInformation;
         this.errorReporter = new ErrorReporter(code, 3, 1);
         this.symtable = new SymbolTable(errorReporter);
         this.instructionOverloadsByName = new HashMap<>();
+
+        this.memory = new Memory(
+                arch.getDataMemorySize(),
+                arch.getInstructionMemorySize(),
+                arch.getDataCellBitWidth(),
+                arch.getInstructionCellBitWidth(),
+                errorReporter
+        );
     }
 
     /*
@@ -36,19 +47,20 @@ public class Assembler {
     */
 
     public void assemble() {
+        // Lex.
         List<List<Token>> tokensByLine = Lexer.scan(code, errorReporter);
 
+        // Parse.
         List<Instruction> instructions = new ArrayList<Instruction>();
-
         var parser = new Parser(errorReporter);
         for (List<Token> line : tokensByLine) {
             instructions.add(parseLine(parser, line));
         }
 
-        // TODO: Static analysis
-
+        // Lower instructions.
         instructions = lowerInstructions(instructions);
 
+        // Allocate addresses.
         var addressContext = new AddressContext(arch.getDataCellBitWidth(), arch.getInstructionCellBitWidth());
 
         for (Instruction instruction : instructions) {
@@ -56,7 +68,16 @@ public class Assembler {
             instruction.preprocess(symtable);
         }
 
-        // TODO: Compile instructions
+        // Static analysis.
+        TypeChecker typeChecker = new TypeChecker(symtable, errorReporter);
+        for (Instruction instruction : instructions) {
+            instruction.validate(symtable, typeChecker, errorReporter);
+        }
+
+        // Compile.
+        for (Instruction instruction : instructions) {
+            instruction.compile(memory, symtable, errorReporter);
+        }
     }
 
     private Instruction parseLine(Parser parser, List<Token> line) {

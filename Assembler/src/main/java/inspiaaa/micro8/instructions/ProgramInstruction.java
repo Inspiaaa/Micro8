@@ -1,6 +1,7 @@
 package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.SymbolType;
+import inspiaaa.assembler.TypeChecker;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.SymbolTable;
@@ -19,7 +20,7 @@ public class ProgramInstruction extends Instruction {
     }
 
     @Override
-    public void validate(SymbolTable symtable, ErrorReporter er) {
+    public void validate(SymbolTable symtable, TypeChecker typeChecker, ErrorReporter er) {
         if (address.getSection() != MemorySection.INSTRUCTION) {
             er.reportWarning("Writing instruction to data section. Use '.text' to switch to instruction section.", line);
         }

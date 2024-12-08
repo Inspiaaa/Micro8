@@ -1,24 +1,24 @@
 package inspiaaa.assembler;
 
 public class SymbolicExpression extends Expression {
-    private final String symbol;
+    private final String name;
 
     public SymbolicExpression(String symbol, int line) {
         super(line);
-        this.symbol = symbol;
+        this.name = symbol;
     }
 
-    public String getSymbol() {
-        return symbol;
+    public String getName() {
+        return name;
     }
 
     @Override
     public int getValue(SymbolTable symtable) {
-        return symtable.getNumericValue(symbol, line);
+        return symtable.getNumericValue(name, line);
     }
 
     @Override
     public String toString() {
-        return "SymbolicExpression(" + symbol + ")";
+        return "SymbolicExpression(" + name + ")";
     }
 }
