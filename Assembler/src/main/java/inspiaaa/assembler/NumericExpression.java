@@ -14,6 +14,11 @@ public class NumericExpression extends Expression {
     }
 
     @Override
+    public int getRelativeAddress(SymbolTable symtable, int baseAddress) {
+        return value;
+    }
+
+    @Override
     public String toString() {
         return "NumericExpression(" + value + ")";
     }

@@ -18,6 +18,18 @@ public class SymbolicExpression extends Expression {
     }
 
     @Override
+    public int getRelativeAddress(SymbolTable symtable, int baseAddress) {
+        Symbol symbol = symtable.getSymbol(name, line);
+
+        if (symbol.getType() == SymbolType.LABEL) {
+            return symbol.getValue() - baseAddress;
+        }
+        else {
+            return getValue(symtable);
+        }
+    }
+
+    @Override
     public String toString() {
         return "SymbolicExpression(" + name + ")";
     }

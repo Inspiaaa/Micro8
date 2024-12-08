@@ -9,6 +9,8 @@ public abstract class Expression {
 
     public abstract int getValue(SymbolTable symtable);
 
+    public abstract int getRelativeAddress(SymbolTable symtable, int baseAddress);
+
     public int getLine() {
         return line;
     }
