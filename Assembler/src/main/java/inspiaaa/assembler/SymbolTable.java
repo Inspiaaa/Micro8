@@ -13,7 +13,7 @@ public class SymbolTable {
     }
 
     private void ensureSymbolNotInTable(String name) {
-        if (!symbolsByName.containsKey(name)) {
+        if (symbolsByName.containsKey(name)) {
             throw new RuntimeException("Redeclaration of symbol '" + name + "' is disallowed.");
         }
     }
@@ -62,5 +62,9 @@ public class SymbolTable {
         }
 
         return symbol.getValue();
+    }
+
+    public boolean isSymbolDefined(String name) {
+        return symbolsByName.containsKey(name);
     }
 }
