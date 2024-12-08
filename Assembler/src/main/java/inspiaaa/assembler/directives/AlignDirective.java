@@ -19,6 +19,6 @@ public class AlignDirective extends Instruction {
         int alignment = alignmentExpression.getValue(symtable);
 
         // Align the next instruction to a multiple of the alignment parameter.
-        context.setAddress((context.getAddress() + alignment - 1) / alignment * alignment);
+        context.setAddress((context.getAddress().getValue() + alignment - 1) / alignment * alignment);
     }
 }

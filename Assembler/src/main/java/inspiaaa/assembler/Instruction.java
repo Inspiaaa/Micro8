@@ -1,5 +1,6 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.memory.Address;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.parser.ErrorReporter;
 
@@ -11,7 +12,7 @@ public class Instruction {
     // - Assembler directives
     // - Actual instructions
 
-    protected int address = -1;
+    protected Address address = null;
     protected int line;
 
     public Instruction(int line) {
@@ -22,7 +23,8 @@ public class Instruction {
     // 1. Lower.
     // 2. Assign addresses.
     // 3. Preprocess (in parallel to above, but after each assignAddress call).
-    // 4. Compile.
+    // 4. Validate.
+    // 5. Compile.
 
     public void preprocess(SymbolTable symtable) {
 
@@ -34,6 +36,10 @@ public class Instruction {
 
     public List<Instruction> lower() {
         return null;
+    }
+
+    public void validate(SymbolType symtable, ErrorReporter er) {
+
     }
 
     public void compile() {

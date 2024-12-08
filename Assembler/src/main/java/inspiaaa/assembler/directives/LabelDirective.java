@@ -15,6 +15,6 @@ public class LabelDirective extends Instruction {
 
     @Override
     public void preprocess(SymbolTable symtable) {
-        symtable.declare(new Symbol(label, SymbolType.LABEL, address), line);
+        symtable.declare(new Symbol(label, SymbolType.LABEL, address.getValue()), line);
     }
 }

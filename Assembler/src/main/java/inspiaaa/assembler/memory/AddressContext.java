@@ -45,8 +45,8 @@ public class AddressContext {
         this.address = address;
     }
 
-    public int getAddress() {
-        return address;
+    public Address getAddress() {
+        return new Address(address, section);
     }
 
     public MemorySection getSection() {
