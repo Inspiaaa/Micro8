@@ -32,7 +32,7 @@ lw x0, 10(x1) # Comment
         symtable.declareSynonym("x7", "sp");
         symtable.declareSynonym("x6", "ra");
 
-        List<List<Token>> tokensByLine = Lexer.lex(code, errorReporter);
+        List<List<Token>> tokensByLine = Lexer.scan(code, errorReporter);
 
         for (List<Token> line : tokensByLine) {
             System.out.println("---");

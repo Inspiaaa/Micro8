@@ -37,7 +37,7 @@ public class Lexer {
         this.errorReporter = errorReporter;
     }
 
-    private List<Token> parseLine(String line, int lineNumber) {
+    private List<Token> scanLine(String line, int lineNumber) {
         this.code = line;
         this.index = 0;
         this.lineNumber = lineNumber;
@@ -52,7 +52,7 @@ public class Lexer {
                 continue;
             }
 
-            Token token = parseNextToken();
+            Token token = scanNextToken();
 
             if (token == null) {
                 char errorChar = code.charAt(index);
@@ -65,7 +65,7 @@ public class Lexer {
         return tokens;
     }
 
-    private Token parseNextToken() {
+    private Token scanNextToken() {
         for (Rule rule : tokenPatterns) {
             Matcher matcher = rule.pattern.matcher(code);
 
@@ -100,7 +100,7 @@ public class Lexer {
         return startIndex != index;
     }
 
-    public static List<List<Token>> lex(String code, ErrorReporter errorReporter) {
+    public static List<List<Token>> scan(String code, ErrorReporter errorReporter) {
         String[] lines = code.split("\n");
         Lexer lexer = new Lexer(errorReporter);
 
@@ -108,7 +108,7 @@ public class Lexer {
 
         for (int i = 0; i < lines.length; i ++) {
             String line = lines[i];
-            List<Token> tokens = lexer.parseLine(line, i+1);
+            List<Token> tokens = lexer.scanLine(line, i+1);
             if (!tokens.isEmpty()) {
                 tokensByLine.add(tokens);
             }
