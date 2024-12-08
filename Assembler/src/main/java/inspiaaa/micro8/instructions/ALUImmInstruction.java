@@ -23,19 +23,16 @@ public class ALUImmInstruction extends ProgramInstruction {
     public void validate(SymbolTable symtable, TypeChecker typeChecker, ErrorReporter er) {
         super.validate(symtable, typeChecker, er);
 
-        typeChecker.expect(register, ParameterType.REGISTER);
-        typeChecker.expect(immediate, ParameterType.IMMEDIATE);
+        typeChecker.expect(ParameterType.REGISTER, register);
+        typeChecker.expect(ParameterType.IMMEDIATE, immediate);
     }
 
     @Override
     public void compile(Memory memory, SymbolTable symtable, ErrorReporter er) {
-        memory.write(
-            address,
-            line,
-            Memory.toBits(0, 1),
-            Memory.integerToBits(operation, 3),
-            Memory.integerToBits(immediate.getValue(symtable), 8),
-            Memory.integerToBits(register.getValue(symtable), 3)
-        );
+        memory.write(address, line,
+                Memory.toBits(0, 1),
+                Memory.integerToBits(operation, 3),
+                Memory.integerToBits(immediate.getValue(symtable), 8),
+                Memory.integerToBits(register.getValue(symtable), 3));
     }
 }

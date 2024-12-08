@@ -11,7 +11,7 @@ public class TypeChecker {
         this.errorReporter = errorReporter;
     }
 
-    public void expect(Expression expression, ParameterType expectedType) {
+    public void expect(ParameterType expectedType, Expression expression) {
         checkExpressionType(expression, expectedType);
     }
 
