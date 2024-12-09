@@ -56,11 +56,6 @@
       </elementAttributes>
       <pos x="220" y="520"/>
     </visualElement>
-    <visualElement>
-      <elementName>256_INSTR_MEM.dig</elementName>
-      <elementAttributes/>
-      <pos x="200" y="700"/>
-    </visualElement>
   </visualElements>
   <wires>
     <wire>
