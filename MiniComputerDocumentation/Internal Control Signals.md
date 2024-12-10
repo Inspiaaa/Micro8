@@ -1,0 +1,13 @@
+- `RSA1`: address of source register 1
+- `RSA2`: address of source register 2
+- `RDA`: address of the destination register
+- `ALOP`: ALU operation
+- `RWE`: destination register write enable
+- `OP2Sel`: 2nd operand select
+	- 0 = RS2,
+	- 1 = immediate)
+- `OP2Im`: 2nd operand immediate input
+- `RDSrc`: destination register result source select
+	- 00 = ALU
+	- 01 = Memory
+	- 10 = PC+1
