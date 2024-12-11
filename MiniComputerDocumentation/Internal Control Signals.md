@@ -13,5 +13,7 @@
 	- 10 = PC+1
 - `MemWE`: memory write enable signal
 - `PCNext`: next PC value select
-	- 0 = PC + 1
-	- 1 = imm
+	- 00 = PC + 1
+	- 01 = immediate
+	- 10 = RS1
+	- 11 = PC + immediate
