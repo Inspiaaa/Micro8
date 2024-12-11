@@ -80,20 +80,6 @@
       <pos x="760" y="480"/>
     </visualElement>
     <visualElement>
-      <elementName>Const</elementName>
-      <elementAttributes>
-        <entry>
-          <string>Value</string>
-          <long>0</long>
-        </entry>
-        <entry>
-          <string>Bits</string>
-          <int>8</int>
-        </entry>
-      </elementAttributes>
-      <pos x="740" y="540"/>
-    </visualElement>
-    <visualElement>
       <elementName>REGISTER_8.dig</elementName>
       <elementAttributes>
         <entry>
@@ -261,6 +247,10 @@
       <p2 x="-140" y="340"/>
     </wire>
     <wire>
+      <p1 x="200" y="340"/>
+      <p2 x="740" y="340"/>
+    </wire>
+    <wire>
       <p1 x="-140" y="340"/>
       <p2 x="200" y="340"/>
     </wire>
@@ -305,16 +295,16 @@
       <p2 x="320" y="540"/>
     </wire>
     <wire>
-      <p1 x="740" y="540"/>
-      <p2 x="760" y="540"/>
-    </wire>
-    <wire>
       <p1 x="520" y="540"/>
       <p2 x="580" y="540"/>
     </wire>
     <wire>
       <p1 x="-560" y="540"/>
       <p2 x="-520" y="540"/>
+    </wire>
+    <wire>
+      <p1 x="740" y="540"/>
+      <p2 x="760" y="540"/>
     </wire>
     <wire>
       <p1 x="460" y="480"/>
@@ -487,6 +477,10 @@
     <wire>
       <p1 x="160" y="520"/>
       <p2 x="160" y="600"/>
+    </wire>
+    <wire>
+      <p1 x="740" y="340"/>
+      <p2 x="740" y="540"/>
     </wire>
     <wire>
       <p1 x="-40" y="260"/>

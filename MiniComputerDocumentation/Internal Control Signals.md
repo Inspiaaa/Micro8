@@ -11,6 +11,7 @@
 	- 00 = ALU
 	- 01 = Memory
 	- 10 = PC+1
+	- 11 = Immediate
 - `MemWE`: memory write enable signal
 - `PCNext`: next PC value select
 	- 00 = PC + 1
