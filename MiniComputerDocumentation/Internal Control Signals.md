@@ -11,3 +11,4 @@
 	- 00 = ALU
 	- 01 = Memory
 	- 10 = PC+1
+- `MemWE`: memory write enable signal

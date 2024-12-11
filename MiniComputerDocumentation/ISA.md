@@ -44,7 +44,7 @@ Arithmetic and logic instructions with
 
 Load / store instructions:
 - `lb rd, uimm[5](rs)`
-- `sb rs, uimm[5](rs)`
+- `sb rs2, uimm[5](rs1)`
 
 Jump instructions:
 - Jump: `j imm[8]`
