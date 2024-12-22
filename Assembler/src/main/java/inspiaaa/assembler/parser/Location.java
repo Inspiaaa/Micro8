@@ -35,6 +35,10 @@ public class Location {
         return length;
     }
 
+    public Location nextColumn() {
+        return new Location(file, line, column + Math.max(1, length) - 1, 1);
+    }
+
     @Override
     public String toString() {
         return file + ":" + length + ":" + column + " (" + length + ")";
@@ -50,5 +54,14 @@ public class Location {
     @Override
     public int hashCode() {
         return Objects.hash(file, line, column, length);
+    }
+
+    public static Location merge(Location start, Location end) {
+        if (!start.file.equals(end.file) || start.line != end.line) {
+            throw new IllegalArgumentException(
+                    "Start location '" + start + "' is incompatible with end location '" + end + "'.");
+        }
+
+        return new Location(start.file, end.line, start.column, end.column - start.column);
     }
 }

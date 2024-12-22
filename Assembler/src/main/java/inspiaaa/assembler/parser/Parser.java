@@ -1,127 +1,196 @@
 package inspiaaa.assembler.parser;
 
-import inspiaaa.assembler.Expression;
-import inspiaaa.assembler.NumericExpression;
-import inspiaaa.assembler.SymbolicExpression;
+import inspiaaa.assembler.SymbolTable;
+import inspiaaa.assembler.directives.LabelDirective;
+import inspiaaa.assembler.expressions.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Parser {
+    private final SymbolTable symtable;
     private final ErrorReporter errorReporter;
 
-    public Parser(ErrorReporter errorReporter) {
+    private final List<InstructionCall> instructions;
+    private final TokenStream tokens;
+
+    private Parser(List<Token> tokens, SymbolTable symtable, ErrorReporter errorReporter) {
+        this.tokens = new TokenStream(tokens);
+        this.instructions = new ArrayList<>();
+
+        this.symtable = symtable;
         this.errorReporter = errorReporter;
     }
 
-    public String parseLabelIfPossible(List<Token> tokens) {
-        int length = tokens.size();
-
-        Token last = tokens.get(length-1);
-
-        if (last.getType() != TokenType.COLON) {
-            return null;
-        }
-
-        if (length != 2) {
-            errorReporter.reportError("Invalid label syntax.", last.getLine());
-        }
-
-        Token symbol = tokens.get(0);
-
-        if (symbol.getType() != TokenType.SYMBOL) {
-            errorReporter.reportError("Expected string identifier for label name.", last.getLine());
-        }
-
-        return symbol.getValue();
-    }
-
-    public InstructionCallData parseInstruction(List<Token> tokens) {
-        Token op = tokens.get(0);
-        int line = op.getLine();
-
-        if (op.getType() != TokenType.SYMBOL) {
-            errorReporter.reportSyntaxError("Missing opcode.", line);
-        }
-
-        String name = op.getValue();
-
-        var stream = new TokenStream(tokens);
-        stream.advance();
-        List<Expression> arguments = parseArguments(stream, line);
-
-        return new InstructionCallData(name, arguments, line);
-    }
-
-    private List<Expression> parseArguments(TokenStream stream, int line) {
-        var arguments = new ArrayList<Expression>();
-
-        while (!stream.isAtEnd()) {
-            Expression expression = tokenToExpression(stream.peek(), line);
-            if (expression == null) {
-                errorReporter.reportSyntaxError("Expected expression, but found: " + stream.peek().getType(), line);
-            }
-
-            arguments.add(expression);
-            stream.advance();
-
-            Expression relativeBaseExpression = parseBaseAddress(stream, line);
-            if (relativeBaseExpression != null) {
-                arguments.add(relativeBaseExpression);
-            }
-
-            if (stream.match(TokenType.COMMA)) {
+    public List<InstructionCall> parse() {
+        while (!tokens.isAtEnd()) {
+            if (tokens.match(TokenType.NEW_LINE)) {
                 continue;
             }
 
-            if (stream.isAtEnd()) {
-                break;
+            while (parseLabelIfPossible());
+
+            if (tokens.match(TokenType.NEW_LINE)) {
+                continue;
             }
 
-            errorReporter.reportSyntaxError("Unexpected token: " + stream.peek().getType(), line);
+            parseInstruction();
+        }
+        return instructions;
+    }
+
+    private boolean parseLabelIfPossible() {
+        if (tokens.remaining() < 2)
+            return false;
+
+        Token colon = tokens.peek(2);
+
+        if (colon.getType() != TokenType.COLON)
+            return false;
+
+        Token symbol = tokens.peek();
+        if (symbol.getType() != TokenType.SYMBOL) {
+            errorReporter.reportSyntaxError("Expected string identifier for label name.", symbol.getLocation());
+        }
+
+        tokens.advance();
+        tokens.advance();
+
+        instructions.add(new InstructionCall(
+                LabelDirective.VIRTUAL_MNEMONIC,
+                List.of(new SymbolExpr(symbol.getValue(), symtable, symbol.getLocation())),
+                Location.merge(symbol.getLocation(), colon.getLocation())));
+
+        return true;
+    }
+
+    private void parseInstruction() {
+        if (tokens.remaining() == 0)
+            return;
+
+        Token op = tokens.advance();
+
+        if (op.getType() != TokenType.SYMBOL) {
+            errorReporter.reportSyntaxError("Missing opcode.", op.getLocation());
+        }
+
+        String mnemonic = op.getValue();
+
+        List<Expr> arguments = parseArguments();
+
+        Location location = arguments.isEmpty()
+                ? op.getLocation()
+                : Location.merge(op.getLocation(), arguments.get(arguments.size() - 1).getLocation());
+
+        instructions.add(new InstructionCall(mnemonic, arguments, location));
+    }
+
+    private List<Expr> parseArguments() {
+        var arguments = new ArrayList<Expr>();
+
+        while (!tokens.isAtEnd() && !tokens.checkNext(TokenType.NEW_LINE)) {
+            Token token = tokens.advance();
+            Expr expression = tokenToExpression(token);
+
+            if (expression == null) {
+                errorReporter.reportSyntaxError(
+                        "Expected expression, but found: " + token.getType(),
+                        token.getLocation());
+            }
+
+            RelativeAddressExpr relativeAddress = parseBaseAddress(expression);
+            arguments.add(relativeAddress == null ? expression : relativeAddress);
+
+            if (!tokens.match(TokenType.COMMA) && !tokens.isAtEnd() && !tokens.checkNext(TokenType.NEW_LINE)) {
+                errorReporter.reportSyntaxError(
+                        "Expected comma, but found: " + tokens.peek().getType(),
+                        tokens.peek().getLocation());
+            }
         }
 
         return arguments;
     }
 
-    private Expression tokenToExpression(Token token, int line) {
+    private Expr tokenToExpression(Token token) {
+        var location = token.getLocation();
+
         return switch (token.getType()) {
-            case BIN_LITERAL -> new NumericExpression(parseBinaryNumber(token), line);
-            case HEX_LITERAL -> new NumericExpression(parseHexNumber(token), line);
-            case DEC_LITERAL -> new NumericExpression(parseDecimalNumber(token), line);
-            case SYMBOL -> new SymbolicExpression(token.getValue(), line);
+            case BIN_LITERAL -> new NumberExpr(parseBinaryNumber(token), location);
+            case HEX_LITERAL -> new NumberExpr(parseHexNumber(token), location);
+            case DEC_LITERAL -> new NumberExpr(parseDecimalNumber(token), location);
+            case SYMBOL -> new SymbolExpr(token.getValue(), symtable, location);
+            case STRING -> new StringExpr(parseString(token), location);
+            case CHAR -> new CharExpr(parseCharacter(token), location);
             default -> null;
         };
     }
 
-    private int parseBinaryNumber(Token token) {
-        return Integer.parseInt(token.getValue().replace("0b", ""), 2);
+    private long parseBinaryNumber(Token token) {
+        return Long.parseLong(token.getValue().replace("0b", ""), 2);
     }
 
-    private int parseHexNumber(Token token) {
-        return Integer.parseInt(token.getValue().replace("0x", ""), 16);
+    private long parseHexNumber(Token token) {
+        return Long.parseLong(token.getValue().replace("0x", ""), 16);
     }
 
-    private int parseDecimalNumber(Token token) {
-        return Integer.parseInt(token.getValue());
+    private long parseDecimalNumber(Token token) {
+        return Long.parseLong(token.getValue());
+    }
+
+    private char parseCharacter(Token token) {
+        return unescapeCharacters(token.getValue().substring(1, 3)).charAt(0);
+    }
+
+    private String parseString(Token token) {
+        String value = token.getValue();
+        return unescapeCharacters(value.substring(1, value.length()-1));
+    }
+
+    private String unescapeCharacters(String s) {
+        return s.replace("\\\\", "\\")
+                .replace("\\t", "\t")
+                .replace("\\b", "\b")
+                .replace("\\n", "\n")
+                .replace("\\r", "\r")
+                .replace("\\f", "\f")
+                .replace("\\'", "'")
+                .replace("\\\"", "\"");
     }
 
     // Parse second part of relative addressing mode: E.g. '(sp)' in '4(sp)'.
-    private Expression parseBaseAddress(TokenStream stream, int line) {
-        if (!stream.match(TokenType.L_PAREN))
+    private RelativeAddressExpr parseBaseAddress(Expr offsetExpr) {
+        if (!tokens.checkNext(TokenType.L_PAREN))
             return null;
+        Token lParen = tokens.advance();
 
-        if (stream.isAtEnd())
-            errorReporter.reportSyntaxError("Missing closing ')'.", line);
+        if (tokens.isAtEnd()) {
+            errorReporter.reportSyntaxError("Missing closing ')'.", lParen.getLocation().nextColumn());
+        }
 
-        Expression expression = tokenToExpression(stream.peek(), line);
-        if (expression == null)
-            errorReporter.reportSyntaxError("Expected expression, but found: " + stream.peek().getType(), line);
-        stream.advance();
+        Token expressionToken = tokens.advance();
+        Expr baseExpr = tokenToExpression(expressionToken);
 
-        if (!stream.match(TokenType.R_PAREN))
-            errorReporter.reportSyntaxError("Expected closing ')'.", line);
+        if (baseExpr == null) {
+            errorReporter.reportSyntaxError("Expected expression, but found: " + expressionToken.getType(), expressionToken.getLocation());
+        }
 
-        return expression;
+        if (tokens.isAtEnd()) {
+            errorReporter.reportSyntaxError("Missing closing ')'.", expressionToken.getLocation().nextColumn());
+        }
+
+        Token rParen = tokens.advance();
+
+        if (rParen.getType() != TokenType.R_PAREN) {
+            errorReporter.reportSyntaxError("Expected closing ')'.", rParen.getLocation());
+        }
+
+        return new RelativeAddressExpr(
+                offsetExpr,
+                baseExpr,
+                Location.merge(offsetExpr.getLocation(), rParen.getLocation()));
+    }
+
+    public static List<InstructionCall> parse(List<Token> tokens, SymbolTable symtable, ErrorReporter errorReporter) {
+        return new Parser(tokens, symtable, errorReporter).parse();
     }
 }

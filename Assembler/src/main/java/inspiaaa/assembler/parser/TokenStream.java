@@ -22,8 +22,12 @@ public class TokenStream {
         return tokens.get(index);
     }
 
-    public void advance() {
-        index++;
+    public Token peek(int n) {
+        return tokens.get(index + n-1);
+    }
+
+    public Token advance() {
+        return tokens.get(index++);
     }
 
     public boolean match(TokenType type) {

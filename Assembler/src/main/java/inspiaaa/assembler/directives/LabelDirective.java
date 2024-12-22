@@ -6,6 +6,8 @@ import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.SymbolType;
 
 public class LabelDirective extends Instruction {
+    public static final String VIRTUAL_MNEMONIC = "$label";
+
     private final String label;
 
     public LabelDirective(String label, int line) {

@@ -17,7 +17,7 @@ public class Symbol {
     public Symbol(String name, SymbolType type) {
         this.name = name;
         this.type = type;
-        this.value = new VoidExpr(null, null);
+        this.value = new VoidExpr(null);
     }
 
     public SymbolType getType() {
