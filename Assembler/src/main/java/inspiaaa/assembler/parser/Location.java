@@ -62,9 +62,8 @@ public class Location {
                     "Start location '" + start + "' is incompatible with end location '" + end + "'.");
         }
 
-        int startEndColumn = start.column + start.length;
         int endEndColumn = end.column + end.length;
-        int length = endEndColumn - startEndColumn + 1;
+        int length = endEndColumn - start.column;
 
         return new Location(start.file, end.line, start.column, length);
     }
