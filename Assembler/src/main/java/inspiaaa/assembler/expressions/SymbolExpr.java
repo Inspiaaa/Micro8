@@ -7,10 +7,12 @@ import inspiaaa.assembler.parser.Location;
 
 public final class SymbolExpr extends Expr {
     private final String name;
+    private final SymbolTable symtable;
 
     public SymbolExpr(String name, SymbolTable symtable, Location location) {
-        super(symtable, location);
+        super(location);
         this.name = name;
+        this.symtable = symtable;
     }
 
     @Override
@@ -30,5 +32,14 @@ public final class SymbolExpr extends Expr {
         else {
             return numericValue;
         }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "sym(" + name + ")";
     }
 }

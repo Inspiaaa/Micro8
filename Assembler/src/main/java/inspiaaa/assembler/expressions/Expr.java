@@ -1,14 +1,11 @@
 package inspiaaa.assembler.expressions;
 
-import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.Location;
 
 public abstract class Expr {
-    protected final SymbolTable symtable;
     protected final Location location;
 
-    public Expr(SymbolTable symtable, Location location) {
-        this.symtable = symtable;
+    public Expr(Location location) {
         this.location = location;
     }
 

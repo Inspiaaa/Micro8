@@ -1,13 +1,12 @@
 package inspiaaa.assembler.expressions;
 
-import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.Location;
 
 public final class CharExpr extends Expr {
     private final char value;
 
-    public CharExpr(char value, SymbolTable symtable, Location location) {
-        super(symtable, location);
+    public CharExpr(char value, Location location) {
+        super(location);
         this.value = value;
     }
 
@@ -19,5 +18,10 @@ public final class CharExpr extends Expr {
     @Override
     public long getNumericValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "char('" + value + "')";
     }
 }

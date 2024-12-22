@@ -1,14 +1,13 @@
 package inspiaaa.assembler.expressions;
 
-import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.Location;
 
 public final class RelativeAddressExpr extends Expr {
     private final Expr offset;
     private final Expr base;
 
-    public RelativeAddressExpr(Expr offset, Expr base, SymbolTable symtable, Location location) {
-        super(symtable, location);
+    public RelativeAddressExpr(Expr offset, Expr base, Location location) {
+        super(location);
         this.offset = offset;
         this.base = base;
     }
@@ -24,5 +23,10 @@ public final class RelativeAddressExpr extends Expr {
 
     public Expr getBase() {
         return base;
+    }
+
+    @Override
+    public String toString() {
+        return "rel(offset=" + offset + ", base=" + base + ")";
     }
 }

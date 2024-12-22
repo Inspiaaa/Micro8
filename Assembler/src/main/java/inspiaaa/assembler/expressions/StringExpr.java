@@ -1,13 +1,12 @@
 package inspiaaa.assembler.expressions;
 
-import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.Location;
 
 public final class StringExpr extends Expr {
     private final String value;
 
-    public StringExpr(String value, SymbolTable symtable, Location location) {
-        super(symtable, location);
+    public StringExpr(String value, Location location) {
+        super(location);
         this.value = value;
     }
 
@@ -18,5 +17,10 @@ public final class StringExpr extends Expr {
 
     public String getValue() {
         return value;
+    }
+
+    @Override
+    public String toString() {
+        return "string(\"" + value + "\")";
     }
 }
