@@ -1,5 +1,6 @@
 package inspiaaa.assembler.memory;
 
+import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.parser.ErrorReporter;
 import inspiaaa.assembler.parser.Location;
 
@@ -123,7 +124,43 @@ public class Memory {
         return result.toString();
     }
 
-    public static boolean[] integerToBits(long value, int numBits) {
+    public boolean[] integerToBits(Expr expr, int numBits) {
+        long value = expr.getNumericValue();
+
+        if (isIntOutOfBounds(value, numBits, false) && isIntOutOfBounds(value, numBits, true)) {
+            errorReporter.reportWarning(
+                    "Integer " + value + " is out of bounds for " + numBits + "-bit integer.",
+                    expr.getLocation());
+        }
+
+        return integerToBits(value, numBits);
+    }
+
+    public boolean[] integerToBits(Expr expr, int numBits, boolean signed) {
+        long value = expr.getNumericValue();
+
+        if (isIntOutOfBounds(value, numBits, signed)) {
+            errorReporter.reportWarning(
+                "Integer " + value + " is out of bounds for " + numBits + "-bit "
+                        + (signed ? "signed" : "unsigned") + " integer.", expr.getLocation());
+        }
+
+        return integerToBits(value, numBits);
+    }
+
+    private boolean isIntOutOfBounds(long value, int numBits, boolean signed) {
+        long minValue = signed
+                ? -2L << (numBits - 2)
+                : 0;
+
+        long maxValue = signed
+                ? (2L << (numBits - 2)) - 1
+                : 2L << (numBits - 1) - 1;
+
+        return minValue <= value && value <= maxValue;
+    }
+
+    public boolean[] integerToBits(long value, int numBits) {
         // Note: Negative numbers are automatically encoded in 2's complement, as Java encodes
         // negative numbers in 2's complement by default.
 
@@ -136,7 +173,7 @@ public class Memory {
         return bits;
     }
 
-    public static boolean[] toBits(int... bits) {
+    public boolean[] toBits(int... bits) {
         boolean[] bitsAsBooleans = new boolean[bits.length];
 
         for (int i = 0; i < bits.length; i ++) {
