@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) {
         String code = """
 start:
-addi r0, 15
+label1: label2: addi r0, 15
 addi sp, 0b101
 
 # Comment
@@ -39,26 +39,14 @@ lw x0, 10(x1) # Comment
         symtable.declareSynonym("x7", "sp");
         symtable.declareSynonym("x6", "ra");
 
-        ErrorReporter errorReporter = new ErrorReporter(code, 3, 1);
+        ErrorReporter errorReporter = new ErrorReporter(3, 1);
+        errorReporter.loadFile("main.S", code);
 
-        List<List<Token>> tokensByLine = Lexer.scan(code, errorReporter);
+        List<Token> tokens = Lexer.tokenize("main.S", code, errorReporter);
 
-        for (List<Token> line : tokensByLine) {
-            System.out.println("---");
-            for (Token token : line) {
-                System.out.println(token);
-            }
+        for (Token token : tokens) {
+            System.out.println(token);
         }
-
         System.out.println();
-
-        var parser = new Parser(errorReporter);
-
-        String label = parser.parseLabelIfPossible(tokensByLine.get(0));
-        System.out.println("Label: " + label);
-
-        InstructionCallData icall = parser.parseInstruction(tokensByLine.get(1));
-        System.out.println(icall.getName());
-        System.out.println(icall.getArguments());
     }
 }

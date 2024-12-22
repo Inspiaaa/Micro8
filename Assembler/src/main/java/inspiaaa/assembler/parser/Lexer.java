@@ -9,111 +9,106 @@ public class Lexer {
     private static class Rule {
         public final Pattern pattern;
         public final TokenType tokenType;
+        public final boolean ignore;
 
-        public Rule(String regex, TokenType tokenType) {
+        private Rule(String regex, TokenType tokenType, boolean ignore) {
             this.pattern = Pattern.compile(regex);
             this.tokenType = tokenType;
+            this.ignore = ignore;
+        }
+
+        public static Rule Match(TokenType token, String regex) {
+            return new Rule(regex, token, false);
+        }
+
+        public static Rule Ignore(String regex) {
+            return new Rule(regex, null, true);
         }
     }
 
     private static final Rule[] tokenPatterns = {
-            new Rule("-?0b[01]+", TokenType.BIN_LITERAL),
-            new Rule("-?0x[0-9a-zA-Z]+", TokenType.HEX_LITERAL),
-            new Rule("-?\\d+", TokenType.DEC_LITERAL),
-            new Rule("[.a-zA-Z_][.a-zA-Z0-9]*", TokenType.SYMBOL),
-            new Rule(",", TokenType.COMMA),
-            new Rule("\\(", TokenType.L_PAREN),
-            new Rule("\\)", TokenType.R_PAREN),
-            new Rule(":", TokenType.COLON),
+        Rule.Ignore("\\s+"),
+        Rule.Ignore("#.+"),
+        Rule.Match(TokenType.NEW_LINE, "\\n"),
+        Rule.Match(TokenType.BIN_LITERAL, "[+-]?0b[01]+"),
+        Rule.Match(TokenType.HEX_LITERAL, "[+-]?0x[0-9a-fA-F]+"),
+        Rule.Match(TokenType.DEC_LITERAL, "[+-]?[0-9]+"),
+        Rule.Match(TokenType.CHAR, "'(?:\\\\'|\\\\?[^'\\\\]|\\\\\\\\)'"),
+        Rule.Match(TokenType.STRING, "\"(?:[^\"\\\\]|\\\\.)\""),
+        Rule.Match(TokenType.SYMBOL, "[.a-zA-Z_][.a-zA-Z0-9]*"),
+        Rule.Match(TokenType.COMMA, ","),
+        Rule.Match(TokenType.L_PAREN, "\\("),
+        Rule.Match(TokenType.R_PAREN, "\\)"),
+        Rule.Match(TokenType.COLON, ":"),
     };
 
     private final ErrorReporter errorReporter;
 
-    private String code;
+    private final String file;
+    private final String code;
+
     private int lineNumber = 1;
+    private int columnNumber = 1;
     private int index = 0;
 
-    public Lexer(ErrorReporter errorReporter) {
+    private final List<Token> tokens;
+
+    private Lexer(String file, String code, ErrorReporter errorReporter) {
+        this.file = file;
+        this.code = code;
         this.errorReporter = errorReporter;
+
+        this.tokens = new ArrayList<>();
     }
 
-    private List<Token> scanLine(String line, int lineNumber) {
-        this.code = line;
-        this.index = 0;
-        this.lineNumber = lineNumber;
-
-        ArrayList<Token> tokens = new ArrayList<>();
-
+    private void tokenize() {
         while (index < code.length()) {
-            if (ignoreWhiteSpace()) continue;
-            if (ignoreComment()) continue;
+            scanToken();
+        }
+    }
 
-            if (index >= code.length()) {
+    private void scanToken() {
+        for (Rule rule : tokenPatterns) {
+            Matcher matcher = rule.pattern.matcher(code);
+            if (!matcher.find(index) || matcher.start() != index) {
                 continue;
             }
 
-            Token token = scanNextToken();
+            String text = matcher.group();
 
-            if (token == null) {
-                char errorChar = code.charAt(index);
-                errorReporter.reportError("Unexpected character '" + errorChar + "'.", lineNumber);
+            if (!rule.ignore) {
+                var location = new Location(file, lineNumber, columnNumber, text.length());
+                tokens.add(new Token(rule.tokenType, text, location));
             }
 
-            tokens.add(token);
+            consume(text);
+            return;
         }
 
-        return tokens;
+        errorReporter.reportError(
+                "Syntax Error",
+                "Unexpected character '" + code.charAt(index) + "'.",
+                new Location(file, lineNumber, columnNumber));
     }
 
-    private Token scanNextToken() {
-        for (Rule rule : tokenPatterns) {
-            Matcher matcher = rule.pattern.matcher(code);
+    private void consume(String text) {
+        index += text.length();
 
-            if (matcher.find(index) && matcher.start() == index) {
-                index += matcher.group().length();
-                String value = matcher.group(matcher.groupCount());
-                return new Token(rule.tokenType, value, lineNumber);
+        for (int i = 0; i < text.length(); i++) {
+            char c = text.charAt(i);
+
+            columnNumber += 1;
+
+            if (c == '\n') {
+                lineNumber += 1;
+                columnNumber = 1;
             }
         }
-
-        return null;
     }
 
-    private boolean ignoreComment() {
-        if (code.charAt(index) != '#')
-            return false;
-
-        while (index < code.length() && code.charAt(index) != '\n') {
-            index ++;
-        }
-
-        return true;
-    }
-
-    private boolean ignoreWhiteSpace() {
-        int startIndex = index;
-
-        while (index < code.length() && Character.isWhitespace(code.charAt(index))) {
-            index ++;
-        }
-
-        return startIndex != index;
-    }
-
-    public static List<List<Token>> scan(String code, ErrorReporter errorReporter) {
-        String[] lines = code.split("\n");
-        Lexer lexer = new Lexer(errorReporter);
-
-        var tokensByLine = new ArrayList<List<Token>>();
-
-        for (int i = 0; i < lines.length; i ++) {
-            String line = lines[i];
-            List<Token> tokens = lexer.scanLine(line, i+1);
-            if (!tokens.isEmpty()) {
-                tokensByLine.add(tokens);
-            }
-        }
-
-        return tokensByLine;
+    public static List<Token> tokenize(String file, String code, ErrorReporter errorReporter) {
+        Lexer lexer = new Lexer(file, code, errorReporter);
+        lexer.tokenize();
+        return lexer.tokens;
     }
 }

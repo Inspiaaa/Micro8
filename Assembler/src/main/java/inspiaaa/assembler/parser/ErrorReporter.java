@@ -1,49 +1,71 @@
 package inspiaaa.assembler.parser;
 
+import java.util.HashMap;
+
 public class ErrorReporter {
-    private final String[] lines;
+    private final HashMap<String, String[]> linesByFile;
+
     private final int numberOfLinesToShowOnError;
     private final int numberOfLinesToShowOnWarning;
 
-    public ErrorReporter(String code, int numberOfLinesToShowOnError, int numberOfLinesToShowOnWarning) {
-        this.lines = code.split("\n");
+    public ErrorReporter(int numberOfLinesToShowOnError, int numberOfLinesToShowOnWarning) {
         this.numberOfLinesToShowOnError = numberOfLinesToShowOnError;
         this.numberOfLinesToShowOnWarning = numberOfLinesToShowOnWarning;
+
+        this.linesByFile = new HashMap<>();
     }
 
-    private void ensureIsValidLine(int line) {
+    public void loadFile(String file, String code) {
+        linesByFile.put(file, code.split("\n"));
+    }
+
+    private void reportInternalError(String message) {
+        throw new RuntimeException("Internal error: " + message);
+    }
+
+    private void ensureIsValidLocation(Location location) {
+        if (!linesByFile.containsKey(location.getFile())) {
+            reportInternalError("Location " + location + " passed to ErrorReporter does not exist.");
+        }
+
+        String[] lines = linesByFile.get(location.getFile());
+        int line = location.getLine();
+
         if (line <= 0 || line > lines.length) {
-            throw new RuntimeException("Internal error: Line (" + line + ") passed to ErrorReporter is out of bounds.");
+            reportInternalError("Location " + location + " passed to ErrorReporter is out of bounds.");
         }
     }
 
-    public void reportWarning(String message, int line) {
-        ensureIsValidLine(line);
+    public void reportWarning(String message, Location location) {
+        ensureIsValidLocation(location);
 
         System.out.println();
 
-        System.out.println("Warning on line " + line + ":");
-        printCodeFence(line, numberOfLinesToShowOnWarning);
+        System.out.println("Warning --> " + location);
+        printCodeFence(location, numberOfLinesToShowOnWarning);
         System.out.println(message);
     }
 
-    public void reportError(String message, int line) {
-        ensureIsValidLine(line);
+    public void reportError(String errorType, String message, Location location) {
+        ensureIsValidLocation(location);
 
         System.out.println();
 
-        System.out.println("Error on line " + line + ":");
-        printCodeFence(line, numberOfLinesToShowOnError);
+        System.out.println(errorType + " --> " + location);
+        printCodeFence(location, numberOfLinesToShowOnError);
         System.out.println(message);
 
         System.exit(-1);
     }
 
-    private void printCodeFence(int line, int numberOfLinesToShow) {
+    private void printCodeFence(Location location, int numberOfLinesToShow) {
         if (numberOfLinesToShow <= 0) {
             return;
         }
 
+        String[] code = linesByFile.get(location.getFile());
+
+        int line = location.getLine();
         int lineIndex = line-1;
 
         int numberOfDigits = Integer.toString(line).length();
@@ -51,15 +73,11 @@ public class ErrorReporter {
         int startLine = Math.max(0, lineIndex - numberOfLinesToShow + 1);
         for (int i = startLine; i <= lineIndex; i ++) {
             String lineNumber = String.format("%" + numberOfDigits + "s", i + 1);
-            String lineContents = lines[i];
+            String lineContents = code[i];
             System.out.println(lineNumber + " | " + lineContents);
         }
 
-        System.out.print(" ".repeat(numberOfDigits + 3));
-        System.out.println("^".repeat(lines[lineIndex].length()));
-    }
-
-    public void reportSyntaxError(String message, int line) {
-        reportError("Syntax Error: " + message, line);
+        System.out.print(" ".repeat(numberOfDigits + 3 + location.getColumn()-1));
+        System.out.println("^".repeat(Math.max(1, location.getLength())));
     }
 }

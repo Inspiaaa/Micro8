@@ -1,22 +1,16 @@
 package inspiaaa.assembler.parser;
 
+import java.util.Objects;
+
 public class Token {
     private final TokenType type;
     private final String value;
-    private final int line;
+    private final Location location;
 
-    public Token(TokenType type) {
-        this(type, "", -1);
-    }
-
-    public Token(TokenType type, String value) {
-        this(type, value, -1);
-    }
-
-    public Token(TokenType type, String value, int line) {
+    public Token(TokenType type, String value, Location location) {
         this.type = type;
         this.value = value;
-        this.line = line;
+        this.location = location;
     }
 
     public String getValue() {
@@ -27,12 +21,24 @@ public class Token {
         return type;
     }
 
-    public int getLine() {
-        return line;
+    public Location getLocation() {
+        return location;
     }
 
     @Override
     public String toString() {
-        return "Token(type=" + type + ", value='" + value + "', line=" + line + ")";
+        return "Token(type=" + type + ", value='" + value + "', loc=" + location + ")";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Token token)) return false;
+        return type == token.type && Objects.equals(value, token.value) && Objects.equals(location, token.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(type, value, location);
     }
 }
