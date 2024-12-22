@@ -9,6 +9,10 @@ import inspiaaa.micro8.instructions.ALUImmInstruction;
 import inspiaaa.micro8.instructions.ALUInstruction;
 import inspiaaa.micro8.instructions.LoadByteInstruction;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class Micro8Assembler {
     public static final String INSTRUCTION_BANK = "instr";
     public static final String DATA_BANK = "data";
@@ -53,24 +57,11 @@ public class Micro8Assembler {
         assembler.defineInstruction(new ALUImmInstruction(name, opcode));
     }
 
-    public static void main(String[] args) {
-        // TODO: Instructions with variadic argument count (esp. for .byte directive)
-        // TODO: String literals
-        // TODO: Arch info for start address for data and instruction sections, start memory section.
+    public static void main(String[] args) throws IOException {
+        String path = "src/main/java/inspiaaa/micro8/example.S";
+        String code = Files.readString(Path.of(path));
 
-        String code = """
-start:
-addi x0, -15
-add sp, x0, x1
-addi ra, 0b101
-
-# Comment
-
-lb x0, 10(x1) # Comment
-.org 0x50
-""";
-
-        var assembler = new Micro8Assembler("main.S", code);
+        var assembler = new Micro8Assembler(path, code);
         assembler.assembler.assemble();
 
         System.out.println();

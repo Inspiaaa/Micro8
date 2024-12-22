@@ -1,7 +1,7 @@
 package inspiaaa.assembler.memory;
 
 import inspiaaa.assembler.expressions.Expr;
-import inspiaaa.assembler.parser.ErrorReporter;
+import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.parser.Location;
 
 import java.util.BitSet;

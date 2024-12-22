@@ -1,5 +1,6 @@
 package inspiaaa.assembler.parser;
 
+import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.directives.LabelDirective;

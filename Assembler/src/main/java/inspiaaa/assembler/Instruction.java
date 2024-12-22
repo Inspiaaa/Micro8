@@ -3,7 +3,6 @@ package inspiaaa.assembler;
 import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
-import inspiaaa.assembler.parser.ErrorReporter;
 
 import java.util.List;
 

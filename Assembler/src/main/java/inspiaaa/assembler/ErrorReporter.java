@@ -1,4 +1,6 @@
-package inspiaaa.assembler.parser;
+package inspiaaa.assembler;
+
+import inspiaaa.assembler.parser.Location;
 
 import java.util.HashMap;
 

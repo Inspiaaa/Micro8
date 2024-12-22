@@ -1,6 +1,5 @@
 package inspiaaa.assembler;
 
-import inspiaaa.assembler.parser.ErrorReporter;
 import inspiaaa.assembler.parser.Location;
 
 import java.util.HashMap;

@@ -2,7 +2,6 @@ package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.*;
 import inspiaaa.assembler.memory.AddressContext;
-import inspiaaa.assembler.parser.ErrorReporter;
 import inspiaaa.micro8.Micro8Assembler;
 
 public class ProgramInstruction extends Instruction {

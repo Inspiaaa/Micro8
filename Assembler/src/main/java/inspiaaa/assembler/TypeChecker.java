@@ -1,7 +1,6 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.expressions.*;
-import inspiaaa.assembler.parser.ErrorReporter;
 
 public class TypeChecker {
     private final ErrorReporter errorReporter;

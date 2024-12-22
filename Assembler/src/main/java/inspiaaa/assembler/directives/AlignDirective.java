@@ -5,10 +5,6 @@ import inspiaaa.assembler.ParameterType;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.SymbolTable;
-import inspiaaa.assembler.parser.ErrorReporter;
-
-import java.util.List;
 
 public class AlignDirective extends Instruction {
     public AlignDirective(String mnemonic) {
