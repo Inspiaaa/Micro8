@@ -1,37 +1,40 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.directives.LabelDirective;
+import inspiaaa.assembler.expressions.NumberExpr;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
+import inspiaaa.assembler.memory.MemoryArchitecture;
 import inspiaaa.assembler.parser.*;
 
 import java.util.*;
 
 public class Assembler {
+    private final String file;
     private final String code;
 
-    private final ArchitectureInformation arch;
+    private final MemoryArchitecture memoryArchitecture;
 
     private final ErrorReporter errorReporter;
     private final SymbolTable symtable;
-    private final HashMap<String, ArrayList<InstructionDefinition>> instructionOverloadsByName;
+    private final HashMap<String, ArrayList<Instruction>> instructionOverloadsByMnemonic;
 
     private final Memory memory;
 
-    public Assembler(String code, ArchitectureInformation architectureInformation) {
+    public Assembler(String file, String code, MemoryArchitecture memoryArchitecture) {
+        this.file = file;
         this.code = code;
-        this.arch = architectureInformation;
-        this.errorReporter = new ErrorReporter(code, 3, 1);
-        this.symtable = new SymbolTable(errorReporter);
-        this.instructionOverloadsByName = new HashMap<>();
+        this.memoryArchitecture = memoryArchitecture;
 
-        this.memory = new Memory(
-                arch.getDataMemorySize(),
-                arch.getInstructionMemorySize(),
-                arch.getDataCellBitWidth(),
-                arch.getInstructionCellBitWidth(),
-                errorReporter
-        );
+        this.errorReporter = new ErrorReporter(3, 1);
+        this.errorReporter.loadFile(file, code);
+
+        this.symtable = new SymbolTable(errorReporter);
+        this.instructionOverloadsByMnemonic = new HashMap<>();
+
+        this.memory = new Memory(memoryArchitecture, errorReporter);
+        
+        defineInstruction(new LabelDirective());
     }
 
     /*
@@ -47,93 +50,81 @@ public class Assembler {
     */
 
     public void assemble() {
-        // Lex.
-        List<List<Token>> tokensByLine = Lexer.scan(code, errorReporter);
+        // Tokenize.
+        List<Token> tokens = Lexer.tokenize(file, code, errorReporter);
 
         // Parse.
-        List<Instruction> instructions = new ArrayList<Instruction>();
-        var parser = new Parser(errorReporter);
-        for (List<Token> line : tokensByLine) {
-            instructions.add(parseLine(parser, line));
+        List<InstructionCall> instructions = Parser.parse(tokens, symtable, errorReporter);
+
+        // Resolve instructions. (Bind to concrete overload)
+        for (InstructionCall call : instructions) {
+            resolveInstructionCall(call);
         }
 
         // Lower instructions.
         instructions = lowerInstructions(instructions);
 
         // Allocate addresses.
-        var addressContext = new AddressContext(arch.getDataCellBitWidth(), arch.getInstructionCellBitWidth());
+        var addressContext = new AddressContext(memoryArchitecture);
 
-        for (Instruction instruction : instructions) {
-            instruction.assignAddress(addressContext, symtable, errorReporter);
-            instruction.preprocess(symtable);
+        for (InstructionCall instruction : instructions) {
+            Instruction definition = instruction.getInstructionDefinition();
+            definition.assignAddress(instruction, addressContext);
+            definition.preprocess(instruction);
         }
 
         // Static analysis.
-        TypeChecker typeChecker = new TypeChecker(symtable, errorReporter);
-        for (Instruction instruction : instructions) {
-            instruction.validate(symtable, typeChecker, errorReporter);
+        TypeChecker typeChecker = new TypeChecker(errorReporter);
+        for (InstructionCall instruction : instructions) {
+            instruction.getInstructionDefinition().validate(instruction, typeChecker);
         }
 
         // Compile.
-        for (Instruction instruction : instructions) {
-            instruction.compile(memory, symtable, errorReporter);
+        for (InstructionCall instruction : instructions) {
+            instruction.getInstructionDefinition().compile(instruction, memory);
         }
     }
 
-    private Instruction parseLine(Parser parser, List<Token> line) {
-        String label = parser.parseLabelIfPossible(line);
-        int lineNumber = line.get(0).getLine();
+    private void resolveInstructionCall(InstructionCall call) {
+        String mnemonic = call.getMnemonic();
 
-        if (label != null) {
-            return new LabelDirective(label, lineNumber);
+        if (!instructionOverloadsByMnemonic.containsKey(mnemonic)) {
+            errorReporter.reportError("Instruction '" + mnemonic + "' not found.", call.getLocation());
         }
 
-        InstructionCallData instruction = parser.parseInstruction(line);
-        return resolveInstructionCall(instruction);
-    }
+        List<Instruction> overloads = instructionOverloadsByMnemonic.get(mnemonic);
 
-    private Instruction resolveInstructionCall(InstructionCallData call) {
-        String name = call.getName();
-
-        if (!instructionOverloadsByName.containsKey(name)) {
-            errorReporter.reportError("Instruction '" + name + "' not found.", call.getLine());
-        }
-
-        List<InstructionDefinition> overloads = instructionOverloadsByName.get(name);
-
-        for (InstructionDefinition overload : overloads) {
-            Instruction instruction = overload.tryConvert(call);
-            if (instruction != null) {
-                return instruction;
+        for (Instruction overload : overloads) {
+            if (overload.matchesSignature(call)) {
+                call.setInstructionDefinition(overload);
+                return;
             }
         }
 
-        reportNoSuitableOverload(overloads, call.getLine());
-
-        return null;
+        reportNoSuitableOverload(overloads, call.getLocation());
     }
 
-    private void reportNoSuitableOverload(List<InstructionDefinition> overloads, int line) {
+    private void reportNoSuitableOverload(List<Instruction> overloads, Location location) {
         var message = new StringBuilder();
 
         message.append("No suitable instruction overload found. Candidates:");
 
-        for (InstructionDefinition overload : overloads) {
+        for (Instruction overload : overloads) {
             message.append("\n- ");
             message.append(overload.toString());
         }
 
-        errorReporter.reportError(message.toString(), line);
+        errorReporter.reportError(message.toString(), location);
     }
 
-    private List<Instruction> lowerInstructions(List<Instruction> instructions) {
-        var newInstructions = new ArrayList<Instruction>();
-        var instructionsToLower = new LinkedList<Instruction>(instructions);
+    private List<InstructionCall> lowerInstructions(List<InstructionCall> instructions) {
+        var newInstructions = new ArrayList<InstructionCall>();
+        var instructionsToLower = new LinkedList<InstructionCall>(instructions);
 
         while (!instructionsToLower.isEmpty()) {
-            Instruction instruction = instructionsToLower.removeFirst();
+            InstructionCall instruction = instructionsToLower.removeFirst();
 
-            List<Instruction> lowered = instruction.lower();
+            List<InstructionCall> lowered = instruction.getInstructionDefinition().lower(instruction);
 
             if (lowered == null) {
                 newInstructions.add(instruction);
@@ -141,7 +132,8 @@ public class Assembler {
             }
 
             Collections.reverse(lowered);
-            for (Instruction newInstruction : lowered) {
+            for (InstructionCall newInstruction : lowered) {
+                resolveInstructionCall(newInstruction);
                 instructionsToLower.addFirst(newInstruction);
             }
         }
@@ -150,34 +142,25 @@ public class Assembler {
     }
 
     public void defineConstant(String name, SymbolType type, int value, String... synonyms) {
-        symtable.declareBuiltinSymbol(new Symbol(name, type, value));
+        symtable.declareBuiltinSymbol(new Symbol(name, type, new NumberExpr(value, null)));
 
         for (String synonym : synonyms) {
-            symtable.declareSynonym(name, synonym);
+            symtable.declareBuiltinSynonym(name, synonym);
         }
     }
 
-    public void defineInstruction(String name, InstructionFactory factory, ParameterType... parameters) {
-        addInstructionDefinition(new InstructionDefinition(name, parameters, factory));
-        symtable.declareBuiltinSymbol(new Symbol(name, SymbolType.INSTRUCTION, false));
-    }
+    public void defineInstruction(Instruction instruction) {
+        String mnemonic = instruction.getMnemonic();
 
-    private void addInstructionDefinition(InstructionDefinition def) {
-        String name = def.getName();
-        if (!instructionOverloadsByName.containsKey(name)) {
-            instructionOverloadsByName.put(name, new ArrayList<InstructionDefinition>());
+        if (!instructionOverloadsByMnemonic.containsKey(mnemonic)) {
+            instructionOverloadsByMnemonic.put(mnemonic, new ArrayList<>());
         }
 
-        ArrayList<InstructionDefinition> overloads = instructionOverloadsByName.get(name);
+        instruction.setSymtable(symtable);
+        instruction.setErrorReporter(errorReporter);
 
-        for (InstructionDefinition overload : overloads) {
-            if (overload.getParameterCount() == def.getParameterCount()) {
-                throw new RuntimeException("Instruction overload for '" + name + "' with "
-                        + def.getParameterCount() + " parameter(s) already exists.");
-            }
-        }
-
-        overloads.add(def);
+        instructionOverloadsByMnemonic.get(mnemonic).add(instruction);
+        symtable.declareBuiltinSymbol(new Symbol(mnemonic, SymbolType.INSTRUCTION));
     }
 
     public SymbolTable getSymtable() {

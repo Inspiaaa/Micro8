@@ -97,6 +97,10 @@ public class Instruction {
         return true;
     }
 
+    public String getMnemonic() {
+        return mnemonic;
+    }
+
     @Override
     public String toString() {
         if (parameters.length == 0) {

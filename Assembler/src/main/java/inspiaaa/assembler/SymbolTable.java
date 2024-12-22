@@ -33,6 +33,16 @@ public class SymbolTable {
         symbolsByName.put(symbol.getName(), symbol);
     }
 
+    public void declareBuiltinSynonym(String primaryName, String synonym) {
+        ensureSymbolNotInTable(synonym);
+
+        if (!symbolsByName.containsKey(primaryName)) {
+            throw new RuntimeException("Primary name '" + primaryName + "' not found in symbol table.");
+        }
+
+        symbolsByName.put(synonym, symbolsByName.get(primaryName));
+    }
+
     private void reportErrorOnRedeclaration(String symbolName, Location location) {
         if (symbolsByName.containsKey(symbolName)) {
             errorReporter.reportError("Redeclaration of symbol '" + symbolName + "'.", location);
