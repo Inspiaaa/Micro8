@@ -1,51 +1,38 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.expressions.Expr;
+import inspiaaa.assembler.expressions.VoidExpr;
+
 public class Symbol {
     private final String name;
     private final SymbolType type;
-    private final boolean hasNumericValue;
-    private int value;
+    private Expr value;
 
-    public Symbol(String name, SymbolType type, boolean hasNumericValue) {
+    public Symbol(String name, SymbolType type, Expr value) {
         this.name = name;
         this.type = type;
-        this.hasNumericValue = hasNumericValue;
+        this.value = value;
     }
 
-    public Symbol(String name, SymbolType type, int value) {
+    public Symbol(String name, SymbolType type) {
         this.name = name;
         this.type = type;
-        this.hasNumericValue = true;
-        this.value = value;
+        this.value = new VoidExpr(null, null);
     }
 
     public SymbolType getType() {
         return type;
     }
 
-    public int getValue() {
+    public Expr getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Expr value) {
         this.value = value;
     }
 
     public String getName() {
         return name;
-    }
-
-    public boolean hasNumericValue() {
-        return hasNumericValue;
-    }
-
-    @Override
-    public String toString() {
-        if (hasNumericValue) {
-            return "Symbol('" + name + "', type=" + type + ", value=" + value + ")";
-        }
-        else {
-            return "Symbol('" + name + "', type=" + type + ")";
-        }
     }
 }

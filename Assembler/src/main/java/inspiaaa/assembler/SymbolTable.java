@@ -1,6 +1,7 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.parser.ErrorReporter;
+import inspiaaa.assembler.parser.Location;
 
 import java.util.HashMap;
 
@@ -53,24 +54,16 @@ public class SymbolTable {
         symbolsByName.put(symbol.getName(), symbol);
     }
 
-    public Symbol getSymbol(String name, int line) {
-        if (!symbolsByName.containsKey(name)) {
-            errorReporter.reportError("Symbol '" + name + "' not found.", line);
-        }
-
+    public Symbol getSymbol(String name) {
         return symbolsByName.get(name);
     }
 
-    public int getNumericValue(String name, int line) {
-        Symbol symbol = getSymbol(name, line);
-
-        if (!symbol.hasNumericValue()) {
-            errorReporter.reportError(
-                "'" + name + "' (" + symbol.getType() + ") does not have a numeric representation.",
-                line);
+    public Symbol getSymbolOrThrow(String name, Location location) {
+        if (!isSymbolDefined(name)) {
+            errorReporter.reportError("Symbol '" + name + "' not found.", location);
         }
 
-        return symbol.getValue();
+        return getSymbol(name);
     }
 
     public boolean isSymbolDefined(String name) {

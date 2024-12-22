@@ -46,6 +46,10 @@ public class ErrorReporter {
         System.out.println(message);
     }
 
+    public void reportError(String message, Location location) {
+        reportError("Error", message, location);
+    }
+
     public void reportError(String errorType, String message, Location location) {
         ensureIsValidLocation(location);
 
