@@ -61,10 +61,12 @@ public class Lexer {
         this.tokens = new ArrayList<>();
     }
 
-    private void tokenize() {
+    public List<Token> tokenize() {
         while (index < code.length()) {
             scanToken();
         }
+
+        return tokens;
     }
 
     private void scanToken() {
@@ -85,8 +87,7 @@ public class Lexer {
             return;
         }
 
-        errorReporter.reportError(
-                "Syntax Error",
+        errorReporter.reportSyntaxError(
                 "Unexpected character '" + code.charAt(index) + "'.",
                 new Location(file, lineNumber, columnNumber));
     }
@@ -107,8 +108,6 @@ public class Lexer {
     }
 
     public static List<Token> tokenize(String file, String code, ErrorReporter errorReporter) {
-        Lexer lexer = new Lexer(file, code, errorReporter);
-        lexer.tokenize();
-        return lexer.tokens;
+        return new Lexer(file, code, errorReporter).tokenize();
     }
 }
