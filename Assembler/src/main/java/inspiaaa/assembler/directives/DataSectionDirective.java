@@ -1,18 +1,19 @@
 package inspiaaa.assembler.directives;
 
+import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.memory.MemorySection;
-import inspiaaa.assembler.SymbolTable;
-import inspiaaa.assembler.parser.ErrorReporter;
 
 public class DataSectionDirective extends Instruction {
-    public DataSectionDirective(int line) {
-        super(line);
+    private final String bankId;
+
+    public DataSectionDirective(String bankId) {
+        super(".data");
+        this.bankId = bankId;
     }
 
     @Override
-    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
-        context.setSection(MemorySection.DATA);
+    public void assignAddress(InstructionCall instruction, AddressContext context) {
+        context.setBank(bankId);
     }
 }

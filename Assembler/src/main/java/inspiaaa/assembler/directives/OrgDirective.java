@@ -1,22 +1,21 @@
 package inspiaaa.assembler.directives;
 
+import inspiaaa.assembler.InstructionCall;
+import inspiaaa.assembler.ParameterType;
 import inspiaaa.assembler.memory.AddressContext;
-import inspiaaa.assembler.Expression;
+import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.ErrorReporter;
 
 public class OrgDirective extends Instruction {
-    private final Expression targetAddressExpression;
-
-    public OrgDirective(Expression targetAddress, int line) {
-        super(line);
-        this.targetAddressExpression = targetAddress;
+    public OrgDirective() {
+        super(".org", ParameterType.IMMEDIATE);
     }
 
     @Override
-    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
-        int targetAddress = targetAddressExpression.getValue(symtable);
-        context.setAddress(targetAddress);
+    public void assignAddress(InstructionCall instruction, AddressContext context) {
+        int address = (int)instruction.getArguments().get(0).getNumericValue();
+        context.setAddress(address);
     }
 }

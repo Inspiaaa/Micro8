@@ -1,18 +1,21 @@
 package inspiaaa.assembler.directives;
 
+import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.memory.MemorySection;
 import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.ErrorReporter;
 
 public class TextSectionDirective extends Instruction {
-    public TextSectionDirective(int line) {
-        super(line);
+    private final String bankId;
+
+    public TextSectionDirective(String bankId) {
+        super(".text");
+        this.bankId = bankId;
     }
 
     @Override
-    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
-        context.setSection(MemorySection.INSTRUCTION);
+    public void assignAddress(InstructionCall instruction, AddressContext context) {
+        context.setBank(bankId);
     }
 }

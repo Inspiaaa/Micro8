@@ -1,5 +1,6 @@
 package inspiaaa.assembler.parser;
 
+import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.directives.LabelDirective;
 import inspiaaa.assembler.expressions.*;
@@ -58,7 +59,7 @@ public class Parser {
 
         instructions.add(new InstructionCall(
                 LabelDirective.VIRTUAL_MNEMONIC,
-                List.of(new SymbolExpr(symbol.getValue(), symtable, symbol.getLocation())),
+                List.of(new StringExpr(symbol.getValue(), symbol.getLocation())),
                 Location.merge(symbol.getLocation(), colon.getLocation())));
 
         return true;

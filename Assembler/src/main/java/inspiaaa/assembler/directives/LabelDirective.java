@@ -1,22 +1,23 @@
 package inspiaaa.assembler.directives;
 
-import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.Symbol;
-import inspiaaa.assembler.SymbolTable;
-import inspiaaa.assembler.SymbolType;
+import inspiaaa.assembler.*;
+import inspiaaa.assembler.expressions.Expr;
+import inspiaaa.assembler.expressions.NumberExpr;
+import inspiaaa.assembler.expressions.StringExpr;
 
 public class LabelDirective extends Instruction {
     public static final String VIRTUAL_MNEMONIC = "$label";
 
-    private final String label;
-
-    public LabelDirective(String label, int line) {
-        super(line);
-        this.label = label;
+    public LabelDirective() {
+        super(VIRTUAL_MNEMONIC, ParameterType.STRING);
     }
 
     @Override
-    public void preprocess(SymbolTable symtable) {
-        symtable.declare(new Symbol(label, SymbolType.LABEL, address.getValue()), line);
+    public void preprocess(InstructionCall instruction) {
+        StringExpr expression = (StringExpr) instruction.getArguments().get(0);
+        String label = expression.getValue();
+        Expr labelAddress = new NumberExpr(instruction.getAddress().getAddress(), expression.getLocation());
+
+        symtable.declareNewOrThrow(new Symbol(label, SymbolType.LABEL, labelAddress), expression.getLocation());
     }
 }

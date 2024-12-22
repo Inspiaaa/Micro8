@@ -9,5 +9,7 @@ public enum ParameterType {
     // x1
     REGISTER,
     // target
-    LABEL;
+    LABEL,
+    // "abc"
+    STRING;
 }

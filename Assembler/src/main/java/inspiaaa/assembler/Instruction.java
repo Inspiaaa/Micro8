@@ -1,6 +1,5 @@
 package inspiaaa.assembler;
 
-import inspiaaa.assembler.memory.Address;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.parser.ErrorReporter;
@@ -13,11 +12,22 @@ public class Instruction {
     // - Assembler directives
     // - Actual instructions
 
-    protected Address address = null;
-    protected int line;
+    protected final String mnemonic;
+    protected final ParameterType[] parameters;
+    protected final boolean isVariadic;
 
-    public Instruction(int line) {
-        this.line = line;
+    // Each instruction can only be associated with one assembler at a time.
+    protected SymbolTable symtable;
+    protected ErrorReporter errorReporter;
+
+    public Instruction(String mnemonic, boolean isVariadic, ParameterType... parameters) {
+        this.mnemonic = mnemonic;
+        this.parameters = parameters;
+        this.isVariadic = isVariadic;
+    }
+
+    public Instruction(String mnemonic, ParameterType... parameters) {
+        this(mnemonic, false, parameters);
     }
 
     // Execution order:
@@ -27,23 +37,31 @@ public class Instruction {
     // 4. Validate.
     // 5. Compile.
 
-    public void preprocess(SymbolTable symtable) {
+    public void preprocess(InstructionCall instruction) {
 
     }
 
-    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
-        this.address = context.getAddress();
+    public void assignAddress(InstructionCall instruction, AddressContext context) {
+        instruction.setAddress(context.getAddress());
     }
 
-    public List<Instruction> lower() {
+    public List<InstructionCall> lower(InstructionCall instruction) {
         return null;
     }
 
-    public void validate(SymbolTable symtable, TypeChecker typeChecker, ErrorReporter er) {
+    public void validate(InstructionCall instruction) {
 
     }
 
-    public void compile(Memory memory, SymbolTable symtable, ErrorReporter er) {
+    public void compile(InstructionCall instruction, Memory memory) {
 
+    }
+
+    public void setSymtable(SymbolTable symtable) {
+        this.symtable = symtable;
+    }
+
+    public void setErrorReporter(ErrorReporter errorReporter) {
+        this.errorReporter = errorReporter;
     }
 }

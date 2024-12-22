@@ -1,24 +1,26 @@
 package inspiaaa.assembler.directives;
 
+import inspiaaa.assembler.InstructionCall;
+import inspiaaa.assembler.ParameterType;
 import inspiaaa.assembler.memory.AddressContext;
-import inspiaaa.assembler.Expression;
+import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.ErrorReporter;
 
-public class AlignDirective extends Instruction {
-    private final Expression alignmentExpression;
+import java.util.List;
 
-    public AlignDirective(Expression alignment, int line) {
-        super(line);
-        this.alignmentExpression = alignment;
+public class AlignDirective extends Instruction {
+    public AlignDirective() {
+        super(".align", ParameterType.IMMEDIATE);
     }
 
     @Override
-    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
-        int alignment = alignmentExpression.getValue(symtable);
+    public void assignAddress(InstructionCall instruction, AddressContext context) {
+        Expr alignmentExpression = instruction.getArguments().get(0);
+        int alignment = (int)alignmentExpression.getNumericValue();
 
         // Align the next instruction to a multiple of the alignment parameter.
-        context.setAddress((context.getAddress().getValue() + alignment - 1) / alignment * alignment);
+        context.setAddress((context.getAddress().getAddress() + alignment - 1) / alignment * alignment);
     }
 }
