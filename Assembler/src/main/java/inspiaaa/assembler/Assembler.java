@@ -33,7 +33,7 @@ public class Assembler {
         this.instructionOverloadsByMnemonic = new HashMap<>();
 
         this.memory = new Memory(memoryArchitecture, errorReporter);
-        
+
         defineInstruction(new LabelDirective());
     }
 

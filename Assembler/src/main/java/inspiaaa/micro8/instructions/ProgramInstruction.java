@@ -1,28 +1,33 @@
 package inspiaaa.micro8.instructions;
 
-import inspiaaa.assembler.SymbolType;
-import inspiaaa.assembler.TypeChecker;
+import inspiaaa.assembler.*;
 import inspiaaa.assembler.memory.AddressContext;
-import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.SymbolTable;
-import inspiaaa.assembler.memory.MemorySection;
 import inspiaaa.assembler.parser.ErrorReporter;
+import inspiaaa.micro8.Micro8Assembler;
 
 public class ProgramInstruction extends Instruction {
-    public ProgramInstruction(int line) {
-        super(line);
+    public ProgramInstruction(String mnemonic, boolean isVariadic, ParameterType... parameters) {
+        super(mnemonic, isVariadic, parameters);
+    }
+
+    public ProgramInstruction(String mnemonic, ParameterType... parameters) {
+        super(mnemonic, parameters);
     }
 
     @Override
-    public void assignAddress(AddressContext context, SymbolTable symtable, ErrorReporter er) {
-        address = context.getAddress();
+    public void assignAddress(InstructionCall instruction, AddressContext context) {
+        instruction.setAddress(context.getAddress());
         context.reserveBits(16);
     }
 
     @Override
-    public void validate(SymbolTable symtable, TypeChecker typeChecker, ErrorReporter er) {
-        if (address.getSection() != MemorySection.INSTRUCTION) {
-            er.reportWarning("Writing instruction to data section. Use '.text' to switch to instruction section.", line);
+    public void validate(InstructionCall instruction, TypeChecker typeChecker) {
+        super.validate(instruction, typeChecker);
+
+        if (!instruction.getAddress().getBankId().equals(Micro8Assembler.INSTRUCTION_BANK)) {
+            errorReporter.reportWarning(
+                    "Writing instruction to data section. Use '.text' to switch to instruction section.",
+                    instruction.getLocation());
         }
     }
 }
