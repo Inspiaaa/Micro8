@@ -12,7 +12,7 @@ public class Location {
         this.file = file;
         this.line = line;
         this.column = column;
-        this.length = length;
+        this.length = Math.max(length, 1);
     }
 
     public Location(String file, int line, int column) {
@@ -36,12 +36,12 @@ public class Location {
     }
 
     public Location nextColumn() {
-        return new Location(file, line, column + Math.max(1, length) - 1, 1);
+        return new Location(file, line, column + length, 1);
     }
 
     @Override
     public String toString() {
-        return file + ":" + length + ":" + column + " (" + length + ")";
+        return file + ":" + line + ":" + column + " (" + length + ")";
     }
 
     @Override
@@ -62,6 +62,10 @@ public class Location {
                     "Start location '" + start + "' is incompatible with end location '" + end + "'.");
         }
 
-        return new Location(start.file, end.line, start.column, end.column - start.column);
+        int startEndColumn = start.column + start.length;
+        int endEndColumn = end.column + end.length;
+        int length = endEndColumn - startEndColumn + 1;
+
+        return new Location(start.file, end.line, start.column, length);
     }
 }
