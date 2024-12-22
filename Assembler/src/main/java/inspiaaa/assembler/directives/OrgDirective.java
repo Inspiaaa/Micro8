@@ -9,8 +9,8 @@ import inspiaaa.assembler.SymbolTable;
 import inspiaaa.assembler.parser.ErrorReporter;
 
 public class OrgDirective extends Instruction {
-    public OrgDirective() {
-        super(".org", ParameterType.IMMEDIATE);
+    public OrgDirective(String mnemonic) {
+        super(mnemonic, ParameterType.IMMEDIATE);
     }
 
     @Override

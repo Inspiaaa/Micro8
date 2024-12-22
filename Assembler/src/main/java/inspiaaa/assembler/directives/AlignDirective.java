@@ -11,8 +11,8 @@ import inspiaaa.assembler.parser.ErrorReporter;
 import java.util.List;
 
 public class AlignDirective extends Instruction {
-    public AlignDirective() {
-        super(".align", ParameterType.IMMEDIATE);
+    public AlignDirective(String mnemonic) {
+        super(mnemonic, ParameterType.IMMEDIATE);
     }
 
     @Override

@@ -3,14 +3,12 @@ package inspiaaa.assembler.directives;
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
-import inspiaaa.assembler.SymbolTable;
-import inspiaaa.assembler.parser.ErrorReporter;
 
-public class TextSectionDirective extends Instruction {
+public class MemoryBankDirective extends Instruction {
     private final String bankId;
 
-    public TextSectionDirective(String bankId) {
-        super(".text");
+    public MemoryBankDirective(String mnemonic, String bankId) {
+        super(mnemonic);
         this.bankId = bankId;
     }
 

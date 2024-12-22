@@ -11,8 +11,8 @@ public class MemoryArchitecture implements Iterable<MemoryBankInformation> {
         this.banksById = new HashMap<>();
     }
 
-    public MemoryArchitecture addBank(String id, int cellWidth, int maxSize) {
-        banksById.put(id, new MemoryBankInformation(id, cellWidth, maxSize));
+    public MemoryArchitecture addBank(String id, int cellWidth, int size) {
+        banksById.put(id, new MemoryBankInformation(id, cellWidth, size));
         return this;
     }
 
