@@ -155,9 +155,9 @@ public class Memory {
 
         long maxValue = signed
                 ? (2L << (numBits - 2)) - 1
-                : 2L << (numBits - 1) - 1;
+                : (2L << numBits) - 1;
 
-        return minValue <= value && value <= maxValue;
+        return value < minValue || value > maxValue;
     }
 
     public boolean[] integerToBits(long value, int numBits) {
