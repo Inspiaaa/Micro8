@@ -27,7 +27,7 @@ public class Lexer {
     }
 
     private static final Rule[] tokenPatterns = {
-        Rule.Ignore("\\s+"),
+        Rule.Ignore("[ \t]+"),
         Rule.Ignore("#.+"),
         Rule.Match(TokenType.NEW_LINE, "\\n"),
         Rule.Match(TokenType.BIN_LITERAL, "[+-]?0b[01]+"),
