@@ -84,7 +84,7 @@ public class ErrorReporter {
         }
 
         System.out.print(" ".repeat(numberOfDigits + 3 + location.getColumn()-1));
-        System.out.println("^".repeat(Math.max(1, location.getLength())));
+        System.out.println("^".repeat(location.getLength()));
     }
 
     public void reportSyntaxError(String message, Location location) {
