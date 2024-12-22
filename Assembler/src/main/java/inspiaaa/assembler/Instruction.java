@@ -96,4 +96,24 @@ public class Instruction {
 
         return true;
     }
+
+    @Override
+    public String toString() {
+        if (parameters.length == 0) {
+            return mnemonic;
+        }
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(mnemonic);
+
+        sb.append(" ");
+        sb.append(parameters[0]);
+
+        for (int i = 1; i < parameters.length; i++) {
+            sb.append(", ");
+            sb.append(parameters[i]);
+        }
+
+        return sb.toString();
+    }
 }

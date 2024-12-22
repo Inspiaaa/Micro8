@@ -52,19 +52,19 @@ public class InstructionCall {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        if (arguments.isEmpty()) {
+            return mnemonic;
+        }
 
+        StringBuilder sb = new StringBuilder();
         sb.append(mnemonic);
 
         sb.append(" ");
+        sb.append(arguments.get(0));
 
-        for (int i = 0; i < arguments.size() - 1; i++) {
-            sb.append(arguments.get(i));
+        for (int i = 1; i < arguments.size(); i++) {
             sb.append(", ");
-        }
-
-        if (!arguments.isEmpty()) {
-            sb.append(arguments.get(arguments.size() - 1));
+            sb.append(arguments.get(i));
         }
 
         return sb.toString();
