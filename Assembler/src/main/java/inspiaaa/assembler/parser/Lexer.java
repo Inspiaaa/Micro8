@@ -36,7 +36,7 @@ public class Lexer {
         Rule.Match(TokenType.HEX_LITERAL, "[+-]?0x[0-9a-fA-F]+"),
         Rule.Match(TokenType.DEC_LITERAL, "[+-]?[0-9]+"),
         Rule.Match(TokenType.CHAR, "'(?:\\\\'|\\\\?[^'\\\\]|\\\\\\\\)'"),
-        Rule.Match(TokenType.STRING, "\"(?:[^\"\\\\]|\\\\.)\""),
+        Rule.Match(TokenType.STRING, "\"(?:[^\"\\\\]|\\\\.)*\""),
         Rule.Match(TokenType.SYMBOL, "[.a-zA-Z_][.a-zA-Z0-9]*"),
         Rule.Match(TokenType.COMMA, ","),
         Rule.Match(TokenType.L_PAREN, "\\("),
