@@ -1,47 +1,81 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.parser.ErrorReporter;
 
 public class TypeChecker {
-    private final SymbolTable symtable;
     private final ErrorReporter errorReporter;
 
-    public TypeChecker(SymbolTable symtable, ErrorReporter errorReporter) {
-        this.symtable = symtable;
+    public TypeChecker(ErrorReporter errorReporter) {
         this.errorReporter = errorReporter;
     }
 
-    public void expect(ParameterType expectedType, Expression expression) {
-        checkExpressionType(expression, expectedType);
+    public static boolean argumentMatchesParameterType(Expr arg, ParameterType param) {
+        return switch (param) {
+            case IMMEDIATE, LABEL, REGISTER -> arg.isNumeric();
+            case RELATIVE_ADDRESS -> arg instanceof RelativeAddressExpr;
+            case STRING -> arg instanceof StringExpr;
+        };
     }
 
-    public void checkExpressionType(Expression expression, ParameterType expectedType) {
-        if (expression instanceof NumericExpression ne) {
-            checkNumericType(ne, expectedType);
+    public void checkArgumentType(Expr arg, ParameterType param) {
+        if (!argumentMatchesParameterType(arg, param)) {
+            errorReporter.reportError(
+                    "Expected " + param + " as argument type, but received " + arg + ".",
+                    arg.getLocation());
         }
-        else if (expression instanceof SymbolicExpression se) {
-            checkSymbolType(se, expectedType);
+
+        if (arg instanceof RelativeAddressExpr relativeAddress) {
+            if (!relativeAddress.getOffset().isNumeric()) {
+                errorReporter.reportError("Expected a number.", relativeAddress.getOffset().getLocation());
+            }
+            if (!relativeAddress.getBase().isNumeric()) {
+                errorReporter.reportError("Expected a number.", relativeAddress.getBase().getLocation());
+            }
+            return;
+        }
+
+        if (isExpressionSuspicious(arg, param)) {
+            errorReporter.reportWarning("Expected a " + param + ", but received " + arg, arg.getLocation());
         }
     }
 
-    private void checkNumericType(NumericExpression expression, ParameterType expectedType) {
-        if (expectedType != ParameterType.IMMEDIATE) {
-            errorReporter.reportWarning(
-                    "Expected " + expectedType + " as argument, but received immediate.",
-                    expression.getLine());
-        }
+    private boolean isExpressionSuspicious(Expr expr, ParameterType param) {
+        return switch (param) {
+            case REGISTER -> !isExpressionNaturalRegister(expr);
+
+            case RELATIVE_ADDRESS -> {
+                RelativeAddressExpr relativeAddress = (RelativeAddressExpr)expr;
+                yield isExpressionSuspicious(relativeAddress.getOffset(), ParameterType.IMMEDIATE)
+                    || isExpressionSuspicious(relativeAddress.getBase(), ParameterType.REGISTER);
+            }
+
+            case IMMEDIATE -> !isExpressionNaturalNumber(expr);
+
+            case LABEL -> !isExpressionNaturalLabel(expr);
+
+            default -> false;
+        };
     }
 
-    private void checkSymbolType(SymbolicExpression expression, ParameterType expectedType) {
-        Symbol symbol = symtable.getSymbol(expression.getName(), expression.getLine());
-
-        if ((expectedType == ParameterType.LABEL && symbol.getType() != SymbolType.LABEL)
-                || (expectedType == ParameterType.IMMEDIATE && symbol.getType() != SymbolType.VARIABLE)
-                || (expectedType == ParameterType.REGISTER && symbol.getType() != SymbolType.REGISTER)) {
-
-            errorReporter.reportWarning(
-                    "Expected " + expectedType + " as argument, but received " + symbol + ".",
-                    expression.getLine());
+    private boolean isExpressionNaturalRegister(Expr expr) {
+        if (!(expr instanceof SymbolExpr symbol)) {
+            return false;
         }
+        return symbol.getSymbol().getType() == SymbolType.REGISTER;
+    }
+
+    private boolean isExpressionNaturalNumber(Expr expr) {
+        if (expr instanceof SymbolExpr symbol) {
+            return symbol.getSymbol().getType() == SymbolType.VARIABLE;
+        }
+        return expr instanceof NumberExpr || expr instanceof CharExpr;
+    }
+
+    private boolean isExpressionNaturalLabel(Expr expr) {
+        if (!(expr instanceof SymbolExpr symbol)) {
+            return false;
+        }
+        return symbol.getSymbol().getType() == SymbolType.LABEL;
     }
 }

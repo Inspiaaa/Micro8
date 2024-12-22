@@ -1,5 +1,6 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.parser.ErrorReporter;
@@ -49,8 +50,16 @@ public class Instruction {
         return null;
     }
 
-    public void validate(InstructionCall instruction) {
+    public void validate(InstructionCall instruction, TypeChecker typeChecker) {
+        List<Expr> arguments = instruction.getArguments();
 
+        for (int i = 0; i < arguments.size(); i++) {
+            Expr arg = arguments.get(i);
+            // For variadic functions the last parameter is repeated multiple times.
+            ParameterType param = parameters[Math.min(parameters.length, i)];
+
+            typeChecker.checkArgumentType(arg, param);
+        }
     }
 
     public void compile(InstructionCall instruction, Memory memory) {
@@ -63,5 +72,28 @@ public class Instruction {
 
     public void setErrorReporter(ErrorReporter errorReporter) {
         this.errorReporter = errorReporter;
+    }
+
+    public boolean matchesSignature(InstructionCall instruction) {
+        List<Expr> arguments = instruction.getArguments();
+
+        if (!isVariadic && arguments.size() != parameters.length) {
+            return false;
+        }
+        else if (isVariadic && arguments.size() < parameters.length - 1) {
+            return false;
+        }
+
+        for (int i = 0; i < arguments.size(); i++) {
+            Expr arg = arguments.get(i);
+            // For variadic functions the last parameter is repeated multiple times.
+            ParameterType param = parameters[Math.min(parameters.length, i)];
+
+            if (!TypeChecker.argumentMatchesParameterType(arg, param)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }

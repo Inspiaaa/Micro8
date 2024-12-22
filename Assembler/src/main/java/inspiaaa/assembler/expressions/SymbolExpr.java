@@ -34,8 +34,8 @@ public final class SymbolExpr extends Expr {
         }
     }
 
-    public String getName() {
-        return name;
+    public Symbol getSymbol() {
+        return symtable.getSymbolOrThrow(name, location);
     }
 
     @Override
