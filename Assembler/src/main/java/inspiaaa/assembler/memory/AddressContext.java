@@ -1,62 +1,48 @@
 package inspiaaa.assembler.memory;
 
+import java.util.HashMap;
+
 // Helper class for allocating addresses.
 public class AddressContext {
-    private final int dataCellBitWidth;
-    private final int instructionCellBitWidth;
+    private final MemoryArchitecture memoryArchitecture;
+    private final HashMap<String, Integer> lastAddressByBank;
 
-    private MemorySection section = MemorySection.INSTRUCTION;
-    private int address;
+    private MemoryBankInformation currentBank;
+    private int currentAddress;
 
-    private int lastDataAddress;
-    private int lastInstructionAddress;
-
-    public AddressContext(int dataCellBitWidth, int instructionCellBitWidth) {
-        this.dataCellBitWidth = dataCellBitWidth;
-        this.instructionCellBitWidth = instructionCellBitWidth;
+    public AddressContext(MemoryArchitecture memoryArchitecture) {
+        this.memoryArchitecture = memoryArchitecture;
+        this.lastAddressByBank = new HashMap<>();
+        this.currentBank = memoryArchitecture.getDefaultBank();
     }
 
-    public void setSection(MemorySection newSection) {
-        if (section == newSection)
+    public void setBank(String id) {
+        if (currentBank.getId().equals(id))
             return;
 
-        section = newSection;
-
-        if (section == MemorySection.DATA) {
-            lastInstructionAddress = address;
-            address = lastDataAddress;
-        }
-        else {
-            lastDataAddress = address;
-            address = lastInstructionAddress;
-        }
+        lastAddressByBank.put(currentBank.getId(), currentAddress);
+        currentBank = memoryArchitecture.getBank(id);
+        currentAddress = lastAddressByBank.getOrDefault(id, 0);
     }
 
     public void reserve(int addresses) {
-        address += addresses;
+        currentAddress += addresses;
     }
 
     public void reserveBits(int bits) {
-        int width = getCurrentCellWidthInBits();
-        address += (bits + width - 1) / width;  // Round up.
+        int width = currentBank.getCellBitWidth();
+        currentAddress += (bits + width - 1) / width;  // Round up.
     }
 
     public void setAddress(int address) {
-        this.address = address;
+        this.currentAddress = address;
     }
 
     public Address getAddress() {
-        return new Address(address, section);
+        return new Address(currentAddress, currentBank.getId());
     }
 
-    public MemorySection getSection() {
-        return section;
-    }
-
-    private int getCurrentCellWidthInBits() {
-        return switch (section) {
-            case DATA -> dataCellBitWidth;
-            case INSTRUCTION -> instructionCellBitWidth;
-        };
+    public String getBankId() {
+        return currentBank.getId();
     }
 }

@@ -1,27 +1,19 @@
 package inspiaaa.assembler.memory;
 
 public class Address {
-    private int value;
-    private MemorySection section;
+    private final int address;
+    private final String bankId;
 
-    public Address(int value, MemorySection section) {
-        this.value = value;
-        this.section = section;
+    public Address(int address, String bankId) {
+        this.address = address;
+        this.bankId = bankId;
     }
 
-    public int getValue() {
-        return value;
+    public int getAddress() {
+        return address;
     }
 
-    public void setValue(int value) {
-        this.value = value;
-    }
-
-    public MemorySection getSection() {
-        return section;
-    }
-
-    public void setSection(MemorySection section) {
-        this.section = section;
+    public String getBankId() {
+        return bankId;
     }
 }

@@ -1,63 +1,41 @@
 package inspiaaa.assembler.memory;
 
 import inspiaaa.assembler.parser.ErrorReporter;
+import inspiaaa.assembler.parser.Location;
 
 import java.util.BitSet;
+import java.util.HashMap;
 
 public class Memory {
     private static final char[] intToHexCharMap
             = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-    private final int dataMemorySize;
-    private final int instructionMemorySize;
-    private final int dataCellBitWidth;
-    private final int instructionCellBitWidth;
-
-    private final BitSet dataMemory;
-    private final BitSet instructionMemory;
-
+    private final MemoryArchitecture memoryArchitecture;
     private final ErrorReporter errorReporter;
+    private final HashMap<String, BitSet> dataById;
 
-    public Memory(
-            int dataMemorySize,
-            int instructionMemorySize,
-            int dataCellBitWidth,
-            int instructionCellBitWidth,
-            ErrorReporter errorReporter) {
-
-        this.dataMemorySize = dataMemorySize;
-        this.instructionMemorySize = instructionMemorySize;
-        this.dataCellBitWidth = dataCellBitWidth;
-        this.instructionCellBitWidth = instructionCellBitWidth;
+    public Memory(MemoryArchitecture memoryArchitecture, ErrorReporter errorReporter) {
+        this.memoryArchitecture = memoryArchitecture;
         this.errorReporter = errorReporter;
 
-        this.dataMemory = new BitSet(dataMemorySize * dataCellBitWidth);
-        this.instructionMemory = new BitSet(instructionMemorySize * instructionCellBitWidth);
+        this.dataById = new HashMap<>();
+
+        for (MemoryBankInformation bank : memoryArchitecture) {
+            dataById.put(bank.getId(), new BitSet(bank.getCellBitWidth() * bank.getSize()));
+        }
     }
 
-    public void write(Address address, int line, boolean[]... bits) {
-        BitSet memory = null;
-        int bitAddress = -1;
-
-        switch (address.getSection()) {
-            case DATA: {
-                bitAddress = address.getValue() * dataCellBitWidth;
-                memory = dataMemory;
-                break;
-            }
-            case INSTRUCTION: {
-                bitAddress = address.getValue() * instructionCellBitWidth;
-                memory = instructionMemory;
-                break;
-            }
-        }
+    public void write(Address address, Location source, boolean[]... bits) {
+        var bank = memoryArchitecture.getBank(address.getBankId());
+        int bitAddress = address.getAddress() * bank.getCellBitWidth();
+        BitSet memory = dataById.get(address.getBankId());
 
         int totalBitCount = 0;
         for (boolean[] segment : bits) {
             totalBitCount += segment.length;
         }
 
-        ensureHasSpace(address, totalBitCount, line);
+        ensureHasSpace(bank, address.getAddress(), totalBitCount, source);
 
         for (boolean[] segment : bits) {
             write(memory, bitAddress, segment);
@@ -65,31 +43,19 @@ public class Memory {
         }
     }
 
-    public void ensureHasSpace(Address address, int numBits, int line) {
-        int addressValue = address.getValue();
-
-        if (addressValue < 0) {
-            errorReporter.reportError("Invalid storage address (" + addressValue + ").", line);
+    public void ensureHasSpace(MemoryBankInformation bank, int address, int numBits, Location source) {
+        if (address < 0) {
+            errorReporter.reportError("Invalid storage address (" + address + ").", source);
         }
 
-        int cellBitWidth = 0;
-        int memorySizeInBits = 0;
-
-        switch (address.getSection()) {
-            case DATA:
-                cellBitWidth = dataCellBitWidth;
-                memorySizeInBits = dataMemorySize * cellBitWidth;
-                break;
-            case INSTRUCTION:
-                cellBitWidth = instructionCellBitWidth;
-                memorySizeInBits = instructionMemorySize * cellBitWidth;
-        }
-
-        int endAddressInBits = addressValue * cellBitWidth + numBits;
+        int endAddressInBits = address * bank.getCellBitWidth() + numBits;
+        int memorySizeInBits = bank.getCellBitWidth() * bank.getSize();
 
         if (endAddressInBits >= memorySizeInBits) {
             errorReporter.reportError(
-                    "Memory overflow. Address (" + addressValue + ") exceeds available memory space.", line);
+                    "Memory overflow. Writing " + numBits + " bit(s) at address " + address
+                            + " exceeds available memory space in bank '" + bank.getId() + "'.",
+                    source);
         }
     }
 
@@ -99,20 +65,10 @@ public class Memory {
         }
     }
 
-    public String format(MemorySection section, boolean asBinary, int charactersPerGroup, int groupsPerLine) {
-        BitSet memory = null;
-        int memorySize = -1;
-
-        switch (section) {
-            case DATA:
-                memory = dataMemory;
-                memorySize = dataMemorySize * dataCellBitWidth;
-                break;
-            case INSTRUCTION:
-                memory = instructionMemory;
-                memorySize = instructionMemorySize * instructionCellBitWidth;
-        }
-
+    public String format(String bankId, boolean asBinary, int charactersPerGroup, int groupsPerLine) {
+        var bank = memoryArchitecture.getBank(bankId);
+        BitSet memory = dataById.get(bankId);
+        int memorySize = bank.getCellBitWidth() * bank.getSize();
         String text = asBinary ? formatAsBinary(memory, memorySize) : formatAsHex(memory, memorySize);
         return formatPretty(text, charactersPerGroup, groupsPerLine);
     }
