@@ -16,4 +16,9 @@ public class Address {
     public String getBankId() {
         return bankId;
     }
+
+    @Override
+    public String toString() {
+        return bankId + "[" + address + "]";
+    }
 }
