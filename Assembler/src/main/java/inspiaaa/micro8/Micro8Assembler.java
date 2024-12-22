@@ -54,7 +54,7 @@ public class Micro8Assembler {
 
     private void defineALUInstruction(String name, int opcode) {
         assembler.defineInstruction(new ALUInstruction(name, opcode));
-        assembler.defineInstruction(new ALUImmInstruction(name, opcode));
+        assembler.defineInstruction(new ALUImmInstruction(name + "i", opcode));
     }
 
     public static void main(String[] args) throws IOException {
