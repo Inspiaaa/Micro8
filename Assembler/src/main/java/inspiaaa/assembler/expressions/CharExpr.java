@@ -1,6 +1,7 @@
 package inspiaaa.assembler.expressions;
 
 import inspiaaa.assembler.parser.Location;
+import inspiaaa.assembler.parser.StringUtil;
 
 public final class CharExpr extends Expr {
     private final char value;
@@ -22,6 +23,6 @@ public final class CharExpr extends Expr {
 
     @Override
     public String toString() {
-        return "char('" + value + "')";
+        return "CHAR('" + StringUtil.escapeChar(value) + "')";
     }
 }

@@ -140,23 +140,12 @@ public class Parser {
     }
 
     private char parseCharacter(Token token) {
-        return unescapeCharacters(token.getValue().substring(1, 3)).charAt(0);
+        return StringUtil.unescapeString(token.getValue().substring(1, 3)).charAt(0);
     }
 
     private String parseString(Token token) {
         String value = token.getValue();
-        return unescapeCharacters(value.substring(1, value.length()-1));
-    }
-
-    private String unescapeCharacters(String s) {
-        return s.replace("\\\\", "\\")
-                .replace("\\t", "\t")
-                .replace("\\b", "\b")
-                .replace("\\n", "\n")
-                .replace("\\r", "\r")
-                .replace("\\f", "\f")
-                .replace("\\'", "'")
-                .replace("\\\"", "\"");
+        return StringUtil.unescapeString(value.substring(1, value.length()-1));
     }
 
     // Parse second part of relative addressing mode: E.g. '(sp)' in '4(sp)'.

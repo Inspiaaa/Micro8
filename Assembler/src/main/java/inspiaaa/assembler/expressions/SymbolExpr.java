@@ -49,6 +49,10 @@ public final class SymbolExpr extends Expr {
 
     @Override
     public String toString() {
-        return "sym(" + name + ")";
+        if (symtable.isSymbolDefined(name)) {
+            Symbol symbol = symtable.getSymbol(name);
+            return "SYMBOL(" + name + ":" + symbol.getType() + ")";
+        }
+        return "SYMBOL(\"" + name + "\")";
     }
 }

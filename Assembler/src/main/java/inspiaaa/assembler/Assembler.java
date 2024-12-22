@@ -26,7 +26,7 @@ public class Assembler {
         this.code = code;
         this.memoryArchitecture = memoryArchitecture;
 
-        this.errorReporter = new ErrorReporter(3, 1);
+        this.errorReporter = new ErrorReporter(1, 1);
         this.errorReporter.loadFile(file, code);
 
         this.symtable = new SymbolTable(errorReporter);

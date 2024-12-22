@@ -27,6 +27,6 @@ public final class RelativeAddressExpr extends Expr {
 
     @Override
     public String toString() {
-        return "rel(offset=" + offset + ", base=" + base + ")";
+        return "RELADDR(offset=" + offset + ", base=" + base + ")";
     }
 }

@@ -35,7 +35,7 @@ public class TypeChecker {
         }
 
         if (isExpressionSuspicious(arg, param)) {
-            errorReporter.reportWarning("Expected a " + param + ", but received " + arg, arg.getLocation());
+            errorReporter.reportWarning("Expected a " + param + ", but received " + arg + ".", arg.getLocation());
         }
     }
 

@@ -22,6 +22,6 @@ public final class NumberExpr extends Expr {
 
     @Override
     public String toString() {
-        return "num(" + value + ")";
+        return "NUMBER(" + value + ")";
     }
 }
