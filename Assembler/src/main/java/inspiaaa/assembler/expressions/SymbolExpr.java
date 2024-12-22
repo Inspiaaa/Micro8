@@ -21,6 +21,15 @@ public final class SymbolExpr extends Expr {
     }
 
     @Override
+    public long getNumericValue() {
+        if (!isNumeric()) {
+            throw new UnsupportedOperationException();
+        }
+
+        return symtable.getSymbolOrThrow(name, location).getValue().getNumericValue();
+    }
+
+    @Override
     public long getRelativeAddress(int baseAddress) {
         Symbol symbol = symtable.getSymbolOrThrow(name, location);
 
