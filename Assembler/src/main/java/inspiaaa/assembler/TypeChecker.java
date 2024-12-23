@@ -9,6 +9,12 @@ public class TypeChecker {
         this.errorReporter = errorReporter;
     }
 
+    public static void ensureIsNumeric(Expr expr, ErrorReporter er) {
+        if (!expr.isNumeric()) {
+            er.reportError("Expected a number as argument, but received " + expr + ".", expr.getLocation());
+        }
+    }
+
     // Checks that the parameters look right without looking up exact value types in the symbol table.
     // Thus, this method can be used before the symbol table is fully created.
     public static boolean argumentPotentiallyMatchesParameterType(Expr arg, ParameterType param) {

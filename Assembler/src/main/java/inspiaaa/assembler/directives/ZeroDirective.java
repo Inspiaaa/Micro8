@@ -3,6 +3,8 @@ package inspiaaa.assembler.directives;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.ParameterType;
+import inspiaaa.assembler.TypeChecker;
+import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.memory.MemoryBankInformation;
@@ -14,12 +16,12 @@ public class ZeroDirective extends Instruction {
 
     @Override
     public void assignAddress(InstructionCall instruction, AddressContext context) {
-        // TODO: Perform argument check here (and in similar instructions that use numbers in assignAddress)
-        // or maybe introduce mechanism for early validation
+        // Perform an early type check as this method is called before validate().
+        Expr addressCountExpr = instruction.getArguments().get(0);
+        TypeChecker.ensureIsNumeric(addressCountExpr, errorReporter);
 
-        int addresses = (int)instruction.getArguments().get(0).getNumericValue();
         instruction.setAddress(context.getAddress());
-        context.reserve(addresses);
+        context.reserve((int)addressCountExpr.getNumericValue());
     }
 
     @Override
