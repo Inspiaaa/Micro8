@@ -5,7 +5,7 @@ import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
 
 public class MemoryBankDirective extends Instruction {
-    private final String bankId;
+    protected final String bankId;
 
     public MemoryBankDirective(String mnemonic, String bankId) {
         super(mnemonic);
