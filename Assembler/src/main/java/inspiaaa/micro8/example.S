@@ -1,5 +1,7 @@
 # Example program that computes the sum of all integers from 1 to N (PARAMETER_N).
 
+# TODO: Move code into function
+
 .equ PARAMETER_N, 5
 
 .data
@@ -7,26 +9,34 @@
 n:
     .byte PARAMETER_N
 
+
 .text
 start:
     li x0, n  # should be load address (la)
+    lb x0, 0(x0)
 
+    call compute_sum
+    nop
+
+
+# Pass n in x0.
+compute_sum:
     li x1, 0  # Sum
     li x2, 1  # Counter
 
-loop_start:
-    # While counter (x2) <= n (x0)
-    bltu x0, x2, end
+    _loop_start:
+        # While counter (x2) <= n (x0)
+        bltu x0, x2, _return
 
-    # Add counter to sum
-    add x1, x1, x2
+        # Add counter to sum
+        add x1, x1, x2
 
-    # Increment counter
-    addi x2, 1
+        # Increment counter
+        addi x2, 1
 
-    j loop_start
+        j _loop_start
 
-end:
-    # Copy result to x0
-    mv x0, x1
-    nop
+    _return:
+        # Copy result to x0
+        mv x0, x1
+        ret
