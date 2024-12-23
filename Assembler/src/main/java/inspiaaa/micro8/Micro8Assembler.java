@@ -95,7 +95,8 @@ public class Micro8Assembler {
     }
 
     public static void main(String[] args) throws IOException {
-        String path = "src/main/java/inspiaaa/micro8/example.S";
+        // String path = "examples/sum.S";
+        String path = "examples/fib.S";
         String code = Files.readString(Path.of(path));
 
         var assembler = new Micro8Assembler(path, code);
