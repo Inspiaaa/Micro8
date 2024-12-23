@@ -3,6 +3,7 @@ package inspiaaa.assembler.memory;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.parser.Location;
+import org.w3c.dom.ls.LSOutput;
 
 import java.util.BitSet;
 import java.util.HashMap;
@@ -150,12 +151,12 @@ public class Memory {
 
     private boolean isIntOutOfBounds(long value, int numBits, boolean signed) {
         long minValue = signed
-                ? -2L << (numBits - 2)
+                ? -1L << (numBits - 2)
                 : 0;
 
         long maxValue = signed
-                ? (2L << (numBits - 2)) - 1
-                : (2L << numBits) - 1;
+                ? (1L << (numBits - 2)) - 1
+                : (1L << numBits) - 1;
 
         return value < minValue || value > maxValue;
     }
