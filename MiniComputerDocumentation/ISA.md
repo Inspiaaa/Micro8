@@ -72,4 +72,4 @@ Load constant:
 | `bleu rs1, rs2, imm` | `bgeu rs2, rs1, imm`  |
 | `bgtu rs1, rs2, imm` | `bltu rs2, rs1, imm`  |
 | `not rd`             | `xori rd, 0b11111111` |
-| `la label`           |                       |
+| `la rd, label`       | `li rd, label`        |
