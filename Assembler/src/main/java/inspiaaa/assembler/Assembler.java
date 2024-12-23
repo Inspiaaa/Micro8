@@ -69,7 +69,7 @@ public class Assembler {
             resolveInstructionCall(call);
 
             // Lower.
-            if (call instanceof Lowerable lowerableInstruction) {
+            if (call.getInstructionDefinition() instanceof Lowerable lowerableInstruction) {
                 List<InstructionCall> lowered = lowerableInstruction.lower(call);
                 instructionsToProcess.addAll(0, lowered);
                 continue;
