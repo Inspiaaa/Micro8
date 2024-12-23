@@ -6,13 +6,11 @@ import inspiaaa.assembler.memory.MemoryArchitecture;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
 import inspiaaa.micro8.directives.CheckedUnalignedDataDirective;
 import inspiaaa.micro8.instructions.*;
-import inspiaaa.micro8.pseudo.CallPseudoInstruction;
-import inspiaaa.micro8.pseudo.ReturnPseudoInstruction;
+import inspiaaa.micro8.pseudo.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.List;
 
 public class Micro8Assembler {
     public static final String INSTRUCTION_BANK = "instr";
@@ -82,6 +80,10 @@ public class Micro8Assembler {
 
         assembler.defineInstruction(new CallPseudoInstruction("call"));
         assembler.defineInstruction(new ReturnPseudoInstruction("ret"));
+        assembler.defineInstruction(new NotPseudoInstruction("not"));
+        assembler.defineInstruction(new LoadAddressPseudoInstruction("la"));
+        assembler.defineInstruction(new BranchPseudoInstruction("bleu", "bgeu"));
+        assembler.defineInstruction(new BranchPseudoInstruction("bgtu", "bltu"));
     }
 
     private void defineALUInstruction(String name, int opcode) {
