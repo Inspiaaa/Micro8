@@ -1,10 +1,7 @@
 package inspiaaa.micro8;
 
 import inspiaaa.assembler.*;
-import inspiaaa.assembler.directives.AlignDirective;
-import inspiaaa.assembler.directives.OrgDirective;
-import inspiaaa.assembler.directives.MemoryBankDirective;
-import inspiaaa.assembler.directives.VariableDirective;
+import inspiaaa.assembler.directives.*;
 import inspiaaa.assembler.memory.MemoryArchitecture;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
 import inspiaaa.micro8.directives.CheckedUnalignedDataDirective;
@@ -51,6 +48,8 @@ public class Micro8Assembler {
         assembler.defineInstruction(new CheckedAlignedDataDirective(".half", 16));
         assembler.defineInstruction(new CheckedAlignedDataDirective(".word", 32));
         assembler.defineInstruction(new CheckedAlignedDataDirective(".dword", 64));
+
+        assembler.defineInstruction(new ZeroDirective(".zero"));
 
         assembler.defineInstruction(new VariableDirective(".equ"));
 

@@ -3,7 +3,6 @@ package inspiaaa.assembler.memory;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.parser.Location;
-import org.w3c.dom.ls.LSOutput;
 
 import java.util.BitSet;
 import java.util.HashMap;
@@ -25,6 +24,10 @@ public class Memory {
         for (MemoryBankInformation bank : memoryArchitecture) {
             dataById.put(bank.getId(), new BitSet(bank.getCellBitWidth() * bank.getSize()));
         }
+    }
+
+    public MemoryArchitecture getMemoryArchitecture() {
+        return memoryArchitecture;
     }
 
     public void write(Address address, Location source, boolean[]... bits) {
