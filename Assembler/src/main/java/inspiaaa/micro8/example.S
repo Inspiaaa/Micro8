@@ -12,7 +12,7 @@ n:
 
 .text
 start:
-    li x0, n  # should be load address (la)
+    la x0, n
     lb x0, 0(x0)
 
     call compute_sum
@@ -26,7 +26,7 @@ compute_sum:
 
     _loop_start:
         # While counter (x2) <= n (x0)
-        bltu x0, x2, _return
+        bgtu x2, x0, _return
 
         # Add counter to sum
         add x1, x1, x2
