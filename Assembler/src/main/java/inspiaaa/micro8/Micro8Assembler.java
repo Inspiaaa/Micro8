@@ -50,6 +50,9 @@ public class Micro8Assembler {
 
         assembler.defineInstruction(new ZeroDirective(".zero"));
 
+        assembler.defineInstruction(new AsciiDirective(".ascii", false));
+        assembler.defineInstruction(new AsciiDirective(".asciz", true));
+
         assembler.defineInstruction(new VariableDirective(".equ"));
 
         defineALUInstruction("add", 0);
