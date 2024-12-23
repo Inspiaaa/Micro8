@@ -9,11 +9,28 @@ public class TypeChecker {
         this.errorReporter = errorReporter;
     }
 
+    // Checks that the parameters look right without looking up exact value types in the symbol table.
+    // Thus, this method can be used before the symbol table is fully created.
+    public static boolean argumentPotentiallyMatchesParameterType(Expr arg, ParameterType param) {
+        return switch (param) {
+            case IMMEDIATE, LABEL, REGISTER
+                -> arg instanceof CharExpr
+                || arg instanceof NumberExpr
+                || arg instanceof SymbolExpr;
+            case RELATIVE_ADDRESS -> arg instanceof RelativeAddressExpr;
+            case STRING -> arg instanceof StringExpr;
+            case ANY -> true;
+            case SYMBOL -> arg instanceof SymbolExpr;
+        };
+    }
+
     public static boolean argumentMatchesParameterType(Expr arg, ParameterType param) {
         return switch (param) {
             case IMMEDIATE, LABEL, REGISTER -> arg.isNumeric();
             case RELATIVE_ADDRESS -> arg instanceof RelativeAddressExpr;
             case STRING -> arg instanceof StringExpr;
+            case ANY -> true;
+            case SYMBOL -> arg instanceof SymbolExpr;
         };
     }
 

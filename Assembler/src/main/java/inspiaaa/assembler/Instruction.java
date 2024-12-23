@@ -45,10 +45,6 @@ public class Instruction {
         instruction.setAddress(context.getAddress());
     }
 
-    public List<InstructionCall> lower(InstructionCall instruction) {
-        return null;
-    }
-
     public void validate(InstructionCall instruction, TypeChecker typeChecker) {
         List<Expr> arguments = instruction.getArguments();
 
@@ -88,7 +84,7 @@ public class Instruction {
             // For variadic functions the last parameter is repeated multiple times.
             ParameterType param = parameters[Math.min(parameters.length-1, i)];
 
-            if (!TypeChecker.argumentMatchesParameterType(arg, param)) {
+            if (!TypeChecker.argumentPotentiallyMatchesParameterType(arg, param)) {
                 return false;
             }
         }

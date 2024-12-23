@@ -40,11 +40,12 @@ public class Assembler {
     /*
     Process:
     - Scan tokens.
-    - Parse to labels and instruction calls.
-    - Convert labels to LabelDirectives and resolve instruction calls to actual Instruction objects.
-    - Lower instructions.
-    - Assign addresses.
-    - Preprocess (in parallel to above, but after each assignAddress call).
+    - Parse instruction calls (including labels as special directives).
+    - For each instruction:
+        - Resolve instruction calls to instruction types.
+        - Lower instructions.
+        - Assign addresses.
+        - Preprocess (update symbol table).
     - Validate (static analysis).
     - Compile.
     */
@@ -56,21 +57,31 @@ public class Assembler {
         // Parse.
         List<InstructionCall> instructions = Parser.parse(tokens, symtable, errorReporter);
 
-        // Resolve instructions. (Bind to concrete overload)
-        for (InstructionCall call : instructions) {
-            resolveInstructionCall(call);
-        }
-
-        // Lower instructions.
-        instructions = lowerInstructions(instructions);
-
-        // Allocate addresses.
         var addressContext = new AddressContext(memoryArchitecture);
 
-        for (InstructionCall instruction : instructions) {
-            Instruction definition = instruction.getInstructionDefinition();
-            definition.assignAddress(instruction, addressContext);
-            definition.preprocess(instruction);
+        var instructionsToProcess = new LinkedList<InstructionCall>(instructions);
+        instructions = new ArrayList<>();
+
+        while (!instructionsToProcess.isEmpty()) {
+            InstructionCall call = instructionsToProcess.removeFirst();
+
+            // Resolve.
+            resolveInstructionCall(call);
+
+            // Lower.
+            if (call instanceof Lowerable lowerableInstruction) {
+                List<InstructionCall> lowered = lowerableInstruction.lower(call);
+                instructionsToProcess.addAll(0, lowered);
+                continue;
+            }
+
+            // Assign addresses.
+            call.getInstructionDefinition().assignAddress(call, addressContext);
+
+            // Preprocess.
+            call.getInstructionDefinition().preprocess(call);
+
+            instructions.add(call);
         }
 
         // Static analysis.
@@ -115,30 +126,6 @@ public class Assembler {
         }
 
         errorReporter.reportError(message.toString(), location);
-    }
-
-    private List<InstructionCall> lowerInstructions(List<InstructionCall> instructions) {
-        var newInstructions = new ArrayList<InstructionCall>();
-        var instructionsToLower = new LinkedList<InstructionCall>(instructions);
-
-        while (!instructionsToLower.isEmpty()) {
-            InstructionCall instruction = instructionsToLower.removeFirst();
-
-            List<InstructionCall> lowered = instruction.getInstructionDefinition().lower(instruction);
-
-            if (lowered == null) {
-                newInstructions.add(instruction);
-                continue;
-            }
-
-            Collections.reverse(lowered);
-            for (InstructionCall newInstruction : lowered) {
-                resolveInstructionCall(newInstruction);
-                instructionsToLower.addFirst(newInstruction);
-            }
-        }
-
-        return newInstructions;
     }
 
     public void defineConstant(String name, SymbolType type, int value, String... synonyms) {

@@ -11,5 +11,7 @@ public enum ParameterType {
     // target
     LABEL,
     // "abc"
-    STRING;
+    STRING,
+    SYMBOL,
+    ANY;
 }
