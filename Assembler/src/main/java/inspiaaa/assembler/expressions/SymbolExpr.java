@@ -47,12 +47,30 @@ public final class SymbolExpr extends Expr {
         return symtable.getSymbolOrThrow(name, location);
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        if (symtable.isSymbolDefined(name)) {
-            Symbol symbol = symtable.getSymbol(name);
-            return "SYMBOL(" + name + ":" + symbol.getType() + ")";
+        if (!symtable.isSymbolDefined(name)) {
+            return "SYMBOL(\"" + name + "\")";
         }
-        return "SYMBOL(\"" + name + "\")";
+
+        Symbol symbol = symtable.getSymbol(name);
+
+        String output = symbol.getType().toString();
+
+        if (!(symbol.getValue() instanceof VoidExpr)) {
+            output += "(" + symbol.getName();
+
+            if (symbol.getType() == SymbolType.VARIABLE) {
+                output += " = " + symbol.getValue();
+            }
+
+            output += ")";
+        }
+
+        return output;
     }
 }
