@@ -1,20 +1,32 @@
+# Example program that computes the sum of all integers from 1 to N (PARAMETER_N).
+
+.equ PARAMETER_N, 5
+
+.data
+.org 10
+n:
+    .byte PARAMETER_N
+
+.text
 start:
-addi x0, -15
-add sp, x0, x1
-addi ra, x1
-addi x7, 3
+    li x0, n  # should be load address (la)
 
-.equ variable, 10
-.equ variable2, "hello"
+    li x1, 0  # Sum
+    li x2, 1  # Counter
 
-# Comment
+loop_start:
+    # While counter (x2) <= n (x0)
+    bltu x0, x2, end
 
-.org 20
-addi x0, label
+    # Add counter to sum
+    add x1, x1, x2
 
-.org 30
-label:
-lb x0, 10(x1) # Comment
+    # Increment counter
+    addi x2, 1
 
-.org 40
-addi x0, label
+    j loop_start
+
+end:
+    # Copy result to x0
+    mv x0, x1
+    nop
