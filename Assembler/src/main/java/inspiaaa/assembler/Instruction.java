@@ -55,7 +55,7 @@ public class Instruction {
         for (int i = 0; i < arguments.size(); i++) {
             Expr arg = arguments.get(i);
             // For variadic functions the last parameter is repeated multiple times.
-            ParameterType param = parameters[Math.min(parameters.length, i)];
+            ParameterType param = parameters[Math.min(parameters.length-1, i)];
 
             typeChecker.checkArgumentType(arg, param);
         }
@@ -86,7 +86,7 @@ public class Instruction {
         for (int i = 0; i < arguments.size(); i++) {
             Expr arg = arguments.get(i);
             // For variadic functions the last parameter is repeated multiple times.
-            ParameterType param = parameters[Math.min(parameters.length, i)];
+            ParameterType param = parameters[Math.min(parameters.length-1, i)];
 
             if (!TypeChecker.argumentMatchesParameterType(arg, param)) {
                 return false;
