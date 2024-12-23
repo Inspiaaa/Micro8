@@ -6,7 +6,7 @@ addi x7, 3
 
 .equ variable, 10
 .equ variable2, "hello"
-.equ variable3, ra
+.equ variable3, add
 
 # Comment
 

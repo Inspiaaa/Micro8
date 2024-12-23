@@ -59,18 +59,11 @@ public final class SymbolExpr extends Expr {
 
         Symbol symbol = symtable.getSymbol(name);
 
-        String output = symbol.getType().toString();
-
-        if (!(symbol.getValue() instanceof VoidExpr)) {
-            output += "(" + symbol.getName();
-
-            if (symbol.getType() == SymbolType.VARIABLE) {
-                output += " = " + symbol.getValue();
-            }
-
-            output += ")";
+        if (symbol.getType() == SymbolType.VARIABLE) {
+            return symbol.getType() + "(" + symbol.getName() + " = " + symbol.getValue() + ")";
         }
-
-        return output;
+        else {
+            return symbol.getType() + "(" + symbol.getName() + ")";
+        }
     }
 }
