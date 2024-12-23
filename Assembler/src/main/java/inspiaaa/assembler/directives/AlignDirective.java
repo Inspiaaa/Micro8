@@ -15,8 +15,6 @@ public class AlignDirective extends Instruction {
     public void assignAddress(InstructionCall instruction, AddressContext context) {
         Expr alignmentExpression = instruction.getArguments().get(0);
         int alignment = (int)alignmentExpression.getNumericValue();
-
-        // Align the next instruction to a multiple of the alignment parameter.
         context.alignAddress(alignment);
     }
 }

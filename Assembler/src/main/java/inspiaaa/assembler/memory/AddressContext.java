@@ -39,6 +39,7 @@ public class AddressContext {
     }
 
     public void alignAddress(int alignment) {
+        // Align the next instruction to a multiple of the alignment parameter.
         currentAddress = (currentAddress + alignment - 1) / alignment * alignment;
     }
 
