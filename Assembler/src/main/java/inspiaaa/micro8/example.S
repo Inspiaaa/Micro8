@@ -4,14 +4,12 @@ add sp, x0, x1
 addi ra, x1
 addi x7, 3
 
+.equ variable, 10
+.equ variable2, "hello"
+.equ variable3, ra
+
 # Comment
 
 lb x0, 10(x1) # Comment
 .org 0x50
-addi ra, x1
-
-.data
-.byte 1, 2, 3, 4, 100, 300, 500
-
-.org 100
-.half 234234, 234
+addi variable3, variable2
