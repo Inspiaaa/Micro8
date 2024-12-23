@@ -5,9 +5,7 @@ import inspiaaa.assembler.directives.*;
 import inspiaaa.assembler.memory.MemoryArchitecture;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
 import inspiaaa.micro8.directives.CheckedUnalignedDataDirective;
-import inspiaaa.micro8.instructions.ALUImmInstruction;
-import inspiaaa.micro8.instructions.ALUInstruction;
-import inspiaaa.micro8.instructions.LoadByteInstruction;
+import inspiaaa.micro8.instructions.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -63,6 +61,21 @@ public class Micro8Assembler {
         defineALUInstruction("xor", 7);
 
         assembler.defineInstruction(new LoadByteInstruction("lb"));
+        assembler.defineInstruction(new StoreByteInstruction("sb"));
+
+        assembler.defineInstruction(new BranchInstruction("beq", 0));
+        assembler.defineInstruction(new BranchInstruction("bne", 1));
+        assembler.defineInstruction(new BranchInstruction("bltu", 2));
+        assembler.defineInstruction(new BranchInstruction("bgeu", 3));
+
+        assembler.defineInstruction(new JumpInstruction("j"));
+        assembler.defineInstruction(new JumpAndLinkInstruction("jal"));
+        assembler.defineInstruction(new JumpRegisterInstruction("jr"));
+        assembler.defineInstruction(new JumpAndLinkRegisterInstruction("jalr"));
+
+        assembler.defineInstruction(new NoOperationInstruction("nop"));
+        assembler.defineInstruction(new LoadImmediateInstruction("li"));
+        assembler.defineInstruction(new MoveInstruction("mv"));
     }
 
     private void defineALUInstruction(String name, int opcode) {

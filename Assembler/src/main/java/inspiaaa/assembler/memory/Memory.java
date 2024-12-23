@@ -141,12 +141,14 @@ public class Memory {
     }
 
     public boolean[] integerToBits(Expr expr, int numBits, boolean signed) {
-        long value = expr.getNumericValue();
+        return integerToBits(expr.getNumericValue(), numBits, signed, expr.getLocation());
+    }
 
+    public boolean[] integerToBits(long value, int numBits, boolean signed, Location location) {
         if (isIntOutOfBounds(value, numBits, signed)) {
             errorReporter.reportWarning(
-                "Integer " + value + " is out of bounds for " + numBits + "-bit "
-                        + (signed ? "signed" : "unsigned") + " integer.", expr.getLocation());
+                    "Integer " + value + " is out of bounds for " + numBits + "-bit "
+                            + (signed ? "signed" : "unsigned") + " integer.", location);
         }
 
         return integerToBits(value, numBits);
@@ -185,5 +187,9 @@ public class Memory {
         }
 
         return bitsAsBooleans;
+    }
+
+    public boolean[] zeroBits(int numBits) {
+        return new boolean[numBits];
     }
 }
