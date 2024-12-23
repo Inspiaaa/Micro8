@@ -117,6 +117,10 @@ public class Instruction {
             sb.append(parameters[i]);
         }
 
+        if (isVariadic) {
+            sb.append("*");
+        }
+
         return sb.toString();
     }
 }
