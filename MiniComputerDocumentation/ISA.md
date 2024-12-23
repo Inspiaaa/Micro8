@@ -47,8 +47,8 @@ Load / store instructions:
 - `sb rs2, uimm[5](rs1)`
 
 Jump instructions:
-- Jump: `j imm[8]`
-- Jump and link: `jal rd, imm[8]` (stores next instr. address in `rd`)
+- Jump: `j uimm[8]`
+- Jump and link: `jal rd, uimm[8]` (stores next instr. address in `rd`)
 - Jump register: `jr rs`
 - Jump and link register: `jal rd, rs` (stores next instr. address in `rd`)
 
@@ -72,3 +72,4 @@ Load constant:
 | `bleu rs1, rs2, imm` | `bgeu rs2, rs1, imm`  |
 | `bgtu rs1, rs2, imm` | `bltu rs2, rs1, imm`  |
 | `not rd`             | `xori rd, 0b11111111` |
+| `la label`           |                       |
