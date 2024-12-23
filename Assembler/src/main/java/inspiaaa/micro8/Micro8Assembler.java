@@ -4,8 +4,8 @@ import inspiaaa.assembler.*;
 import inspiaaa.assembler.directives.AlignDirective;
 import inspiaaa.assembler.directives.OrgDirective;
 import inspiaaa.assembler.directives.MemoryBankDirective;
-import inspiaaa.assembler.directives.UnalignedDataDirective;
 import inspiaaa.assembler.memory.MemoryArchitecture;
+import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
 import inspiaaa.micro8.directives.CheckedUnalignedDataDirective;
 import inspiaaa.micro8.instructions.ALUImmInstruction;
 import inspiaaa.micro8.instructions.ALUInstruction;
@@ -46,6 +46,10 @@ public class Micro8Assembler {
         assembler.defineInstruction(new CheckedUnalignedDataDirective(".2byte", 16));
         assembler.defineInstruction(new CheckedUnalignedDataDirective(".4byte", 32));
         assembler.defineInstruction(new CheckedUnalignedDataDirective(".8byte", 64));
+
+        assembler.defineInstruction(new CheckedAlignedDataDirective(".half", 16));
+        assembler.defineInstruction(new CheckedAlignedDataDirective(".word", 32));
+        assembler.defineInstruction(new CheckedAlignedDataDirective(".dword", 64));
 
         defineALUInstruction("add", 0);
         defineALUInstruction("sub", 1);

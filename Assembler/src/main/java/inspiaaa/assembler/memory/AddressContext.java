@@ -38,11 +38,19 @@ public class AddressContext {
         this.currentAddress = address;
     }
 
+    public void alignAddress(int alignment) {
+        currentAddress = (currentAddress + alignment - 1) / alignment * alignment;
+    }
+
     public Address getAddress() {
         return new Address(currentAddress, currentBank.getId());
     }
 
     public String getBankId() {
         return currentBank.getId();
+    }
+
+    public MemoryBankInformation getBank() {
+        return currentBank;
     }
 }
