@@ -2,16 +2,15 @@ package inspiaaa.assembler;
 
 // Instruction parameter types.
 public enum ParameterType {
-    // +5, -3, 0x160
-    IMMEDIATE,
-    // 10(sp)
-    RELATIVE_ADDRESS,
-    // x1
-    REGISTER,
-    // target
-    LABEL,
-    // "abc"
-    STRING,
+    // Numeric types:
+    IMMEDIATE,  // 234, 0b101, 'a', ...
+    REGISTER,  // x1, ra
+    LABEL,  // target:
+
+    // True types (argument must match the type exactly):
+    RELATIVE_ADDRESS, // 10(sp)
+    STRING,  // "abc"
     SYMBOL,
+
     ANY;
 }
