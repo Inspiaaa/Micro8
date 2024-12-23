@@ -1,7 +1,5 @@
 # Example program that computes the sum of all integers from 1 to N (PARAMETER_N).
 
-# TODO: Move code into function
-
 .equ PARAMETER_N, 5
 
 .data
