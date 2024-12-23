@@ -10,9 +10,12 @@ public class ErrorReporter {
     private final int numberOfLinesToShowOnError;
     private final int numberOfLinesToShowOnWarning;
 
-    public ErrorReporter(int numberOfLinesToShowOnError, int numberOfLinesToShowOnWarning) {
+    private final boolean provideInternalTrace;
+
+    public ErrorReporter(int numberOfLinesToShowOnError, int numberOfLinesToShowOnWarning, boolean provideInternalTrace) {
         this.numberOfLinesToShowOnError = numberOfLinesToShowOnError;
         this.numberOfLinesToShowOnWarning = numberOfLinesToShowOnWarning;
+        this.provideInternalTrace = provideInternalTrace;
 
         this.linesByFile = new HashMap<>();
     }
@@ -61,7 +64,12 @@ public class ErrorReporter {
         printCodeFence(location, numberOfLinesToShowOnError);
         System.out.println(message);
 
-        System.exit(-1);
+        if (provideInternalTrace) {
+            throw new RuntimeException("Internal trace for explicitly handled error.");
+        }
+        else {
+            System.exit(-1);
+        }
     }
 
     private void printCodeFence(Location location, int numberOfLinesToShow) {

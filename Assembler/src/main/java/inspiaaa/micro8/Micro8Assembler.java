@@ -27,7 +27,7 @@ public class Micro8Assembler {
         march.addBank(INSTRUCTION_BANK, 16, 256);
         march.addBank(DATA_BANK, 8, 256);
 
-        assembler = new Assembler(file, code, march);
+        assembler = new Assembler(file, code, march, false);
 
         assembler.defineConstant("x0", SymbolType.REGISTER, 0);
         assembler.defineConstant("x1", SymbolType.REGISTER, 1);

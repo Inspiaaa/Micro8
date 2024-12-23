@@ -21,12 +21,12 @@ public class Assembler {
 
     private final Memory memory;
 
-    public Assembler(String file, String code, MemoryArchitecture memoryArchitecture) {
+    public Assembler(String file, String code, MemoryArchitecture memoryArchitecture, boolean provideInternalErrorTrace) {
         this.file = file;
         this.code = code;
         this.memoryArchitecture = memoryArchitecture;
 
-        this.errorReporter = new ErrorReporter(1, 1);
+        this.errorReporter = new ErrorReporter(1, 1, provideInternalErrorTrace);
         this.errorReporter.loadFile(file, code);
 
         this.symtable = new SymbolTable(errorReporter);
