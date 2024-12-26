@@ -3,6 +3,7 @@ package inspiaaa.assembler;
 import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
+import inspiaaa.assembler.typing.ArgumentTypeChecker;
 
 import java.util.List;
 
@@ -13,20 +14,20 @@ public class Instruction {
     // - Actual instructions
 
     protected final String mnemonic;
-    protected final ParameterType[] parameters;
+    protected final ArgumentTypeChecker[] parameters;
     protected final boolean isVariadic;
 
     // Each instruction can only be associated with one assembler at a time.
     protected SymbolTable symtable;
     protected ErrorReporter errorReporter;
 
-    public Instruction(String mnemonic, boolean isVariadic, ParameterType... parameters) {
+    public Instruction(String mnemonic, boolean isVariadic, ArgumentTypeChecker... parameters) {
         this.mnemonic = mnemonic;
         this.parameters = parameters;
         this.isVariadic = isVariadic;
     }
 
-    public Instruction(String mnemonic, ParameterType... parameters) {
+    public Instruction(String mnemonic, ArgumentTypeChecker... parameters) {
         this(mnemonic, false, parameters);
     }
 
@@ -45,15 +46,14 @@ public class Instruction {
         instruction.setAddress(context.getAddress());
     }
 
-    public void validate(InstructionCall instruction, TypeChecker typeChecker) {
+    public void validate(InstructionCall instruction) {
         List<Expr> arguments = instruction.getArguments();
 
         for (int i = 0; i < arguments.size(); i++) {
             Expr arg = arguments.get(i);
             // For variadic functions the last parameter is repeated multiple times.
-            ParameterType param = parameters[Math.min(parameters.length-1, i)];
-
-            typeChecker.checkArgumentType(arg, param);
+            ArgumentTypeChecker param = parameters[Math.min(parameters.length-1, i)];
+            param.check(arg, errorReporter);
         }
     }
 
@@ -82,9 +82,9 @@ public class Instruction {
         for (int i = 0; i < arguments.size(); i++) {
             Expr arg = arguments.get(i);
             // For variadic functions the last parameter is repeated multiple times.
-            ParameterType param = parameters[Math.min(parameters.length-1, i)];
+            ArgumentTypeChecker param = parameters[Math.min(parameters.length-1, i)];
 
-            if (!TypeChecker.argumentPotentiallyMatchesParameterType(arg, param)) {
+            if (!param.potentiallyMatches(arg)) {
                 return false;
             }
         }

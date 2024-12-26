@@ -1,10 +1,7 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.directives.LabelDirective;
-import inspiaaa.assembler.expressions.DistinctNumberExpr;
-import inspiaaa.assembler.expressions.Expr;
-import inspiaaa.assembler.expressions.NumberExpr;
-import inspiaaa.assembler.expressions.StringExpr;
+import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.memory.MemoryArchitecture;
@@ -88,9 +85,8 @@ public class Assembler {
         }
 
         // Static analysis.
-        TypeChecker typeChecker = new TypeChecker(errorReporter);
         for (InstructionCall instruction : instructions) {
-            instruction.getInstructionDefinition().validate(instruction, typeChecker);
+            instruction.getInstructionDefinition().validate(instruction);
         }
 
         // Compile.
@@ -162,7 +158,7 @@ public class Assembler {
         instruction.setErrorReporter(errorReporter);
 
         instructionOverloadsByMnemonic.get(mnemonic).add(instruction);
-        symtable.declareBuiltinSymbol(new Symbol(mnemonic, SymbolType.INSTRUCTION));
+        symtable.declareBuiltinSymbol(new Symbol(mnemonic, new InstructionReferenceExpr(mnemonic)));
     }
 
     public SymbolTable getSymtable() {
