@@ -1,7 +1,10 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.directives.LabelDirective;
+import inspiaaa.assembler.expressions.DistinctNumberExpr;
+import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.NumberExpr;
+import inspiaaa.assembler.expressions.StringExpr;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.assembler.memory.MemoryArchitecture;
@@ -128,12 +131,24 @@ public class Assembler {
         errorReporter.reportError(message.toString(), location);
     }
 
-    public void defineConstant(String name, SymbolType type, int value, String... synonyms) {
-        symtable.declareBuiltinSymbol(new Symbol(name, type, new NumberExpr(value, null)));
+    public void defineConstant(String name, long value) {
+        defineConstant(name, new NumberExpr(value, null));
+    }
 
-        for (String synonym : synonyms) {
-            symtable.declareBuiltinSynonym(name, synonym);
-        }
+    public void defineConstant(String name, String type, long value) {
+        defineConstant(name, new DistinctNumberExpr(type, value, null));
+    }
+
+    public void defineConstant(String name, String value) {
+        defineConstant(name, new StringExpr(value, null));
+    }
+
+    public void defineConstant(String name, Expr value) {
+        symtable.declareBuiltinSymbol(new Symbol(name, value));
+    }
+
+    public void defineSynonym(String name, String synonym) {
+        symtable.declareBuiltinSynonym(name, synonym);
     }
 
     public void defineInstruction(Instruction instruction) {

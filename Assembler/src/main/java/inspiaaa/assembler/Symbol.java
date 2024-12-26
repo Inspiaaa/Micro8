@@ -5,23 +5,11 @@ import inspiaaa.assembler.expressions.VoidExpr;
 
 public class Symbol {
     private final String name;
-    private final SymbolType type;
     private Expr value;
 
-    public Symbol(String name, SymbolType type, Expr value) {
+    public Symbol(String name, Expr value) {
         this.name = name;
-        this.type = type;
         this.value = value;
-    }
-
-    public Symbol(String name, SymbolType type) {
-        this.name = name;
-        this.type = type;
-        this.value = new VoidExpr(null);
-    }
-
-    public SymbolType getType() {
-        return type;
     }
 
     public Expr getValue() {
