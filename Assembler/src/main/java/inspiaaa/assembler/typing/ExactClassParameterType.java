@@ -8,8 +8,6 @@ public class ExactClassParameterType implements ParameterTypeChecker {
     private final Class classType;
     private final String typeDescription;
 
-    // TODO: Option to allow / disallow indirection via a symbol
-
     public ExactClassParameterType(Class classType, String typeDescription) {
         this.classType = classType;
         this.typeDescription = typeDescription;

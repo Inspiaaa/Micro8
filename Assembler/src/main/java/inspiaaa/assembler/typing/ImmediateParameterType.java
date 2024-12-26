@@ -8,7 +8,7 @@ import inspiaaa.assembler.expressions.SymbolExpr;
 public class ImmediateParameterType implements ParameterTypeChecker {
     @Override
     public boolean potentiallyMatches(Expr value) {
-        return value instanceof SymbolExpr || value.isNumeric();
+        return TypeUtil.isPotentiallyNumeric(value);
     }
 
     @Override
