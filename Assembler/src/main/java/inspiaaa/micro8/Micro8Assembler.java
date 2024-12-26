@@ -40,6 +40,8 @@ public class Micro8Assembler {
 
         assembler.defineSynonym("x7", "sp");
         assembler.defineSynonym("x8", "ra");
+        assembler.defineConstantSynonym("x7", "sp");
+        assembler.defineConstantSynonym("x8", "ra");
 
         assembler.defineInstruction(new OrgDirective(".org"));
         assembler.defineInstruction(new MemoryBankDirective(".data", DATA_BANK));
