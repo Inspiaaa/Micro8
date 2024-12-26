@@ -1,5 +1,7 @@
 package inspiaaa.assembler;
 
+import inspiaaa.assembler.expressions.InstructionReferenceExpr;
+import inspiaaa.assembler.expressions.SymbolExpr;
 import inspiaaa.assembler.parser.Location;
 
 import java.util.HashMap;
@@ -22,9 +24,9 @@ public class SymbolTable {
         String name = symbol.getName();
 
         // Special rule for instruction overloads.
-        if (symbol.getType() == SymbolType.INSTRUCTION
+        if (symbol.getValue() instanceof InstructionReferenceExpr
                 && isSymbolDefined(name)
-                && symbolsByName.get(name).getType() == SymbolType.INSTRUCTION) {
+                && symbolsByName.get(name).getValue() instanceof InstructionReferenceExpr) {
             return;
         }
 
