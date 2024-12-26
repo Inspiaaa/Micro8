@@ -4,7 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
-public class ExactClassParameterType implements ParameterTypeChecker {
+public class ExactClassParameterType implements ParameterType {
     private final Class classType;
     private final String typeDescription;
 

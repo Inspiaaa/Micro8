@@ -4,7 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.DistinctNumberExpr;
 import inspiaaa.assembler.expressions.Expr;
 
-public class DistinctNumberParameterType implements ParameterTypeChecker {
+public class DistinctNumberParameterType implements ParameterType {
     private final String distinctType;
 
     public DistinctNumberParameterType(String type) {

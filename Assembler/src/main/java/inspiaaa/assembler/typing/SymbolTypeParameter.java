@@ -4,7 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
-public class SymbolTypeParameter implements ParameterTypeChecker {
+public class SymbolTypeParameter implements ParameterType {
     @Override
     public boolean matches(Expr value) {
         return value instanceof SymbolExpr;

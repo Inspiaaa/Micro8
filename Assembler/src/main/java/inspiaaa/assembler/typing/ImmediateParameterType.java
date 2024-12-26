@@ -3,9 +3,8 @@ package inspiaaa.assembler.typing;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.NumberExpr;
-import inspiaaa.assembler.expressions.SymbolExpr;
 
-public class ImmediateParameterType implements ParameterTypeChecker {
+public class ImmediateParameterType implements ParameterType {
     @Override
     public boolean potentiallyMatches(Expr value) {
         return TypeUtil.isPotentiallyNumeric(value);

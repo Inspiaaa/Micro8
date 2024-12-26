@@ -4,7 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.RelativeAddressExpr;
 
-public class RelativeAddressParameterType implements ParameterTypeChecker {
+public class RelativeAddressParameterType implements ParameterType {
     private final ImmediateParameterType offsetType;
     private final DistinctNumberParameterType baseType;
 

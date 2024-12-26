@@ -4,7 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.LabelExpr;
 
-public class LabelParameterType implements ParameterTypeChecker {
+public class LabelParameterType implements ParameterType {
     @Override
     public boolean potentiallyMatches(Expr value) {
         return TypeUtil.isPotentiallyNumeric(value);

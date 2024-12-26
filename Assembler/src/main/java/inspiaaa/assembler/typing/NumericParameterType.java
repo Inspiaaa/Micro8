@@ -3,7 +3,7 @@ package inspiaaa.assembler.typing;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 
-public class NumericParameterType implements ParameterTypeChecker {
+public class NumericParameterType implements ParameterType {
     @Override
     public boolean potentiallyMatches(Expr value) {
         return TypeUtil.isPotentiallyNumeric(value);

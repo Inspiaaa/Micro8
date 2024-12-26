@@ -4,7 +4,7 @@ import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.typing.*;
 
 public class Parameter {
-    public static final ParameterTypeChecker
+    public static final ParameterType
             IMMEDIATE = new ImmediateParameterType(),
             SYMBOL = new SymbolTypeParameter(),
             ANY = new AnyParameterType(),
@@ -12,11 +12,11 @@ public class Parameter {
             NUMERIC = new NumericParameterType(),
             STRING = new ExactClassParameterType(StringExpr.class, "string");
 
-    public static ParameterTypeChecker distinctNumber(String type) {
+    public static ParameterType distinctNumber(String type) {
         return new DistinctNumberParameterType(type);
     }
 
-    public static ParameterTypeChecker relativeAddress(String registerType) {
+    public static ParameterType relativeAddress(String registerType) {
         return new RelativeAddressParameterType(registerType);
     }
 }
