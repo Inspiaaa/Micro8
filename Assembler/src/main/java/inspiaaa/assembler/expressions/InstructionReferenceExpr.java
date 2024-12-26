@@ -3,15 +3,15 @@ package inspiaaa.assembler.expressions;
 import inspiaaa.assembler.parser.Location;
 
 public class InstructionReferenceExpr extends Expr {
-    private final String name;
+    private final String mnemonic;
 
-    public InstructionReferenceExpr(String name) {
-        this(name, null);
+    public InstructionReferenceExpr(String mnemonic) {
+        this(mnemonic, null);
     }
 
-    public InstructionReferenceExpr(String name, Location location) {
+    public InstructionReferenceExpr(String mnemonic, Location location) {
         super(location);
-        this.name = name;
+        this.mnemonic = mnemonic;
     }
 
     @Override
@@ -21,11 +21,11 @@ public class InstructionReferenceExpr extends Expr {
 
     @Override
     public Expr withLocation(Location location) {
-        return new InstructionReferenceExpr(name, location);
+        return new InstructionReferenceExpr(mnemonic, location);
     }
 
     @Override
     public String toString() {
-        return "INSTRUCTION(" + name + ")";
+        return "INSTRUCTION(" + mnemonic + ")";
     }
 }
