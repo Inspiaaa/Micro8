@@ -37,4 +37,9 @@ public class DistinctNumberParameterType implements ParameterType {
                     value.getLocation());
         }
     }
+
+    @Override
+    public String toString() {
+        return "int(" + distinctType + ")";
+    }
 }

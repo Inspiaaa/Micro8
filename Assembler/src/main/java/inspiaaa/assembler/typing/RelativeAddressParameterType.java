@@ -36,4 +36,9 @@ public class RelativeAddressParameterType implements ParameterType {
         offsetType.check(relativeAddress.getOffset(), errorReporter);
         baseType.check(relativeAddress.getBase(), errorReporter);
     }
+
+    @Override
+    public String toString() {
+        return "offset(base)";
+    }
 }

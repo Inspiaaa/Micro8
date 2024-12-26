@@ -23,4 +23,9 @@ public class SymbolTypeParameter implements ParameterType {
                     value.getLocation());
         }
     }
+
+    @Override
+    public String toString() {
+        return "symbol";
+    }
 }

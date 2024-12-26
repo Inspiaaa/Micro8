@@ -41,4 +41,9 @@ public class ExactClassParameterType implements ParameterType {
                     value.getLocation());
         }
     }
+
+    @Override
+    public String toString() {
+        return typeDescription;
+    }
 }

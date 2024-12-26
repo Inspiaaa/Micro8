@@ -22,4 +22,9 @@ public class NumericParameterType implements ParameterType {
                     value.getLocation());
         }
     }
+
+    @Override
+    public String toString() {
+        return "number";
+    }
 }

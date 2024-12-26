@@ -18,4 +18,9 @@ public class AnyParameterType implements ParameterType {
     public void check(Expr value, ErrorReporter errorReporter) {
         
     }
+
+    @Override
+    public String toString() {
+        return "any";
+    }
 }

@@ -31,4 +31,9 @@ public class LabelParameterType implements ParameterType {
                     value.getLocation());
         }
     }
+
+    @Override
+    public String toString() {
+        return "label";
+    }
 }
