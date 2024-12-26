@@ -5,6 +5,7 @@ import inspiaaa.assembler.directives.*;
 import inspiaaa.assembler.memory.MemoryArchitecture;
 import inspiaaa.assembler.typing.ParameterType;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
+import inspiaaa.micro8.directives.CheckedAsciiDirective;
 import inspiaaa.micro8.directives.CheckedUnalignedDataDirective;
 import inspiaaa.micro8.instructions.*;
 import inspiaaa.micro8.pseudo.*;
@@ -38,8 +39,6 @@ public class Micro8Assembler {
         assembler.defineConstant("x7", REGISTER, 6);
         assembler.defineConstant("x8", REGISTER, 7);
 
-        assembler.defineSynonym("x7", "sp");
-        assembler.defineSynonym("x8", "ra");
         assembler.defineConstantSynonym("x7", "sp");
         assembler.defineConstantSynonym("x8", "ra");
 
@@ -59,8 +58,8 @@ public class Micro8Assembler {
 
         assembler.defineInstruction(new ZeroDirective(".zero"));
 
-        assembler.defineInstruction(new AsciiDirective(".ascii", false));
-        assembler.defineInstruction(new AsciiDirective(".asciz", true));
+        assembler.defineInstruction(new CheckedAsciiDirective(".ascii", false));
+        assembler.defineInstruction(new CheckedAsciiDirective(".asciz", true));
 
         assembler.defineInstruction(new VariableDirective(".equ"));
 
