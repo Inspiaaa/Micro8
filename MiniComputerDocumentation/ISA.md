@@ -21,15 +21,16 @@
 
 **Registers:**
 - 8 general-purpose registers (3 bit addresses)
-- `x0`, `x1`, `x2`, ..., `x7`
+- `x1`, `x2`, `x3`, ..., `x8`
 - Convention:
-	- `x7` can be used as the stack pointer (`sp`)
-	- `x6` can be used as the return address (`ra`)
+	- `x8` can be used as the stack pointer (`sp`)
+	- `x7` can be used as the return address (`ra`)
 
 
 > [!INFO] Design Choice
 > - Only 8 registers in order to fit into 16 bit instruction format.
 > - In order to make the most of these registers, there is no zero register like in RISC-V: The instructions were specifically designed and chosen so that a hardwired zero register is not needed. E.g. mv rd, rs, j and jal implemented separately, ...
+> - This also explains why there is no `x0` register. In RISC-V the `x0` / `zero` register is hardwrired to 0 and therefore behaves very differently from the other general purpose registers. In order to prevent possible confusion and errors, I have decided to skip `x0` and instead start at `x1`.
 
 ## Instructions
 

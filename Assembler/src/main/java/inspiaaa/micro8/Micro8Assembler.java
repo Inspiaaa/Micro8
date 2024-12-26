@@ -30,17 +30,17 @@ public class Micro8Assembler {
         assembler = new Assembler(file, code, march, false);
 
         // TODO: Rename to x1 to avoid confusion with x0 in RISC
-        assembler.defineConstant("x0", REGISTER, 0);
-        assembler.defineConstant("x1", REGISTER, 1);
-        assembler.defineConstant("x2", REGISTER, 2);
-        assembler.defineConstant("x3", REGISTER, 3);
-        assembler.defineConstant("x4", REGISTER, 4);
-        assembler.defineConstant("x5", REGISTER, 5);
-        assembler.defineConstant("x6", REGISTER, 6);
-        assembler.defineConstant("x7", REGISTER, 7);
+        assembler.defineConstant("x1", REGISTER, 0);
+        assembler.defineConstant("x2", REGISTER, 1);
+        assembler.defineConstant("x3", REGISTER, 2);
+        assembler.defineConstant("x4", REGISTER, 3);
+        assembler.defineConstant("x5", REGISTER, 4);
+        assembler.defineConstant("x6", REGISTER, 5);
+        assembler.defineConstant("x7", REGISTER, 6);
+        assembler.defineConstant("x8", REGISTER, 7);
 
-        assembler.defineSynonym("x6", "sp");
-        assembler.defineSynonym("x7", "ra");
+        assembler.defineSynonym("x7", "sp");
+        assembler.defineSynonym("x8", "ra");
 
         assembler.defineInstruction(new OrgDirective(".org"));
         assembler.defineInstruction(new MemoryBankDirective(".data", DATA_BANK));
