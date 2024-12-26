@@ -10,7 +10,7 @@ public class LabelDirective extends Instruction {
     public static final String VIRTUAL_MNEMONIC = "$label";
 
     public LabelDirective() {
-        super(VIRTUAL_MNEMONIC, ParameterType.STRING);
+        super(VIRTUAL_MNEMONIC, Parameter.STRING);
     }
 
     @Override

@@ -1,13 +1,13 @@
 package inspiaaa.assembler.directives;
 
 import inspiaaa.assembler.InstructionCall;
-import inspiaaa.assembler.ParameterType;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.Instruction;
 
 public class OrgDirective extends Instruction {
     public OrgDirective(String mnemonic) {
-        super(mnemonic, ParameterType.IMMEDIATE);
+        super(mnemonic, Parameter.IMMEDIATE);
     }
 
     @Override

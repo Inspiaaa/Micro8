@@ -6,7 +6,7 @@ import inspiaaa.assembler.expressions.SymbolExpr;
 
 public class VariableDirective extends Instruction {
     public VariableDirective(String mnemonic) {
-        super(mnemonic, ParameterType.SYMBOL, ParameterType.ANY);
+        super(mnemonic, Parameter.SYMBOL, Parameter.ANY);
     }
 
     @Override
@@ -21,7 +21,7 @@ public class VariableDirective extends Instruction {
             value = valueSymbol.getSymbol().getValue();
         }
 
-        Symbol symbol = new Symbol(name, SymbolType.VARIABLE, value);
+        Symbol symbol = new Symbol(name, value);
         symtable.declareNewOrThrow(symbol, nameExpr.getLocation());
     }
 }

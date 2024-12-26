@@ -2,7 +2,7 @@ package inspiaaa.assembler.directives;
 
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.InstructionCall;
-import inspiaaa.assembler.ParameterType;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.StringExpr;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
@@ -11,7 +11,7 @@ public class AsciiDirective extends Instruction {
     protected final boolean zeroDelimiter;
 
     public AsciiDirective(String mnemonic, boolean zeroDelimiter) {
-        super(mnemonic, ParameterType.STRING);
+        super(mnemonic, Parameter.STRING);
         this.zeroDelimiter = zeroDelimiter;
     }
 

@@ -2,7 +2,7 @@ package inspiaaa.assembler.directives;
 
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.InstructionCall;
-import inspiaaa.assembler.ParameterType;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
 
@@ -10,7 +10,7 @@ public class UnalignedDataDirective extends Instruction {
     protected final int wordSize;
 
     public UnalignedDataDirective(String mnemonic, int wordSize) {
-        super(mnemonic, true, ParameterType.IMMEDIATE);
+        super(mnemonic, true, Parameter.IMMEDIATE);
         this.wordSize = wordSize;
     }
 
