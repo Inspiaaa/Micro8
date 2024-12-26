@@ -3,7 +3,6 @@ package inspiaaa.micro8.pseudo;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.Lowerable;
-import inspiaaa.assembler.ParameterType;
 import inspiaaa.assembler.expressions.Expr;
 
 import java.util.List;

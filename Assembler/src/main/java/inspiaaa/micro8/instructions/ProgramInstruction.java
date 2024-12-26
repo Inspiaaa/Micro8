@@ -2,14 +2,15 @@ package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.*;
 import inspiaaa.assembler.memory.AddressContext;
+import inspiaaa.assembler.typing.ArgumentTypeChecker;
 import inspiaaa.micro8.Micro8Assembler;
 
 public class ProgramInstruction extends Instruction {
-    public ProgramInstruction(String mnemonic, boolean isVariadic, ParameterType... parameters) {
+    public ProgramInstruction(String mnemonic, boolean isVariadic, ArgumentTypeChecker... parameters) {
         super(mnemonic, isVariadic, parameters);
     }
 
-    public ProgramInstruction(String mnemonic, ParameterType... parameters) {
+    public ProgramInstruction(String mnemonic, ArgumentTypeChecker... parameters) {
         super(mnemonic, parameters);
     }
 
@@ -20,8 +21,8 @@ public class ProgramInstruction extends Instruction {
     }
 
     @Override
-    public void validate(InstructionCall instruction, TypeChecker typeChecker) {
-        super.validate(instruction, typeChecker);
+    public void validate(InstructionCall instruction) {
+        super.validate(instruction);
 
         if (!instruction.getAddress().getBankId().equals(Micro8Assembler.INSTRUCTION_BANK)) {
             errorReporter.reportWarning(

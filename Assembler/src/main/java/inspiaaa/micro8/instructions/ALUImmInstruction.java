@@ -1,15 +1,16 @@
 package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.InstructionCall;
-import inspiaaa.assembler.ParameterType;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.memory.Memory;
+import inspiaaa.micro8.Micro8Assembler;
 
 public class ALUImmInstruction extends ProgramInstruction {
     private final int operation;
 
     public ALUImmInstruction(String mnemonic, int operation) {
-        super(mnemonic, ParameterType.REGISTER, ParameterType.IMMEDIATE);
+        super(mnemonic, Micro8Assembler.REGISTER_TYPE, Parameter.IMMEDIATE);
         this.operation = operation;
     }
 

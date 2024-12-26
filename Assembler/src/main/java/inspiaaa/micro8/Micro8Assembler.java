@@ -3,6 +3,7 @@ package inspiaaa.micro8;
 import inspiaaa.assembler.*;
 import inspiaaa.assembler.directives.*;
 import inspiaaa.assembler.memory.MemoryArchitecture;
+import inspiaaa.assembler.typing.ArgumentTypeChecker;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
 import inspiaaa.micro8.directives.CheckedUnalignedDataDirective;
 import inspiaaa.micro8.instructions.*;
@@ -15,6 +16,9 @@ import java.nio.file.Path;
 public class Micro8Assembler {
     public static final String INSTRUCTION_BANK = "instr";
     public static final String DATA_BANK = "data";
+
+    public static final String REGISTER = "register";
+    public static final ArgumentTypeChecker REGISTER_TYPE = Parameter.distinctNumber(REGISTER);
 
     private Assembler assembler;
 

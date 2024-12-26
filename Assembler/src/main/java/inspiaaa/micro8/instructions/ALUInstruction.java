@@ -2,14 +2,16 @@ package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.expressions.Expr;
-import inspiaaa.assembler.ParameterType;
 import inspiaaa.assembler.memory.Memory;
+import inspiaaa.micro8.Micro8Assembler;
 
 public class ALUInstruction extends ProgramInstruction {
     private final int operation;
 
     public ALUInstruction(String mnemonic, int operation) {
-        super(mnemonic, ParameterType.REGISTER, ParameterType.REGISTER, ParameterType.REGISTER);
+        super(
+                mnemonic,
+                Micro8Assembler.REGISTER_TYPE, Micro8Assembler.REGISTER_TYPE, Micro8Assembler.REGISTER_TYPE);
         this.operation = operation;
     }
 

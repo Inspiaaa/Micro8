@@ -1,13 +1,13 @@
 package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.InstructionCall;
-import inspiaaa.assembler.ParameterType;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.memory.Memory;
 
 public class JumpInstruction extends ProgramInstruction {
     public JumpInstruction(String mnemonic) {
-        super(mnemonic, ParameterType.LABEL);
+        super(mnemonic, Parameter.LABEL);
     }
 
     @Override

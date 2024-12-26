@@ -1,7 +1,6 @@
 package inspiaaa.micro8.directives;
 
 import inspiaaa.assembler.InstructionCall;
-import inspiaaa.assembler.TypeChecker;
 import inspiaaa.assembler.directives.AlignedDataDirective;
 import inspiaaa.micro8.Micro8Assembler;
 
@@ -11,8 +10,8 @@ public class CheckedAlignedDataDirective extends AlignedDataDirective {
     }
 
     @Override
-    public void validate(InstructionCall instruction, TypeChecker typeChecker) {
-        super.validate(instruction, typeChecker);
+    public void validate(InstructionCall instruction) {
+        super.validate(instruction);
 
         if (!instruction.getAddress().getBankId().equals(Micro8Assembler.DATA_BANK)) {
             errorReporter.reportWarning(
