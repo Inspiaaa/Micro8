@@ -21,6 +21,11 @@ public final class NumberExpr extends Expr {
     }
 
     @Override
+    public Expr withLocation(Location location) {
+        return new NumberExpr(value, location);
+    }
+
+    @Override
     public String toString() {
         return "NUMBER(" + value + ")";
     }

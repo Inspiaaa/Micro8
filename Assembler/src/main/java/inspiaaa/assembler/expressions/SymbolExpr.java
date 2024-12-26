@@ -2,7 +2,6 @@ package inspiaaa.assembler.expressions;
 
 import inspiaaa.assembler.Symbol;
 import inspiaaa.assembler.SymbolTable;
-import inspiaaa.assembler.SymbolType;
 import inspiaaa.assembler.parser.Location;
 
 public final class SymbolExpr extends Expr {
@@ -16,35 +15,36 @@ public final class SymbolExpr extends Expr {
     }
 
     @Override
+    public Expr unwrap() {
+        return symtable.getSymbolOrThrow(name, location).getValue().unwrap().withLocation(location);
+    }
+
+    @Override
     public boolean isNumeric() {
-        return symtable.getSymbolOrThrow(name, location).getValue().isNumeric();
+        return unwrap().isNumeric();
     }
 
     @Override
     public long getNumericValue() {
-        if (!isNumeric()) {
-            throw new UnsupportedOperationException();
-        }
-
-        return symtable.getSymbolOrThrow(name, location).getValue().getNumericValue();
+        return unwrap().getNumericValue();
     }
 
     @Override
-    public long getRelativeAddress(int baseAddress) {
-        Symbol symbol = symtable.getSymbolOrThrow(name, location);
+    public int getRelativeAddress(int baseAddress) {
+        return unwrap().getRelativeAddress(baseAddress);
+    }
 
-        long numericValue = symbol.getValue().getNumericValue();
-
-        if (symbol.getType() == SymbolType.LABEL) {
-            return numericValue - baseAddress;
-        }
-        else {
-            return numericValue;
-        }
+    @Override
+    public Expr withLocation(Location location) {
+        return new SymbolExpr(name, symtable, location);
     }
 
     public Symbol getSymbol() {
         return symtable.getSymbolOrThrow(name, location);
+    }
+
+    public boolean isSymbolDefined() {
+        return symtable.isSymbolDefined(name);
     }
 
     public String getName() {
@@ -58,12 +58,6 @@ public final class SymbolExpr extends Expr {
         }
 
         Symbol symbol = symtable.getSymbol(name);
-
-        if (symbol.getType() == SymbolType.VARIABLE) {
-            return symbol.getType() + "(" + symbol.getName() + " = " + symbol.getValue() + ")";
-        }
-        else {
-            return symbol.getType() + "(" + symbol.getName() + ")";
-        }
+        return "SYMBOL(" + symbol.getName() + " = " + symbol.getValue() + ")";
     }
 }

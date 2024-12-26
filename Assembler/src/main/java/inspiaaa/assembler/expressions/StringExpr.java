@@ -21,6 +21,11 @@ public final class StringExpr extends Expr {
     }
 
     @Override
+    public Expr withLocation(Location location) {
+        return new StringExpr(value, location);
+    }
+
+    @Override
     public String toString() {
         return "STRING(\"" + StringUtil.escapeString(value) + "\")";
     }

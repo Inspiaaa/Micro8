@@ -13,6 +13,11 @@ public final class VoidExpr extends Expr {
     }
 
     @Override
+    public Expr withLocation(Location location) {
+        return new VoidExpr(location);
+    }
+
+    @Override
     public String toString() {
         return "void";
     }

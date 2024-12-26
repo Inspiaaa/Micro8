@@ -26,6 +26,16 @@ public final class RelativeAddressExpr extends Expr {
     }
 
     @Override
+    public Expr unwrap() {
+        return new RelativeAddressExpr(offset.unwrap(), base.unwrap(), location);
+    }
+
+    @Override
+    public Expr withLocation(Location location) {
+        return new RelativeAddressExpr(offset, base, location);
+    }
+
+    @Override
     public String toString() {
         return "RELADDR(offset=" + offset + ", base=" + base + ")";
     }

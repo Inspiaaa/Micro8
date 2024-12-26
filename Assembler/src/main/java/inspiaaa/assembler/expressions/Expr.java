@@ -15,11 +15,17 @@ public abstract class Expr {
         throw new UnsupportedOperationException();
     };
 
-    public long getRelativeAddress(int baseAddress) {
-        return getNumericValue();
+    public int getRelativeAddress(int baseAddress) {
+        return (int)getNumericValue();
+    }
+
+    public Expr unwrap() {
+        return this;
     }
 
     public Location getLocation() {
         return location;
     }
+
+    public abstract Expr withLocation(Location location);
 }
