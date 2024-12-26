@@ -29,14 +29,16 @@ public class Micro8Assembler {
 
         assembler = new Assembler(file, code, march, false);
 
-        assembler.defineConstant("x0", SymbolType.REGISTER, 0);
-        assembler.defineConstant("x1", SymbolType.REGISTER, 1);
-        assembler.defineConstant("x2", SymbolType.REGISTER, 2);
-        assembler.defineConstant("x3", SymbolType.REGISTER, 3);
-        assembler.defineConstant("x4", SymbolType.REGISTER, 4);
-        assembler.defineConstant("x5", SymbolType.REGISTER, 5);
-        assembler.defineConstant("x6", SymbolType.REGISTER, 6, "sp");
-        assembler.defineConstant("x7", SymbolType.REGISTER, 7, "ra");
+        // TODO: Rename to x1 to avoid confusion with x0 in RISC
+        assembler.defineConstant("x0", REGISTER, 0);
+        assembler.defineConstant("x1", REGISTER, 1);
+        assembler.defineConstant("x2", REGISTER, 2);
+        assembler.defineConstant("x3", REGISTER, 3);
+        assembler.defineConstant("x4", REGISTER, 4);
+        assembler.defineConstant("x5", REGISTER, 5);
+
+        assembler.defineSynonym("x6", "sp");
+        assembler.defineSynonym("x7", "ra");
 
         assembler.defineInstruction(new OrgDirective(".org"));
         assembler.defineInstruction(new MemoryBankDirective(".data", DATA_BANK));
