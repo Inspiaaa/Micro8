@@ -29,7 +29,6 @@ public class Micro8Assembler {
 
         assembler = new Assembler(file, code, march, false);
 
-        // TODO: Rename to x1 to avoid confusion with x0 in RISC
         assembler.defineConstant("x1", REGISTER, 0);
         assembler.defineConstant("x2", REGISTER, 1);
         assembler.defineConstant("x3", REGISTER, 2);
