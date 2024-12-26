@@ -1,6 +1,7 @@
 package inspiaaa.assembler;
 
 import inspiaaa.assembler.directives.LabelDirective;
+import inspiaaa.assembler.directives.SynonymPseudoInstruction;
 import inspiaaa.assembler.expressions.*;
 import inspiaaa.assembler.memory.AddressContext;
 import inspiaaa.assembler.memory.Memory;
@@ -143,11 +144,11 @@ public class Assembler {
         symtable.declareBuiltinSymbol(new Symbol(name, value));
     }
 
-    public void defineSynonym(String name, String synonym) {
+    public void defineConstantSynonym(String name, String synonym) {
         symtable.declareBuiltinSynonym(name, synonym);
     }
 
-    public void defineInstruction(Instruction instruction) {
+    public void defineInstruction(Instruction instruction, String... synonyms) {
         String mnemonic = instruction.getMnemonic();
 
         if (!instructionOverloadsByMnemonic.containsKey(mnemonic)) {
@@ -159,6 +160,15 @@ public class Assembler {
 
         instructionOverloadsByMnemonic.get(mnemonic).add(instruction);
         symtable.declareBuiltinSymbol(new Symbol(mnemonic, new InstructionReferenceExpr(mnemonic)));
+
+        for (String synonym : synonyms) {
+            if (!instructionOverloadsByMnemonic.containsKey(synonym)) {
+                instructionOverloadsByMnemonic.put(synonym, new ArrayList<>());
+            }
+
+            instructionOverloadsByMnemonic.get(synonym).add(
+                    new SynonymPseudoInstruction(synonym, instruction));
+        }
     }
 
     public SymbolTable getSymtable() {

@@ -96,6 +96,14 @@ public class Instruction {
         return mnemonic;
     }
 
+    public ParameterType[] getParameters() {
+        return parameters;
+    }
+
+    public boolean isVariadic() {
+        return isVariadic;
+    }
+
     @Override
     public String toString() {
         if (parameters.length == 0) {
