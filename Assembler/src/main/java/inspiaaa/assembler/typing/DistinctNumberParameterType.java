@@ -31,7 +31,7 @@ public class DistinctNumberParameterType implements ParameterType {
 
         value = value.unwrap();
 
-        if (value instanceof DistinctNumberExpr distinctInteger && !distinctInteger.getType().equals(distinctType)) {
+        if (!(value instanceof DistinctNumberExpr distinctInteger) || !distinctInteger.getType().equals(distinctType)) {
             errorReporter.reportWarning(
                     "Expected " + distinctType + " but found: " + value,
                     value.getLocation());
