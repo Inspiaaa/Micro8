@@ -40,6 +40,6 @@ public class DistinctNumberParameterType implements ParameterType {
 
     @Override
     public String toString() {
-        return "int(" + distinctType + ")";
+        return distinctType;
     }
 }
