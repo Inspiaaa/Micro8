@@ -36,6 +36,8 @@ public class Micro8Assembler {
         assembler.defineConstant("x3", REGISTER, 3);
         assembler.defineConstant("x4", REGISTER, 4);
         assembler.defineConstant("x5", REGISTER, 5);
+        assembler.defineConstant("x6", REGISTER, 6);
+        assembler.defineConstant("x7", REGISTER, 7);
 
         assembler.defineSynonym("x6", "sp");
         assembler.defineSynonym("x7", "ra");
