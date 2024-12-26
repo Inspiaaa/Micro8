@@ -2,9 +2,13 @@
 
 .equ N, 5
 
+# Move the stack pointer to high end.
 li sp, 255
+
+# Load parameters and call fib()
 li x1, N
 call fib
+
 
 # n in x0
 # return value in x1

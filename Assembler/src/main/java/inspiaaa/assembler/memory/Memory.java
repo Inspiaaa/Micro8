@@ -70,12 +70,23 @@ public class Memory {
         }
     }
 
-    public String format(String bankId, boolean asBinary, int charactersPerGroup, int groupsPerLine) {
+    public String format(
+            String bankId,
+            MemoryOutputFormat dataFormat,
+            int charactersPerGroup,
+            int groupsPerLine,
+            boolean reverseWithinGroup) {
+
         var bank = memoryArchitecture.getBank(bankId);
         BitSet memory = dataById.get(bankId);
         int memorySize = bank.getCellBitWidth() * bank.getSize();
-        String text = asBinary ? formatAsBinary(memory, memorySize) : formatAsHex(memory, memorySize);
-        return formatPretty(text, charactersPerGroup, groupsPerLine);
+
+        String text = switch (dataFormat) {
+            case BINARY -> formatAsBinary(memory, memorySize);
+            case HEX -> formatAsHex(memory, memorySize);
+        };
+
+        return formatPretty(text, charactersPerGroup, groupsPerLine, reverseWithinGroup);
     }
 
     private String formatAsBinary(BitSet bits, int size) {
@@ -109,7 +120,12 @@ public class Memory {
         return intToHexCharMap[value];
     }
 
-    private String formatPretty(String rawData, int charactersPerGroup, int groupsPerLine) {
+    private String formatPretty(
+            String rawData,
+            int charactersPerGroup,
+            int groupsPerLine,
+            boolean reverseWithinGroup) {
+
         StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < rawData.length(); i ++) {
@@ -122,7 +138,16 @@ public class Memory {
                 }
             }
 
-            result.append(rawData.charAt(i));
+            if (reverseWithinGroup) {
+                int groupIndex = i / charactersPerGroup;
+                int offsetWithinGroup = i % charactersPerGroup;
+                int modifiedIndex = groupIndex * charactersPerGroup
+                        + (charactersPerGroup - 1 - offsetWithinGroup);
+                result.append(rawData.charAt(modifiedIndex));
+            }
+            else {
+                result.append(rawData.charAt(i));
+            }
         }
 
         return result.toString();

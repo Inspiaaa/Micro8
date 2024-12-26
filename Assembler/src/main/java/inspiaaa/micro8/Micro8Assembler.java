@@ -3,6 +3,7 @@ package inspiaaa.micro8;
 import inspiaaa.assembler.*;
 import inspiaaa.assembler.directives.*;
 import inspiaaa.assembler.memory.MemoryArchitecture;
+import inspiaaa.assembler.memory.MemoryOutputFormat;
 import inspiaaa.assembler.typing.ParameterType;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
 import inspiaaa.micro8.directives.CheckedAsciiDirective;
@@ -104,7 +105,8 @@ public class Micro8Assembler {
 
     public static void main(String[] args) throws IOException {
         // String path = "examples/sum.S";
-        String path = "examples/fib.S";
+        // String path = "examples/fib.S";
+        String path = "examples/example.S";
         String code = Files.readString(Path.of(path));
 
         var assembler = new Micro8Assembler(path, code);
@@ -113,12 +115,22 @@ public class Micro8Assembler {
         System.out.println();
 
         System.out.println("INSTRUCTION");
-        System.out.println(assembler.assembler.getMemory().format(INSTRUCTION_BANK, true, 16, 4));
+        System.out.println(assembler.assembler.getMemory().format(
+                INSTRUCTION_BANK,
+                MemoryOutputFormat.BINARY,
+                16,
+                4,
+                false));
         // System.out.println(assembler.assembler.getMemory().format(MemorySection.INSTRUCTION, false, 4, 16));
 
         System.out.println();
 
         System.out.println("DATA");
-        System.out.println(assembler.assembler.getMemory().format(DATA_BANK, false, 2, 16));
+        System.out.println(assembler.assembler.getMemory().format(
+                DATA_BANK,
+                MemoryOutputFormat.HEX,
+                2,
+                16,
+                true));
     }
 }
