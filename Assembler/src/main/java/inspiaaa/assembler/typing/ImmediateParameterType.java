@@ -5,7 +5,7 @@ import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.NumberExpr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
-public class ImmediateParameterType implements ArgumentTypeChecker {
+public class ImmediateParameterType implements ParameterTypeChecker {
     @Override
     public boolean potentiallyMatches(Expr value) {
         return value instanceof SymbolExpr || value.isNumeric();

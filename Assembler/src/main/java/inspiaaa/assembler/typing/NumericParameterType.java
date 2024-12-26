@@ -3,10 +3,10 @@ package inspiaaa.assembler.typing;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 
-public class NumericParameterType implements ArgumentTypeChecker {
+public class NumericParameterType implements ParameterTypeChecker {
     @Override
     public boolean potentiallyMatches(Expr value) {
-        return ArgumentTypeUtil.isPotentiallyNumeric(value);
+        return TypeUtil.isPotentiallyNumeric(value);
     }
 
     @Override

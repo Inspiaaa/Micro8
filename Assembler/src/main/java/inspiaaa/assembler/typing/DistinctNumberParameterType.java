@@ -4,7 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.DistinctNumberExpr;
 import inspiaaa.assembler.expressions.Expr;
 
-public class DistinctNumberParameterType implements ArgumentTypeChecker {
+public class DistinctNumberParameterType implements ParameterTypeChecker {
     private final String distinctType;
 
     public DistinctNumberParameterType(String type) {
@@ -13,7 +13,7 @@ public class DistinctNumberParameterType implements ArgumentTypeChecker {
 
     @Override
     public boolean potentiallyMatches(Expr value) {
-        return ArgumentTypeUtil.isPotentiallyNumeric(value);
+        return TypeUtil.isPotentiallyNumeric(value);
     }
 
     @Override

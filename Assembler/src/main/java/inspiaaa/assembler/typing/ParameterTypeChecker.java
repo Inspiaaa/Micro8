@@ -3,7 +3,7 @@ package inspiaaa.assembler.typing;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 
-public interface ArgumentTypeChecker {
+public interface ParameterTypeChecker {
     boolean potentiallyMatches(Expr value);
     boolean matches(Expr value);
     void check(Expr value, ErrorReporter errorReporter);

@@ -4,10 +4,10 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.LabelExpr;
 
-public class LabelParameterType implements ArgumentTypeChecker {
+public class LabelParameterType implements ParameterTypeChecker {
     @Override
     public boolean potentiallyMatches(Expr value) {
-        return ArgumentTypeUtil.isPotentiallyNumeric(value);
+        return TypeUtil.isPotentiallyNumeric(value);
     }
 
     @Override

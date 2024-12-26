@@ -3,7 +3,7 @@ package inspiaaa.assembler.typing;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 
-public class AnyParameterType implements ArgumentTypeChecker {
+public class AnyParameterType implements ParameterTypeChecker {
     @Override
     public boolean potentiallyMatches(Expr value) {
         return true;

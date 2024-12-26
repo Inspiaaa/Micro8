@@ -2,15 +2,15 @@ package inspiaaa.micro8.instructions;
 
 import inspiaaa.assembler.*;
 import inspiaaa.assembler.memory.AddressContext;
-import inspiaaa.assembler.typing.ArgumentTypeChecker;
+import inspiaaa.assembler.typing.ParameterTypeChecker;
 import inspiaaa.micro8.Micro8Assembler;
 
 public class ProgramInstruction extends Instruction {
-    public ProgramInstruction(String mnemonic, boolean isVariadic, ArgumentTypeChecker... parameters) {
+    public ProgramInstruction(String mnemonic, boolean isVariadic, ParameterTypeChecker... parameters) {
         super(mnemonic, isVariadic, parameters);
     }
 
-    public ProgramInstruction(String mnemonic, ArgumentTypeChecker... parameters) {
+    public ProgramInstruction(String mnemonic, ParameterTypeChecker... parameters) {
         super(mnemonic, parameters);
     }
 
