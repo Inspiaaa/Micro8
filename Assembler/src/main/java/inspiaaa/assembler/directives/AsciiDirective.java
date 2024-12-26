@@ -15,9 +15,13 @@ public class AsciiDirective extends Instruction {
         this.zeroDelimiter = zeroDelimiter;
     }
 
+    private String getStringArgument(InstructionCall instruction) {
+        return ((StringExpr) instruction.getArguments().get(0).unwrap()).getValue();
+    }
+
     @Override
     public void assignAddress(InstructionCall instruction, AddressContext context) {
-        String text = ((StringExpr) instruction.getArguments().get(0)).getValue();
+        String text = getStringArgument(instruction);
         int numBytes = text.length() + (zeroDelimiter ? 1 : 0);
 
         instruction.setAddress(context.getAddress());
@@ -26,7 +30,7 @@ public class AsciiDirective extends Instruction {
 
     @Override
     public void compile(InstructionCall instruction, Memory memory) {
-        String text = ((StringExpr) instruction.getArguments().get(0)).getValue();
+        String text = getStringArgument(instruction);
         int numBytes = text.length() + (zeroDelimiter ? 1 : 0);
 
         boolean[][] binaryData = new boolean[numBytes][];
