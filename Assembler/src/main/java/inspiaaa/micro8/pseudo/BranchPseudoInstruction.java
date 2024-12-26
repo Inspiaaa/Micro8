@@ -3,7 +3,9 @@ package inspiaaa.micro8.pseudo;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.Lowerable;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.Expr;
+import inspiaaa.micro8.Micro8Assembler;
 
 import java.util.List;
 
@@ -11,7 +13,9 @@ public class BranchPseudoInstruction extends Instruction implements Lowerable {
     private final String actualMnemonic;
 
     public BranchPseudoInstruction(String mnemonic, String actualMnemonic) {
-        super(mnemonic, ParameterType.REGISTER, ParameterType.REGISTER, ParameterType.LABEL);
+        super(
+                mnemonic,
+                Micro8Assembler.REGISTER_TYPE, Micro8Assembler.REGISTER_TYPE, Parameter.LABEL);
         this.actualMnemonic = actualMnemonic;
     }
 

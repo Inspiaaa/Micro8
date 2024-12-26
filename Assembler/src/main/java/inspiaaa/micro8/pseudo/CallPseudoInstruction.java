@@ -3,6 +3,7 @@ package inspiaaa.micro8.pseudo;
 import inspiaaa.assembler.Instruction;
 import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.Lowerable;
+import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class CallPseudoInstruction extends Instruction implements Lowerable {
     public CallPseudoInstruction(String mnemonic) {
-        super(mnemonic, ParameterType.LABEL);
+        super(mnemonic, Parameter.LABEL);
     }
 
     @Override

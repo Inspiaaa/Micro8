@@ -5,12 +5,13 @@ import inspiaaa.assembler.InstructionCall;
 import inspiaaa.assembler.Lowerable;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.NumberExpr;
+import inspiaaa.micro8.Micro8Assembler;
 
 import java.util.List;
 
 public class NotPseudoInstruction extends Instruction implements Lowerable {
     public NotPseudoInstruction(String mnemonic) {
-        super(mnemonic, ParameterType.REGISTER);
+        super(mnemonic, Micro8Assembler.REGISTER_TYPE);
     }
 
     @Override
