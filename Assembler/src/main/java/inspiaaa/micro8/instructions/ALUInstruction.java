@@ -22,7 +22,7 @@ public class ALUInstruction extends ProgramInstruction {
         Expr rs2 = instruction.getArguments().get(2);
 
         memory.write(instruction.getAddress(), instruction.getLocation(),
-                memory.toBits(0, 0, 0, 1),
+                memory.toBits(0, 0, 1, 0),
                 memory.integerToBits(operation, 3),
                 memory.integerToBits(rs2, 3, false),
                 memory.integerToBits(rs1, 3, false),
