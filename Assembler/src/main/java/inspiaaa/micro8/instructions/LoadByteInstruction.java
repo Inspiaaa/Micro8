@@ -18,7 +18,7 @@ public class LoadByteInstruction extends ProgramInstruction {
         RelativeAddressExpr relativeAddress = (RelativeAddressExpr) instruction.getArguments().get(1);
 
         memory.write(instruction.getAddress(), instruction.getLocation(),
-                memory.toBits(0, 0, 1, 0, 0),
+                memory.toBits(0, 0, 0, 1, 0),
                 memory.integerToBits(relativeAddress.getOffset(), 5, false),
                 memory.integerToBits(relativeAddress.getBase(), 3, false),
                 memory.integerToBits(register, 3, false));
