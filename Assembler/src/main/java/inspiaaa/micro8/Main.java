@@ -36,5 +36,14 @@ public class Main {
                 2,
                 16,
                 true));
+
+        System.out.println();
+        System.out.println("v2.0 raw");
+        System.out.println(memory.format(
+                Micro8Assembler.INSTRUCTION_BANK,
+                MemoryOutputFormat.HEX,
+                4,
+                1,
+                true));
     }
 }
