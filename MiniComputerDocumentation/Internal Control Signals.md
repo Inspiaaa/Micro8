@@ -2,6 +2,14 @@
 - `RSA2`: address of source register 2
 - `RDA`: address of the destination register
 - `ALOP`: ALU operation
+	- 000 = ADD
+	- 001 = SUB
+	- 010 = MUL
+	- 011 = SLL
+	- 100 = SRL
+	- 101 = AND
+	- 110 = OR
+	- 111 = XOR
 - `RWE`: destination register write enable
 - `OP2Sel`: 2nd operand select
 	- 0 = RS2
@@ -18,3 +26,8 @@
 	- 01 = immediate
 	- 10 = RS1
 	- 11 = PC + immediate
+- `CMPOP`: comparator operation
+	- 00 = eq
+	- 01 = neq
+	- 10 = lt
+	- 11 = ge
