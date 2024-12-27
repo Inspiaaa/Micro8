@@ -128,15 +128,19 @@ public class Parser {
     }
 
     private long parseBinaryNumber(Token token) {
-        return Long.parseLong(token.getValue().replace("0b", ""), 2);
+        return Long.parseLong(
+                token.getValue().replace("0b", "").replace("_", ""),
+                2);
     }
 
     private long parseHexNumber(Token token) {
-        return Long.parseLong(token.getValue().replace("0x", ""), 16);
+        return Long.parseLong(
+                token.getValue().replace("0x", "").replace("_", ""),
+                16);
     }
 
     private long parseDecimalNumber(Token token) {
-        return Long.parseLong(token.getValue());
+        return Long.parseLong(token.getValue().replace("_", ""));
     }
 
     private char parseCharacter(Token token) {
