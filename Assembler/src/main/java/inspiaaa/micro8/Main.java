@@ -10,7 +10,7 @@ import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String path = "examples/sum.S";
+        String path = "examples/io_example.S";
         String code = Files.readString(Path.of(path));
 
         Assembler assembler = Micro8Assembler.createAssembler(path, code);

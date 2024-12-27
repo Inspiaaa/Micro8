@@ -1,2 +1,0 @@
-.data
-.ascii "A"
