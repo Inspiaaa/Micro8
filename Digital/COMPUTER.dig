@@ -1821,9 +1821,12 @@
         </entry>
         <entry>
           <string>Data</string>
-          <data>bf10,c010,6030,94e8,1323,35b8,3738,6c,dff0,3738,14c8,e25c,1418
-,c010,3738,94e8,f301,1ec,2010,4030,135,2504,4022,1498,1538,28c
-,4010,1538,440,1c20</data>
+          <data>ff10,c010,1808,1c18,1828,1c38,1848,1c58,1868,1c78,1888,3c18,10
+,3c38,a010,2010,1c08,2e,1c18,1c28,2e,1c38,1c48,2e,1c58,1c68,2e
+,1c78,1c88,2e,3c18,4110,4894,3c98,3d38,2022,20c,7808,6cb4,6d44
+,9c08,91e4,1e18,7828,6cb4,6d44,9c28,91e4,1e38,7848,6cb4,6d44,9c48
+,91e4,1e58,7868,6cb4,6d44,9c68,91e4,1e78,7888,6cb4,6d44,9c88,91e4
+,3e18,2022,20c</data>
         </entry>
       </elementAttributes>
       <pos x="1200" y="0"/>
@@ -1842,6 +1845,11 @@
         <entry>
           <string>Bits</string>
           <int>8</int>
+        </entry>
+        <entry>
+          <string>Data</string>
+          <data>93,92,f3,92,93,c8,8,88,8,ce,4*21,39,e0,20,20,20,e0,89,89,a9,d9
+,89,e7,24,27,25,e4,90,90,10,10,9c,e2,92,92,90,e2,208*0,ff,4*81,ff</data>
         </entry>
       </elementAttributes>
       <pos x="1200" y="-100"/>
@@ -1910,12 +1918,12 @@
       <elementName>Clock</elementName>
       <elementAttributes>
         <entry>
-          <string>Frequency</string>
-          <int>10</int>
-        </entry>
-        <entry>
           <string>runRealTime</string>
           <boolean>true</boolean>
+        </entry>
+        <entry>
+          <string>Frequency</string>
+          <int>10</int>
         </entry>
       </elementAttributes>
       <pos x="920" y="-20"/>
