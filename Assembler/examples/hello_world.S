@@ -60,25 +60,17 @@ start:
 # Setup x8 for IO.
 li x8, IO
 
-# Load first frame.
-la x7, image  # current frame address
-
-lb x1, 0(x7)
-sb x1, OUT_0(x8)
-lb x1, 1(x7)
-sb x1, OUT_1(x8)
-lb x1, 2(x7)
-sb x1, OUT_2(x8)
-lb x1, 3(x7)
-sb x1, OUT_3(x8)
-lb x1, 4(x7)
-sb x1, OUT_4(x8)
+# Clear the screen
 li x1, 0
+sb x1, OUT_0(x8)
+sb x1, OUT_1(x8)
+sb x1, OUT_2(x8)
+sb x1, OUT_3(x8)
+sb x1, OUT_4(x8)
 sb x1, OUT_5(x8)
 
-# Advance to the next frame.
-addi x7, 5
-
+# Load first frame.
+la x7, image  # current frame address
 
 # For each frame:
 draw_next_frame:
