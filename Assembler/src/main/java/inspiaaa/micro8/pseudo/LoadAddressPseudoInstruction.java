@@ -6,8 +6,9 @@ import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.micro8.Micro8Assembler;
 import inspiaaa.micro8.instructions.LoadImmediateInstruction;
+import inspiaaa.micro8.instructions.ProgramInstruction;
 
-public class LoadAddressPseudoInstruction extends Instruction {
+public class LoadAddressPseudoInstruction extends ProgramInstruction {
     private static final LoadImmediateInstruction loadImmediateInstruction = new LoadImmediateInstruction("");
 
     public LoadAddressPseudoInstruction(String mnemonic) {
