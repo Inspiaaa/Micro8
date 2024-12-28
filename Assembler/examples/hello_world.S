@@ -1,56 +1,47 @@
 .data
 image:
-    .byte 0b10010011
-    .byte 0b10010010
-    .byte 0b11110011
-    .byte 0b10010010
-    .byte 0b10010011
+    .byte 0b10010111
+    .byte 0b10010100
+    .byte 0b11110110
+    .byte 0b10010100
+    .byte 0b10010111
 
-    .byte 0b10010000
-    .byte 0b00010000
-    .byte 0b00010000
-    .byte 0b00010000
-    .byte 0b10011100
+    .byte 0b01000100
+    .byte 0b01000100
+    .byte 0b01000100
+    .byte 0b01000100
+    .byte 0b01110111
 
-    .byte 0b10000011
-    .byte 0b10000100
-    .byte 0b10000100
-    .byte 0b10000100
-    .byte 0b11100011
+    .byte 0b00110000
+    .byte 0b01001000
+    .byte 0b01001000
+    .byte 0b01001000
+    .byte 0b00110000
 
-    .byte 0b00000100
-    .byte 0b10000100
-    .byte 0b10000101
-    .byte 0b10000110
-    .byte 0b00000100
+    .byte 0b01000100
+    .byte 0b01000101
+    .byte 0b01010101
+    .byte 0b01101101
+    .byte 0b01000100
 
-    .byte 0b01000110
-    .byte 0b01001001
-    .byte 0b01001001
+    .byte 0b11001111
+    .byte 0b00101001
+    .byte 0b00101110
+    .byte 0b00101010
     .byte 0b11001001
-    .byte 0b01000110
 
-    .byte 0b00111100
-    .byte 0b00100100
-    .byte 0b00111000
-    .byte 0b00101000
-    .byte 0b00100100
+    .byte 0b01000111
+    .byte 0b01000100
+    .byte 0b01000100
+    .byte 0b01000100
+    .byte 0b01110111
 
-    .byte 0b10000111
-    .byte 0b10000100
-    .byte 0b10000100
-    .byte 0b10000100
-    .byte 0b11100111
-
-    .byte 0b00010000
-    .byte 0b10010000
-    .byte 0b10010000
-    .byte 0b10000000
-    .byte 0b00010000
-
-    # Space
     last_frame:
-    .zero 5
+    .byte 0b00100000
+    .byte 0b10100000
+    .byte 0b10100000
+    .byte 0b10000000
+    .byte 0b00100000
 
 
 # Start screen
@@ -171,5 +162,5 @@ draw_next_frame:
     bleu x7, x3, draw_next_frame
 
     # Final frame reached.
-    la x7git, image
+    la x7, image
     j draw_next_frame

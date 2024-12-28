@@ -11,7 +11,7 @@ import java.nio.file.Path;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String path = "examples/scrolling_image.S";
+        String path = "examples/hello_world.S";
 
         Path inputPath = Path.of(path);
         Path instructionOutputPath = Path.of("examples", "output",
