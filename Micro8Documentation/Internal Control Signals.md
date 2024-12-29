@@ -1,3 +1,5 @@
+Overview of the internal control signals used in the control unit.
+
 - `RSA1`: address of source register 1
 - `RSA2`: address of source register 2
 - `RDA`: address of the destination register
@@ -14,7 +16,7 @@
 - `OP2Sel`: 2nd operand select
 	- 0 = RS2
 	- 1 = immediate
-- `OP2Im`: 2nd operand immediate input
+- `Im`: Decoded immediate, usually the 2nd operand input
 - `RDSrc`: destination register result source select
 	- 00 = ALU
 	- 01 = Memory
@@ -25,7 +27,7 @@
 	- 00 = PC + 1
 	- 01 = immediate
 	- 10 = RS1
-	- 11 = PC + immediate
+	- 11 = branch target
 - `CMPOP`: comparator operation
 	- 00 = eq
 	- 01 = neq
