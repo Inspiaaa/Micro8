@@ -186,3 +186,62 @@ sb x2, OUT_1(x1)
 
 ## Safe-Guards
 
+The assembler has a rich warning system that can help prevent bugs.
+
+### Example
+
+Suspicious memory bank:
+
+```
+Warning --> examples/warnings.S:4:1 (14)
+4 | add x1, x2, x3
+    ^^^^^^^^^^^^^^
+Writing instruction to data section. Use '.text' to switch to instruction section.
+
+Warning --> examples/warnings.S:8:1 (9)
+8 | .byte 100
+    ^^^^^^^^^
+Writing data to instruction section. Use '.data' to switch to data section.
+```
+
+Suspicious operands:
+
+```
+Warning --> examples/warnings.S:19:3 (2)
+19 | j 15
+       ^^
+Expected label, but received direct offset: NUMBER(15)
+
+Warning --> examples/warnings.S:22:13 (1)
+22 | add x1, x2, 3
+                 ^
+Expected register but found: NUMBER(3)
+
+Warning --> examples/warnings.S:33:3 (9)
+33 | j my_struct
+       ^^^^^^^^^
+Using a data address as an instruction address.
+```
+
+Branch target too far away:
+
+```
+Warning --> examples/warnings.S:14:13 (6)
+14 | beq x1, x2, target
+                 ^^^^^^
+Integer -215 is out of bounds for 7-bit signed integer.
+```
+
+Immediates out of bounds:
+
+```
+Warning --> examples/warnings.S:25:8 (3)
+25 | li x1, 300
+            ^^^
+Integer 300 is out of bounds for 8-bit integer.
+
+Warning --> examples/warnings.S:26:8 (4)
+26 | li x1, -129
+            ^^^^
+Integer -129 is out of bounds for 8-bit integer.
+```
