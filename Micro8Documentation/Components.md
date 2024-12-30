@@ -1,62 +1,79 @@
-8-bit architecture
+This document contains an overview of the available files and components in the Digital folder. Note that not all components were used in the final computer build.
 
-### CPU
+## CPU
 
-- Computer interface with inputs, outputs, and logic for flashing / programming the memory units: `COMPUTER`
-- Actual CPU with integrated memory: `CPU`
-- Control unit responsible for instruction decoding and  generating the internal control signals: `CTRL_UNIT`
+- `COMPUTER`: top-level component. Contains the computer interface with inputs, outputs, and logic for flashing / programming the memory units.
+- `CPU`: actual processor with integrated memory. Contains input signals for loading data into the memory and inputs and outputs for IO.
+- `CTRL_UNIT`: control unit responsible for instruction decoding and  generating the internal control signals. Manages the components in the `CPU`.
 
-### Arithmetic
+## Arithmetic
 
-Binary (A OP B)
-- Carry Ripple Adder: `CRA_8`
-- Carry Save Adder: `CSavA_8`
-- Carry Save Adder from 4 inputs to 2 outputs: `CSavA_8_4_2`
-- Conditional Sum Adder: `CSA_8` / `CSA_4` / `CSA_2`
-- Subtractor: `SUB_8` (uses `ADD_8`)
-- Add / Subtractor: `ADD_SUB_8` (uses `ADD_8`)
-- Multiplicator: `MUL_8`
-- Shift Left Logical: `SLL_8` (shift by B[0:2])
-- Shift Right Logical: `SRL_8` (shift by B[0:2])
-- Shift Right Arithmetic: `SRA_8` (shift by B[0:2])
-- Generic interface for current fastest adder implementation: `ADD_8`
+Binary operations (A OP B):
+- `CRA_8`: Carry Ripple Adder
+- `CSavA_8`: Carry Save Adder
+- `CSavA_8_4_2`: Carry Save Adder from 4 inputs to 2 outputs.
+- `CSA_8` / `CSA_4` / `CSA_2`: Conditional Sum Adder
+- `SUB_8`: Subtractor (uses `ADD_8`)
+- `ADD_SUB_8`: Adder / Subtractor (uses `ADD_8` internally)
+- `MUL_8`: Multiplicator
+- `SLL_8`: Shift Left Logical (shift by `B[0:2]`)
+- `SRL_8`: Shift Right Logical (shift by `B[0:2]`)
+- `SRA_8`: Shift Right Arithmetic (shift by `B[0:2]`)
+- `ADD_8`: Generic interface for the current fastest adder implementation
 
 ### Memory
 
-- SR-Latch: `SR_LATCH`
-- D-Latch: `D_LATCH`
-- D-Flip-Flop: `D_FLIPFLOP`
-- 1 bit synchronous register: `REGISTER_1`
-- 8 bit synchronous register: `REGISTER_8`
-- 64 byte memory: `64B_MEM`
-- 256 byte memory: `256B_MEM` (consists of 4 `64B_MEM` units)
-- 256 instruction memory (512 bytes): `256_INSTR_MEM` (consists of 2 `256B_MEM` units)
-- 256 byte memory with memory-mapped IO: `256B_MEM_IO`
-- Register File (8 registers, allowing reading from 2 registers and writing to 1 register): `8_REGISTER_BANK` 
+- `SR_LATCH`: SR-Latch
+- `D_LATCH`: D-Latch 
+- `D_FLIPFLOP`: D-Flip-Flop
+- `REGISTER_1`: 1 bit synchronous register 
+- `REGISTER_8`: 8 bit synchronous register
+- `64B_MEM`: 64 byte memory
+- `256B_MEM`: 256 byte memory (consists of 4 `64B_MEM` units)
+- `256_INSTR_MEM`: 256 instruction memory (512 bytes, consists of 2 `256B_MEM` units)
+- `256B_MEM_IO`: 256 byte memory with memory-mapped IO
+- `8_REGISTER_BANK`: Register File (8 registers, allowing reading from 2 registers and writing to 1 register) 
 
 *synchronous = stores on rising edge of CLK signal*
 
 ### Comparison
 
-- Unsigned Integer Comparator: `CMPU_8`
-- Unsigned Integer Comparator that uses the ALU outputs (zero / carry): `CMPU_CTRL`
+- `CMPU_8`: unsigned integer comparator
+- `CMPU_CTRL`: unsigned integer comparator unit that uses the ALU outputs (zero / carry) and selects the comparison based on the passed opcode.
 
-### Foundational
+`CMPU_CTRL` op encoding:
 
-- Half Adder: `HA`
-- Full Adder: `FA`
+| OP  | Binary | Mnemonic | Function |
+| --- | ------ | -------- | -------- |
+| 0   | 00     | EQ       | `A = B`  |
+| 1   | 01     | NE       | `A != B` |
+| 2   | 10     | LT       | `A < B`  |
+| 3   | 11     | GE       | `A >= B` |
+
+## Foundational
+
+- `HA`: Half Adder
+- `FA`: Full Adder
 
 ### Utility
 
-- Duplicate signal to 8 wire output: `EXT_1_8`
-- And gate for an 8 bit input and 1 bit enable signal: `GATE_8`
-- Check if zero signal is zero: `IS_ZERO_8`
-- Check if two 8-bit signals are equal: `IS_EQU_8`
+- `EXT_1_8`: duplicate a signal to an 8-bit output wire
+- `GATE_8`: AND gate for an 8-bit input and a 1-bit enable signal
+- `IS_ZERO_8`: check if 8-bit signal is zero
+- `IS_EQU_8`: check if two 8-bit signals are equal 
 
-### ALU
+## ALU
 
-- Two 8-bit inputs
-- One 8-bit output + comparison flags from SUB: is zero? / carry?
+`ALU_8`
+
+Inputs:
+- Two 8-bit numbers
+
+Outputs:
+- 8-bit output
+- Comparison flags obtained from SUB: is zero? / carry? (which are used in `CPU` by the `CMPU_CTRL` unit)
+
+ALU op encoding:
 
 | OP  | Binary | Function |              |
 | --- | ------ | -------- | ------------ |
