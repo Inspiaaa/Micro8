@@ -234,7 +234,7 @@ obtained from SUB</string>
       <pos x="940" y="500"/>
     </visualElement>
     <visualElement>
-      <elementName>IS_ZERO.dig</elementName>
+      <elementName>IS_ZERO_8.dig</elementName>
       <elementAttributes/>
       <pos x="740" y="560"/>
     </visualElement>
