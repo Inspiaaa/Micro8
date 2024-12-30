@@ -33,6 +33,8 @@ Binary operations (A OP B):
 - `256_INSTR_MEM`: 256 instruction memory (512 bytes, consists of 2 `256B_MEM` units)
 - `256B_MEM_IO`: 256 byte memory with memory-mapped IO
 - `8_REGISTER_BANK`: Register File (8 registers, allowing reading from 2 registers and writing to 1 register) 
+- `T_FF`: T-Flip-Flop
+- `COUNTER_8`: 8-bit synchronous up counter (built using 8 T-flip-flops)
 
 *synchronous = stores on rising edge of CLK signal*
 
