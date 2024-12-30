@@ -53,7 +53,7 @@ public class Memory {
             errorReporter.reportError("Invalid storage address (" + address + ").", source);
         }
 
-        int endAddressInBits = address * bank.getCellBitWidth() + numBits;
+        int endAddressInBits = address * bank.getCellBitWidth() + numBits-1;
         int memorySizeInBits = bank.getCellBitWidth() * bank.getSize();
 
         if (endAddressInBits >= memorySizeInBits) {
