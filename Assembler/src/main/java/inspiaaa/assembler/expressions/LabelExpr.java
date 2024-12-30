@@ -1,11 +1,12 @@
 package inspiaaa.assembler.expressions;
 
+import inspiaaa.assembler.memory.Address;
 import inspiaaa.assembler.parser.Location;
 
 public class LabelExpr extends Expr {
-    private final int address;
+    private final Address address;
 
-    public LabelExpr(int address, Location location) {
+    public LabelExpr(Address address, Location location) {
         super(location);
         this.address = address;
     }
@@ -17,12 +18,16 @@ public class LabelExpr extends Expr {
 
     @Override
     public long getNumericValue() {
-        return address;
+        return address.getAddress();
     }
 
     @Override
     public int getRelativeAddress(int baseAddress) {
-        return address - baseAddress;
+        return address.getAddress() - baseAddress;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 
     @Override

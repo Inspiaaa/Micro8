@@ -17,7 +17,7 @@ public class LabelDirective extends Instruction {
     public void preprocess(InstructionCall instruction) {
         StringExpr expression = (StringExpr) instruction.getArguments().get(0);
         String label = expression.getValue();
-        Expr labelAddress = new LabelExpr(instruction.getAddress().getAddress(), expression.getLocation());
+        Expr labelAddress = new LabelExpr(instruction.getAddress(), expression.getLocation());
 
         symtable.declareNewOrThrow(new Symbol(label, labelAddress), expression.getLocation());
     }

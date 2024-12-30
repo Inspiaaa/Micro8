@@ -5,10 +5,18 @@ import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.micro8.Micro8Assembler;
+import inspiaaa.micro8.StaticAnalysis;
 
 public class JumpAndLinkInstruction extends ProgramInstruction {
     public JumpAndLinkInstruction(String mnemonic) {
         super(mnemonic, Micro8Assembler.REGISTER_TYPE, Parameter.LABEL);
+    }
+
+    @Override
+    public void validate(InstructionCall instruction) {
+        super.validate(instruction);
+        Expr absoluteAddress = instruction.getArguments().get(1);
+        StaticAnalysis.ensureIsInstructionAddress(absoluteAddress, errorReporter);
     }
 
     @Override

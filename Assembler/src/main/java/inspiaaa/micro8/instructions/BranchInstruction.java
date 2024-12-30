@@ -5,6 +5,7 @@ import inspiaaa.assembler.Parameter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.memory.Memory;
 import inspiaaa.micro8.Micro8Assembler;
+import inspiaaa.micro8.StaticAnalysis;
 
 import java.util.Arrays;
 
@@ -19,12 +20,19 @@ public class BranchInstruction extends ProgramInstruction {
     }
 
     @Override
+    public void validate(InstructionCall instruction) {
+        super.validate(instruction);
+        Expr offset = instruction.getArguments().get(2);
+        StaticAnalysis.ensureIsInstructionAddress(offset, errorReporter);
+    }
+
+    @Override
     public void compile(InstructionCall instruction, Memory memory) {
         Expr rs1 = instruction.getArguments().get(0);
         Expr rs2 = instruction.getArguments().get(1);
         Expr offset = instruction.getArguments().get(2);
 
-        int relativeAddress = (int)offset.getRelativeAddress(instruction.getAddress().getAddress());
+        int relativeAddress = offset.getRelativeAddress(instruction.getAddress().getAddress());
 
         boolean[] offsetBits = memory.integerToBits(relativeAddress, 7, true, offset.getLocation());
         boolean[] lowBits = Arrays.copyOfRange(offsetBits, 0, 4);
