@@ -3,11 +3,11 @@ For an overview over the available instructions, see the *ISA* documentation.
 ## Overview
 
 In general:
-- one instruction per line
+- (at most) one instruction or directive per line
 - pseudo instructions and assembler directives are supported
 - indentation (and most other whitespace) is insignificant
 
-### Operand Data Types
+### Operand Types
 
 - Registers
 - Numbers (immediates)
@@ -43,7 +43,7 @@ E.g. `5(x1)`
 
 #### Strings
 
-`"This is a string. \" escaped quotes. \n etc."`
+`"Hello World! \" escaped quotes, \n etc."`
 
 ### Comments
 
@@ -57,16 +57,44 @@ add x1, x2, x3  # Add two numbers.
 
 ### Labels
 
-TODO
-Labels (own line, in-line, multiple in line), also from different memory banks (usage: jump, branch, `la` directive)
-Error messages
-Warning messages
+- Labels can be used to specify the jump / branch target and are automatically converted to a relative / absolute address depending on the context.
+- They can also be used between different memory banks to reference data / instruction addresses.
+- To load the value of an address into a register, the `la rd, label` directive can be used.
+
+Example:
+
+```assembly
+.data
+parameter_n: .byte 4
+
+.text
+la x2, parameter_n
+lb x1, 0(x2)
+call sum_function
+
+sum_function:
+	li x2, 1
+	li x3, 0
+	loop_start:
+		bgt x2, x1, end
+		add x3, x3, x2
+		addi x2, 1
+		j loop_start
+	end: ret
+```
+
+Note that labels can either be written on their own line or in front of an instruction. One line can also contain multiple labels.
+
+| Directive      | Description                                                        |              |
+| -------------- | ------------------------------------------------------------------ | ------------ |
+| `la rd, label` | loads the absolute address of the label<br>into the given register | `rd = label` |
 
 ## Built-in Directives
 
 ### Memory Bank Directives
 
-Switch between the main memory (data memory) and the instruction memory. Data directives / instructions after this directive will be written to the specified memory bank. 
+Switch between the main memory (data memory) and the instruction memory. Data directives and instructions after this directive will be written to the specified memory bank.
+Note that the assembly language has no concept of sections.
 
 | Directive | Description                      |
 | --------- | -------------------------------- |
@@ -155,3 +183,6 @@ lb x2, IN_A(x1)
 # Write to second output row
 sb x2, OUT_1(x1)
 ```
+
+## Safe-Guards
+
