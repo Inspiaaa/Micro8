@@ -1,5 +1,11 @@
 8-bit architecture
 
+### CPU
+
+- Computer interface with inputs, outputs, and logic for flashing / programming the memory units: `COMPUTER`
+- Actual CPU with integrated memory: `CPU`
+- Control unit responsible for instruction decoding and  generating the internal control signals: `CTRL_UNIT`
+
 ### Arithmetic
 
 Binary (A OP B)
@@ -25,12 +31,15 @@ Binary (A OP B)
 - 64 byte memory: `64B_MEM`
 - 256 byte memory: `256B_MEM` (consists of 4 `64B_MEM` units)
 - 256 instruction memory (512 bytes): `256_INSTR_MEM` (consists of 2 `256B_MEM` units)
+- 256 byte memory with memory-mapped IO: `256B_MEM_IO`
+- Register File (8 registers, allowing reading from 2 registers and writing to 1 register): `8_REGISTER_BANK` 
 
 *synchronous = stores on rising edge of CLK signal*
 
 ### Comparison
 
 - Unsigned Integer Comparator: `CMPU_8`
+- Unsigned Integer Comparator that uses the ALU outputs (zero / carry): `CMPU_CTRL`
 
 ### Foundational
 
@@ -40,11 +49,14 @@ Binary (A OP B)
 ### Utility
 
 - Duplicate signal to 8 wire output: `EXT_1_8`
+- And gate for an 8 bit input and 1 bit enable signal: `GATE_8`
+- Check if zero signal is zero: `IS_ZERO_8`
+- Check if two 8-bit signals are equal: `IS_EQU_8`
 
 ### ALU
 
 - Two 8-bit inputs
-- One 8-bit output
+- One 8-bit output + comparison flags from SUB: is zero? / carry?
 
 | OP  | Binary | Function |              |
 | --- | ------ | -------- | ------------ |
