@@ -181,11 +181,11 @@ public class Memory {
 
     private boolean isIntOutOfBounds(long value, int numBits, boolean signed) {
         long minValue = signed
-                ? -1L << (numBits - 2)
+                ? -1L << (numBits - 1)
                 : 0;
 
         long maxValue = signed
-                ? (1L << (numBits - 2)) - 1
+                ? (1L << (numBits - 1)) - 1
                 : (1L << numBits) - 1;
 
         return value < minValue || value > maxValue;
