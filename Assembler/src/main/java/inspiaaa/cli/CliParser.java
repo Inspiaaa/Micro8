@@ -134,7 +134,7 @@ public class CliParser {
                     if (!hasNextArgument) {
                         reportMissingOptionValue(name);
                     }
-                    result.addValue(name, args[i++]);
+                    result.addValue(name, args[++i]);
                 }
 
                 reportUnknownOption(arg);
@@ -152,7 +152,7 @@ public class CliParser {
                 if (!hasNextArgument) {
                     reportMissingOptionValue(name);
                 }
-                result.addValue(longName, args[i++]);
+                result.addValue(longName, args[++i]);
                 continue;
             }
 
