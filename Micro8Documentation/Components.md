@@ -15,7 +15,7 @@ Binary operations (A OP B):
 - `CSA_8` / `CSA_4` / `CSA_2`: Conditional Sum Adder
 - `SUB_8`: Subtractor (uses `ADD_8`)
 - `ADD_SUB_8`: Adder / Subtractor (uses `ADD_8` internally)
-- `MUL_8`: Multiplicator
+- `MUL_8`: Multiplier
 - `SLL_8`: Shift Left Logical (shift by `B[0:2]`)
 - `SRL_8`: Shift Right Logical (shift by `B[0:2]`)
 - `SRA_8`: Shift Right Arithmetic (shift by `B[0:2]`)
