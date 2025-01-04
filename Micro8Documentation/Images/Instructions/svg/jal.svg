@@ -37,7 +37,7 @@
       <g>
         <g>
           <rect x="158" width="39" height="41" field="WE" style="fill-opacity:0.1;fill:#ff0000"/>
-          <rect x="197" width="316" height="41" field="imm[0:7]" style="fill-opacity:0.1;fill:#aaff00"/>
+          <rect x="197" width="316" height="41" field="uimm[0:7]" style="fill-opacity:0.1;fill:#aaff00"/>
           <rect x="513" width="118" height="41" field="rd" style="fill-opacity:0.1;fill:#006aff"/>
         </g>
         <g transform="translate(20,-11)">
@@ -76,7 +76,7 @@
           </g>
           <g transform="translate(335)">
             <text y="6">
-              <tspan>imm[0:7]</tspan>
+              <tspan>uimm[0:7]</tspan>
             </text>
           </g>
           <g transform="translate(552)">
