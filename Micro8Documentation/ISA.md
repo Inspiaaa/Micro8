@@ -12,7 +12,9 @@
 - Main memory: 256 bytes of addressable RAM
 - Instruction memory (ROM): 256 instructions, each 16 bit (internally: 512 bytes of memory)
 
-> [!INFO] Design Choice
+> [!INFO]
+> **Design Choice**:
+> 
 > By keeping instructions and data in separate memory units and handling them separately (*Harvard Architecture*), the amount of usable memory significantly increases. 256 bytes are then available solely for data, and 256 addresses available for instructions. As all instructions have the same size, the addresses do not have to refer to byte location, but can instead be used as indices, allowing for (256 * instruction size) bytes of instruction memory.
 > 
 > 16-bit instruction width was chosen...
@@ -27,7 +29,9 @@
 	- `x8` can be used as the stack pointer (`sp`)
 	- `x7` can be used as the return address (`ra`)
 
-> [!INFO] Design Choice
+> [!INFO]
+> **Design Choice**:
+> 
 > - There are only 8 registers in order to fit into 16 bit instruction format.
 > - In order to make the most of these registers, there is no zero register like in RISC-V: The instructions were specifically designed and chosen so that a hardwired zero register is not needed. E.g. mv rd, rs; j and jal implemented separately, ...
 > - This also explains why there is no `x0` register. In RISC-V the `x0` / `zero` register is hardwired to 0 and therefore behaves very differently from the other general purpose registers. In order to prevent possible confusion and errors, I have decided to skip `x0` and instead start at `x1`.
@@ -53,8 +57,11 @@ All values, including addresses, are stored as 8-bit binary integers. Negative n
 | `and`    | bitwise and         | `rd = rs1 & rs2`       |
 | `or`     | bitwise or          | `rd = rs1 \| rs2`      |
 | `xor`    | bitwise xor         | `rd = rs1 ^ rs2`       |
+|          |                     |                        |
 
-> [!INFO] Design Choice
+> [!INFO]
+> **Design Choice**:
+> 
 > As bitwise shifts only make sense for offsets of 0 to 7 bits, only the lower 3 bits of the specified value are used. See `rs2[0:2]`. Same applies to instruction versions with immediates.
 
 ### Arithmetic and Logic Instructions with an Immediate
@@ -74,7 +81,9 @@ All values, including addresses, are stored as 8-bit binary integers. Negative n
 | `ori`    | bitwise or imm.          | `rd \|= imm`      |
 | `xori`   | bitwise xor imm.         | `rd ^= imm`       |
 
-> [!INFO] Design Choice
+> [!INFO]
+> **Design Choice**:
+> 
 > In order to accommodate full 8-bit immediate values, there is not enough space in the 16 bit instruction format to also encode 3 registers (`log2(8) = 3` bits each), the instruction opcode and the ALU operation. That's why these instructions work in-place on the target register, which is different from the behaviour of ALU instructions with immediates in RISC-V.
 
 ### Load / Store Instructions
@@ -111,7 +120,9 @@ Store:
 | `jal rd, uimm[8]` | jump and link          | `rd = pc+1, pc = uimm` |
 | `jalr rd, rs`     | jump and link register | `rd = pc+1, pc = rs`   |
 
-> [!NOTE] Design Choice
+> [!NOTE]
+> **Design Choice**:
+> 
 > Note that these instructions look very similar to those found in RISC-V. The difference is that `j` and `jr` and not implemented as pseudo instructions. For example, in RISC-V `j imm` can be rewritten as `jal x0, imm`, using the hardwired-zero `x0` register as the destination register for the next instruction address, essentially discarding the value. As this ISA does not have such a register, these two commands must be implemented separately. 
 
 ### Branch Instructions
@@ -136,7 +147,9 @@ See the pseudo instructions for syntactic sugar for the `gtu` and `leu` conditio
 | `mv rd, rs`     | move / copy    | `rd = rs`  |
 | `li rd, imm[8]` | load immediate | `rd = imm` |
 
-> [!NOTE] Design Choice
+> [!NOTE] 
+> **Design Choice**:
+> 
 > As there is no direct equivalent to `addi rd, x0, imm` (and similar instructions) to load constants and to copy values from one register to another, these instructions had to be implemented separately (not as pseudo instructions).
 
 ### Pseudo Instructions
