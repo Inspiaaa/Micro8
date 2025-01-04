@@ -130,7 +130,7 @@ Store:
 
 See the pseudo instructions for syntactic sugar for the `gtu` and `leu` conditions.
 
-## Additional Register Instructions
+### Additional Register Instructions
 
 | Instruction     | Description    |            |
 | --------------- | -------------- | ---------- |
