@@ -1,0 +1,4 @@
+[
+    { "bits": 7, "name": "opcode", "attr": 0 },
+    { "bits": 11, "type": 1 }
+]

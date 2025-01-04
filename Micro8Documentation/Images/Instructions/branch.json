@@ -1,0 +1,8 @@
+[
+    { "bits": 1, "name": "opc", "attr": 1 },
+    { "bits": 2, "name": "cmp", "type": 2 },
+    { "bits": 4, "name": "imm[0:3]", "type": 3 },
+    { "bits": 3, "name": "rs2", "type": 4 },
+    { "bits": 3, "name": "rs1", "type": 4 },
+    { "bits": 3, "name": "imm[4:6]", "type": 3 }
+]

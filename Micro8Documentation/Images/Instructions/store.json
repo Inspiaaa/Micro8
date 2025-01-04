@@ -1,0 +1,7 @@
+[
+    { "bits": 5, "name": "opcode", "attr": 3 },
+    { "bits": 2, "name": "uimm[0:1]", "type": 3 },
+    { "bits": 3, "name": "rs2", "type": 4 },
+    { "bits": 3, "name": "rs1", "type": 4 },
+    { "bits": 3, "name": "uimm[2:4]", "type": 3 }
+]

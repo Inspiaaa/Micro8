@@ -1,0 +1,5 @@
+[
+    { "bits": 5, "name": "opcode", "attr": 1 },
+    { "bits": 8, "name": "imm[0:7]", "type": 3 },
+    { "bits": 3, "name": "rd", "type": 7 }
+]
