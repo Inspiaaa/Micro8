@@ -140,6 +140,17 @@ See the pseudo instructions for syntactic sugar for the `gtu` and `leu` conditio
 > [!NOTE]
 > As there is no direct equivalent to `addi rd, x0, imm` (and similar instructions) to load constants and to copy values from one register to another, these instructions had to be implemented separately (not as pseudo instructions).
 
+### Misc Instructions
+
+| Mnemonic | Description    |
+| -------- | -------------- |
+| `nop`    | has no effect. |
+
+> [!NOTE]
+> The `nop` instruction was added so that if the programs execution is finished, the following non-existent instructions (zeroed data) have no effect. That's why the `nop` instruction is encoded as all-zeroes.
+> 
+> Note that if no endless loop is added at the end of the program, the program counter will eventually overflow, essentially restarting program.
+
 ### Pseudo Instructions
 
 | Pseudo Instruction   | Translation           |
