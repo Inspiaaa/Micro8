@@ -56,7 +56,7 @@ All values, including addresses, are stored as 8-bit binary integers. Negative n
 |          |                     |                        |
 
 > [!NOTE]
-> As bitwise shifts only make sense for offsets of 0 to 7 bits, only the lower 3 bits of the specified value are used. See `rs2[0:2]`. Same applies to instruction versions with immediates.
+> As bitwise shifts are only useful for offsets of 0 to 7 bits, only the lower 3 bits of the specified value are used. See `rs2[0:2]`. Same applies to instruction versions with immediates.
 
 ### Arithmetic and Logic Instructions with an Immediate
 
