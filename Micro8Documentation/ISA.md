@@ -179,57 +179,57 @@ Inputs:
 
 See the *Assembly Reference* for useful constants that can be used when programming IO.
 
-### Instruction Encodings
+## Instruction Encodings
 
-#### Branch
+### Branch
 
 ![](./Images/Instructions/png/branch.png)
 
 - The immediate encodes a relative address and is sign-extended to 8 bits.
 
-#### ALU Immediate
+### ALU Immediate
 
 ![](./Images/Instructions/png/aluimm.png)
 
-#### ALU
+### ALU
 
 ![](./Images/Instructions/png/alu.png)
 
-#### Load
+### Load
 
 ![](./Images/Instructions/png/load.png)
 
 - The immediate encodes a non-negative offset which is zero-extended to 8 bits.
 
-#### Store
+### Store
 
 ![](./Images/Instructions/png/store.png)
 
 - The immediate encodes a non-negative offset which is zero-extended to 8 bits.
 
-#### Jump (and Link)
+### Jump (and Link)
 
 ![](./Images/Instructions/png/jal.png)
 
 - The immediate encodes the absolute address of the jump target.
 - The `WE` (Write Enable) bit determines whether to write the address of the next instruction to `rd`. If `WE=0`, then this instruction behaves like `j target`, otherwise like `jal target, rd`.
 
-#### Load Immediate
+### Load Immediate
 
 ![](./Images/Instructions/png/li.png)
 
-#### NOP
+### NOP
 
 ![](./Images/Instructions/png/nop.png)
 
 - Has no effect.
 
-#### Jump (and Link) Register
+### Jump (and Link) Register
 
 ![](./Images/Instructions/png/jalr.png)
 
 - See `JAL` for information regarding the `WE` bit.
 
-#### Move
+### Move
 
 ![](./Images/Instructions/png/mv.png)
