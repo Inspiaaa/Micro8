@@ -30,7 +30,8 @@
 For more information on the ISA and the design choices that went into it, please see the [ISA documentation](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/ISA.md).
 
 ![](https://github.com/Inspiaaa/Micro8/raw/master/Micro8Documentation/Images/Components/MEM_64.png)
-*For **pictures and screenshots** of the circuits of the components, see [this page](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Screenshots.md).*
+
+*For **pictures and screenshots** of the circuits and components, see [this page](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Screenshots.md).*
 
 ## Usage
 
@@ -40,6 +41,7 @@ For more information on the ISA and the design choices that went into it, please
 4. See the [guide](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Usage%20Tutorial.md) (text and video tutorial) on how to run the computer and how to load your own assembly files.
 
 ![](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Images/Animations/Maths.gif)
+
 *Example program that allows you to perform maths. The first operation calculates the sum of all positive integers up to n (the given number in the upper row). The second operation calculates the factorial of n and the third iteratively computes the n-th Fibonacci number.*
 
 # Assembler
