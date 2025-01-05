@@ -60,3 +60,85 @@ For more information on the ISA and the design choices that went into it, please
 - **Custom memory banks**: Configure as many memory banks as needed, each with customizable sizes and word bit widths (not limited to just instruction and data memory).
 - Support for **varied register types**.
 - **Fine-grained control** over output generation and instruction encoding.
+
+## Usage
+
+Copy `inspiaaa.assembler` package (path: `Assembler/src/main/java/inspiaaa/assembler`) into your own project.
+
+### Learn from the example
+
+You can use the existing `micro8` assembler as an example. It includes a comprehensive setup, including:
+- Custom instructions
+- Pseudo instructions
+- Directives
+- Static analysis (e.g. label checking)
+- Two memory banks with different cell sizes
+
+Where to start:
+- The main definition of the assembler: [`Micro8Assembler.java`](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/src/main/java/inspiaaa/micro8/Micro8Assembler.java)
+- Usage of the assembler and output generation: [`Main.java`](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/src/main/java/inspiaaa/micro8/Main.java)
+
+### Creating your own assembler
+
+The general process is as follows:
+- Create an `Assembler` instance.
+- Define the available registers, constants and built-in directives.
+- Create custom instruction types and pseuo-instructions, and add them to the assembler.
+
+Once this setup is complete, you can begin inputting assembly programs into the assembler. The result will be the data stored in the memory banks, which can then be extracted and saved in the desired format.
+
+Optionally, you can create a CLI interface. The example assembler includes a simple, custom CLI parser with zero dependencies, but for more robust functionality, it's recommended to use an established library.
+
+## Concepts
+
+### Instruction
+
+The `Instruction` class is a core component of the assembler. It represents a wide range of elements, including regular instructions, pseudo-instructions, and assembler directives (with labels implemented as directives).
+
+Each `Instruction` object describes a recipe for how to process an instruction / directive written in the input program. It can modify the state of the assembler, e.g. by changing the current address counter, or write data to the output memory.
+
+When the input program is read, it is translated to a sequence of `InstructionCall` objects that are then bound to the corresponding `Instruction` instance.
+
+**Methods and execution order:**
+1. `assignAddress`: Assign an address to the current instruction or modify the address counter (e.g., for `.org` and `.align` directives).
+2. `preprocess`: Can be used to add a symbol to the symbol table.
+3. `validate`: Perform static analysis on the given instruction to check for correctness.
+4. `compile`: If applicable, encode the instruction to binary and write it to memory.
+
+### Pseudo-Instructions
+
+Pseudo-instructions are also represented by the `Instruction` class, but implement the `Lowerable` interface.
+
+The `Lowerable` interface provides a method that translates the pseudo-instruction into other (lower-level) instructions. These may also be pseudo-instructions, as the assembler recursively lowers instructions until only normal instructions remain.
+
+Instructions are lowered before the aforementioned methods (`assignAddress`, `preprocess`, ...) are executed.
+
+### Location
+
+An important class used throughout the entire assembler is the `Location` class. It represents a code location and is used to output accurate error and warning messages. 
+
+Most types in the assembler carry location information, such as the `Expr` types or `InstrucionCall` objects.
+
+### Expression
+
+Values are represented by the `Expr` class, with each operand being an instance of `Expr`. Subclasses implement different types, such as strings, characters, and more.
+
+Since integer types are the most common, they receive special handling: the `isNumeric()` method is used instead of `instanceof` checks, and `getNumericValue()` is provided for easy access.
+
+When a symbol is used in place of a direct value, its corresponding value usually needs to be looked up. For numeric types, this lookup happens automatically in the symbol table. However, for other types, you must remove the indirection using the `unwrap()` method manually, which recursively resolve symbols.
+
+### Registers
+
+The assembler has no direct register type. Instead, it employs a more general and flexible concept: **distinct integers**. These consist of a type ID and an integer value, where the type represents the register type, and the value serves as the specific register's ID.
+
+Different register types, such as integer and floating-point registers, can be implemented similarly by assigning different `type` values.
+
+Distinct integers are provided by the assembler and can only be referenced in the user program; they cannot be created. They are stored in the assembler’s symbol table as constants.
+
+### Memory
+
+The memory stores the binary representations of both the assembled instructions and the data generated by directives.
+
+You can define multiple memory banks, such as separate instruction and data memories, with as many banks as needed. Each bank can have a unique size (number of addressable cells) and a fixed cell size (number of bits per address).
+
+When writing a value to memory and the memory is visualized as a bitstream, the least significant bit of the number comes first, following a little-endian format when the value spans multiple cells / addresses.
