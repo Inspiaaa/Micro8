@@ -1,13 +1,13 @@
 package inspiaaa.assembler.typing;
 
 import inspiaaa.assembler.ErrorReporter;
-import inspiaaa.assembler.expressions.DistinctNumberExpr;
+import inspiaaa.assembler.expressions.DistinctIntegerExpr;
 import inspiaaa.assembler.expressions.Expr;
 
-public class DistinctNumberParameterType implements ParameterType {
+public class DistinctIntegerParameterType implements ParameterType {
     private final String distinctType;
 
-    public DistinctNumberParameterType(String type) {
+    public DistinctIntegerParameterType(String type) {
         this.distinctType = type;
     }
 
@@ -31,7 +31,7 @@ public class DistinctNumberParameterType implements ParameterType {
 
         value = value.unwrap();
 
-        if (!(value instanceof DistinctNumberExpr distinctInteger) || !distinctInteger.getType().equals(distinctType)) {
+        if (!(value instanceof DistinctIntegerExpr distinctInteger) || !distinctInteger.getType().equals(distinctType)) {
             errorReporter.reportWarning(
                     "Expected " + distinctType + " but found: " + value,
                     value.getLocation());

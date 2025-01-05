@@ -133,7 +133,7 @@ public class Assembler {
     }
 
     public void defineConstant(String name, String type, long value) {
-        defineConstant(name, new DistinctNumberExpr(type, value, null));
+        defineConstant(name, new DistinctIntegerExpr(type, value, null));
     }
 
     public void defineConstant(String name, String value) {

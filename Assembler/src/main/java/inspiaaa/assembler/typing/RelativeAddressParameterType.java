@@ -6,11 +6,11 @@ import inspiaaa.assembler.expressions.RelativeAddressExpr;
 
 public class RelativeAddressParameterType implements ParameterType {
     private final ImmediateParameterType offsetType;
-    private final DistinctNumberParameterType baseType;
+    private final DistinctIntegerParameterType baseType;
 
     public RelativeAddressParameterType(String registerType) {
         this.offsetType = new ImmediateParameterType();
-        this.baseType = new DistinctNumberParameterType(registerType);
+        this.baseType = new DistinctIntegerParameterType(registerType);
     }
 
     @Override

@@ -2,11 +2,11 @@ package inspiaaa.assembler.expressions;
 
 import inspiaaa.assembler.parser.Location;
 
-public class DistinctNumberExpr extends Expr {
+public class DistinctIntegerExpr extends Expr {
     private final String type;
     private final long value;
 
-    public DistinctNumberExpr(String type, long value, Location location) {
+    public DistinctIntegerExpr(String type, long value, Location location) {
         super(location);
         this.type = type;
         this.value = value;
@@ -28,7 +28,7 @@ public class DistinctNumberExpr extends Expr {
 
     @Override
     public Expr withLocation(Location location) {
-        return new DistinctNumberExpr(type, value, location);
+        return new DistinctIntegerExpr(type, value, location);
     }
 
     @Override

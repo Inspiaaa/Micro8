@@ -13,7 +13,7 @@ public class Parameter {
             STRING = new ExactClassParameterType(StringExpr.class, "string");
 
     public static ParameterType distinctNumber(String type) {
-        return new DistinctNumberParameterType(type);
+        return new DistinctIntegerParameterType(type);
     }
 
     public static ParameterType relativeAddress(String registerType) {
