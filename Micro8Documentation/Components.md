@@ -1,3 +1,5 @@
+# Components
+
 This document contains an overview of the available files and components in the Digital folder. Note that not all components were used in the final computer build.
 
 ## CPU

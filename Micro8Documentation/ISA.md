@@ -1,3 +1,5 @@
+# ISA
+
 ## Overview
 
 - 8-bit RISC computer (8 bit addresses, 8 bit ALU, 8 bit registers, ...)

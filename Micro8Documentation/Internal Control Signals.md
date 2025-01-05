@@ -1,3 +1,5 @@
+# Internal Control Signals
+
 Overview of the internal control signals used in the control unit.
 
 - `RSA1`: address of source register 1
