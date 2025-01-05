@@ -390,23 +390,9 @@
       <pos x="-900" y="1620"/>
     </visualElement>
     <visualElement>
-      <elementName>D_FLIPFLOP.dig</elementName>
+      <elementName>SYNC.dig</elementName>
       <elementAttributes/>
       <pos x="-1040" y="1640"/>
-    </visualElement>
-    <visualElement>
-      <elementName>Text</elementName>
-      <elementAttributes>
-        <entry>
-          <string>textFontSize</string>
-          <int>12</int>
-        </entry>
-        <entry>
-          <string>Description</string>
-          <string>Sync signal with clock</string>
-        </entry>
-      </elementAttributes>
-      <pos x="-1040" y="1600"/>
     </visualElement>
   </visualElements>
   <wires>
