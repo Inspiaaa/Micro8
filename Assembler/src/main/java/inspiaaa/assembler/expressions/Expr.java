@@ -19,6 +19,7 @@ public abstract class Expr {
         return (int)getNumericValue();
     }
 
+    // Recursively resolve symbols to values.
     public Expr unwrap() {
         return this;
     }
