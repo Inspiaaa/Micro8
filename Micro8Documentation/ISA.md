@@ -188,15 +188,32 @@ See the *Assembly Reference* for useful constants that can be used when programm
 ![](./Images/Instructions/png/branch.png)
 
 - The immediate encodes a relative address and is sign-extended to 8 bits.
+- `cmp` specifies the comparison operation:
+	- `0`: EQ (equal)
+	- `1`: NEQ (not equal)
+	- `2`: LT (less than)
+	- `3`: GE (greater than or equal)
 
 ### ALU Immediate
 
 ![](./Images/Instructions/png/aluimm.png)
 
+- The immediate encodes an arbitrary 8-bit signed or unsigned integer for the second operand of the target operation.
+- `op` specifies the ALU operation:
+	- `0`: ADD
+	- `1`: SUB
+	- `2`: MUL
+	- `3`: SLL
+	- `4`: SRL
+	- `5`: AND
+	- `6`: OR
+	- `7`: XOR
+
 ### ALU
 
 ![](./Images/Instructions/png/alu.png)
 
+- See above for `op`.
 ### Load
 
 ![](./Images/Instructions/png/load.png)
@@ -220,6 +237,8 @@ See the *Assembly Reference* for useful constants that can be used when programm
 
 ![](./Images/Instructions/png/li.png)
 
+- The immediate encodes an arbitrary 8-bit signed or unsigned integer.
+
 ### NOP
 
 ![](./Images/Instructions/png/nop.png)
@@ -235,3 +254,19 @@ See the *Assembly Reference* for useful constants that can be used when programm
 ### Move
 
 ![](./Images/Instructions/png/mv.png)
+
+### Legend
+
+- `opcode`: specifies the instruction type
+- `rs1`: source register 1
+- `rs2`: source register 2
+- `rd`: destination register
+- `rd/s`: source and destination register
+- `uimm`: unsigned integer immediate
+- `imm` (8 bit): signed or unsigned integer immediate
+- `imm` (<8 bit): signed integer immediate
+
+
+> [!NOTE]
+> - Due to the limited 16-bit size of the instructions and the considerable amount of data required by certain instructions (such as the branch instruction), I had to use a variable-length opcode. Although this complicates the decoding process, it allows the computer to support a broader range of instructions and enables each instruction to be more expressive, for example, increasing the range of the branch jump offset.
+> - Since 8-bit immediates already match the word size of the computer, they do not require sign or zero extension. As a result, the hardware does not impose a specific interpretation, allowing the programmer to interpret them as needed based on the context.
