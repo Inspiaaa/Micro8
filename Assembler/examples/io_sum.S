@@ -1,3 +1,5 @@
+# Program that allows the user to compute the sum of all integers up to n.
+
 .text
 
 # Wait for user input (wait for button in row B to be pressed, n should be in A).
