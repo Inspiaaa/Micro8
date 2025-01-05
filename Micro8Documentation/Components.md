@@ -65,6 +65,7 @@ Binary operations (A OP B):
 - `GATE_8`: AND gate for an 8-bit input and a 1-bit enable signal
 - `IS_ZERO_8`: check if 8-bit signal is zero
 - `IS_EQU_8`: check if two 8-bit signals are equal 
+- `SYNC`: synchronizes an asynchronous signal with the clock (currently implemented using a D-FF)
 
 ## ALU
 
