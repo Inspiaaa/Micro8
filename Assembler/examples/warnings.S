@@ -1,3 +1,4 @@
+# Example program that produces many warnings.
 
 # Instruction in data memory.
 .data

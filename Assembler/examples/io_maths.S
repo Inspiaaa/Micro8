@@ -1,3 +1,7 @@
+# Interactive maths program that allows you to input a number n and compute...
+# - the sum of all natural numbers up to n
+# - n factorial
+# - the nth Fibonacci number.
 
 # Options:
 # 00000001  Sum

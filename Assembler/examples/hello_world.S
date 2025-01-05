@@ -1,3 +1,5 @@
+# Displays a scrolling "Hello World" message on the screen.
+
 .data
 image:
     .byte 0b10010111
