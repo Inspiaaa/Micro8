@@ -1,6 +1,6 @@
 # Usage Tutorial
 
-If you simply want to test the default example program ([`io_maths`](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/examples/io_maths.S)), then skip to step 4.
+If you simply want to test the default example program ([`io_maths.S`](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/examples/io_maths.S)), then skip to step 4.
 
 ## 1. Writing your own assembly program
 
