@@ -7,8 +7,10 @@
 - A custom 8-bit RISC **instruction set architecture** (ISA) similar to RISC-V.
 - A **computer built from scratch** that implements this ISA, designed using the digital logic simulation software [Digital](https://github.com/hneemann/Digital).
 - A **general-purpose assembler** that can be used for similar projects.
-- An assembler specifically built for this computer, built on top of this framework.
+- An assembler specifically designed for this computer, built on this framework.
 - Example assembly programs for demonstrating the computer's capabilities.
+
+This document not only explains how this computer was designed and constructed, but also outlines how you can create an assembler for your own computer designs. See the *Assembler* section.
 
 # Computer
 
@@ -27,7 +29,7 @@
 	- Optimized right/left **shifters**
 - More than 66,000 nodes in the design
 
-For more information on the ISA and the design choices that went into it, please see the [ISA documentation](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/ISA.md).
+For more information on the ISA and the design choices that went into it, please see the [ISA documentation](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/ISA.md). Moreover, the [documentation folder](https://github.com/Inspiaaa/Micro8/tree/master/Micro8Documentation) contains further information on the internal design.
 
 ![](https://github.com/Inspiaaa/Micro8/raw/master/Micro8Documentation/Images/Components/MEM_64.png)
 
@@ -74,13 +76,13 @@ You can use the existing `micro8` assembler as an example. It includes a compreh
 - Static analysis (e.g. label checking)
 - Two memory banks with different cell sizes
 
-Where to start:
+**Where to start:**
 - The main definition of the assembler: [`Micro8Assembler.java`](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/src/main/java/inspiaaa/micro8/Micro8Assembler.java)
 - Usage of the assembler and output generation: [`Main.java`](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/src/main/java/inspiaaa/micro8/Main.java)
 
 ### Creating your own assembler
 
-The general process is as follows:
+**The general process is as follows:**
 - Create an `Assembler` instance.
 - Define the available registers, constants and built-in directives.
 - Create custom instruction types and pseuo-instructions, and add them to the assembler.
