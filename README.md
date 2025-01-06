@@ -143,6 +143,8 @@ When a symbol is used in place of a direct value, its corresponding value usuall
 
 The assembler supports overloading based on operand types. Each instruction defines a list of parameter types, which are checked using parameter type checkers (see the `ParameterType` interface). This system allows you to implement a potentially complex set of rules that determine which values are accepted and which are incompatible. 
 
+Variadic signatures are also supported by setting the `isVariadic` parameter in the `Instruction` constructor. This makes it apply the last parameter type checker to additional arguments.
+
 In addition to validating whether a value is legal, parameter type checkers also help identify potentially incorrect or suspicious values during static analysis.
 
 Example of a potentially erroneous, but legal value:
