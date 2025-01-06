@@ -4,6 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.RelativeAddressExpr;
 
+// Only accepts RelativeAddressExpr. It also checks for the correctness of the offset and base fields.
 public class RelativeAddressParameterType implements ParameterType {
     private final ImmediateParameterType offsetType;
     private final DistinctIntegerParameterType baseType;

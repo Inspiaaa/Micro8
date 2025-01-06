@@ -4,6 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.LabelExpr;
 
+// Accepts any numeric type but reports a warning if the value is not a label.
 public class LabelParameterType implements ParameterType {
     @Override
     public boolean potentiallyMatches(Expr value) {

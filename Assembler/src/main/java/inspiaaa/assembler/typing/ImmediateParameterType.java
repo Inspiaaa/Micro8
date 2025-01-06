@@ -1,9 +1,11 @@
 package inspiaaa.assembler.typing;
 
 import inspiaaa.assembler.ErrorReporter;
+import inspiaaa.assembler.expressions.CharExpr;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.NumberExpr;
 
+// Accepts any numeric value, but reports a warning if it is not a number or a character.
 public class ImmediateParameterType implements ParameterType {
     @Override
     public boolean potentiallyMatches(Expr value) {

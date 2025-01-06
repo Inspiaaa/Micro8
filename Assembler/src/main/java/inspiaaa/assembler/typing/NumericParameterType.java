@@ -3,6 +3,7 @@ package inspiaaa.assembler.typing;
 import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 
+// Accepts any numeric type.
 public class NumericParameterType implements ParameterType {
     @Override
     public boolean potentiallyMatches(Expr value) {

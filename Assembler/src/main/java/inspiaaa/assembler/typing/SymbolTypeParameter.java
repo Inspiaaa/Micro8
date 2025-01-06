@@ -4,6 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
+// Only matches literal symbols.
 public class SymbolTypeParameter implements ParameterType {
     @Override
     public boolean matches(Expr value) {

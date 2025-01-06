@@ -4,6 +4,7 @@ import inspiaaa.assembler.ErrorReporter;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
+// Only matches values that are of the specified Java class.
 public class ExactClassParameterType implements ParameterType {
     private final Class classType;
     private final String typeDescription;

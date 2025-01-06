@@ -5,6 +5,7 @@ import inspiaaa.assembler.expressions.DistinctIntegerExpr;
 import inspiaaa.assembler.expressions.Expr;
 import inspiaaa.assembler.expressions.SymbolExpr;
 
+// Only matches distinct integer values that have the target type.
 public class DistinctIntegerParameterType implements ParameterType {
     private final String distinctType;
 
