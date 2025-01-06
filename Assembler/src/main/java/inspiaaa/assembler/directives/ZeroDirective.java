@@ -16,11 +16,17 @@ public class ZeroDirective extends Instruction {
     @Override
     public void assignAddress(InstructionCall instruction, AddressContext context) {
         // Perform an early type check as this method is called before the regular validate().
-        validate(instruction);
+        super.validate(instruction);
         Expr addressCountExpr = instruction.getArguments().get(0);
 
         instruction.setAddress(context.getAddress());
         context.reserve((int)addressCountExpr.getNumericValue());
+    }
+
+    @Override
+    public void validate(InstructionCall instruction) {
+        // Nothing to do, as the regular validation already took place during the assignAddress call.
+        // Checking again may produce the same warning again.
     }
 
     @Override
