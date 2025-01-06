@@ -16,11 +16,12 @@ beq x1, x2, target
 
 .org 0
 
+# Operand suspicious: character as number.
+.align 'a'
+
 # Operand suspicious: immediate as address.
 j 15
-
-# Operand suspicious: immediate passed as a register.
-add x1, x2, 3
+bne x1, x2, 10
 
 # Value out of range.
 li x1, 300
