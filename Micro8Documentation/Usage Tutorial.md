@@ -6,7 +6,7 @@ If you simply want to test the default example program ([`io_maths.S`](https://g
 
 Before you start:
 - See the *[ISA documentation](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/ISA.md)* for an overview over the available features and instructions of the computer.
-- Learn more about the features of the assembly language and the built-in directives in the *[assembler reference](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Assembly%20Reference.md) *.
+- Learn more about the features of the assembly language and the built-in directives in the *[assembler reference](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Assembly%20Reference.md)*.
 - Have a look at some of the [example programs](https://github.com/Inspiaaa/Micro8/tree/master/Assembler/examples) to see how to implement common functionalities. Notable files:
 	- [Reading inputs and writing to screen](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/examples/io_example.S)
 	- [Recursive function using the stack](https://github.com/Inspiaaa/Micro8/blob/master/Assembler/examples/recursive_fib.S)
