@@ -1,7 +1,7 @@
 # Example program that shows simple interactions with the IO.
 
 .text
-li sp, STACK_END
+la sp, STACK_END
 
 la x1, IO
 

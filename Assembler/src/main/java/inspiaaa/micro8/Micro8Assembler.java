@@ -101,7 +101,7 @@ public class Micro8Assembler {
         assembler.defineConstant("OUT_3", 3);
         assembler.defineConstant("OUT_4", 4);
         assembler.defineConstant("OUT_5", 5);
-        assembler.defineConstant("STACK_END", 247);
+        assembler.defineConstant("STACK_END", new LabelExpr(new Address(247, DATA_BANK), null));
 
         return assembler;
     }

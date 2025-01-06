@@ -4,8 +4,8 @@
 
 # Move the stack pointer to high end.
 # Note that you should normally use the STACK_END value so that the stack does
-# not interfere with the memory mapped IO, but in this example I wanted to
-# intentionally visualize the stack on the screen during processing.
+# not interfere with the memory mapped IO, but in this example I intentionally
+# wanted to visualize the stack on the screen during processing.
 li sp, 253
 
 # Load parameters and call fib()
