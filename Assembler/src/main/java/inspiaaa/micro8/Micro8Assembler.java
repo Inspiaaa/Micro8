@@ -2,6 +2,8 @@ package inspiaaa.micro8;
 
 import inspiaaa.assembler.*;
 import inspiaaa.assembler.directives.*;
+import inspiaaa.assembler.expressions.LabelExpr;
+import inspiaaa.assembler.memory.Address;
 import inspiaaa.assembler.memory.MemoryArchitecture;
 import inspiaaa.assembler.typing.ParameterType;
 import inspiaaa.micro8.directives.CheckedAlignedDataDirective;
@@ -90,7 +92,7 @@ public class Micro8Assembler {
         assembler.defineInstruction(new BranchPseudoInstruction("bleu", "bgeu"));
         assembler.defineInstruction(new BranchPseudoInstruction("bgtu", "bltu"));
 
-        assembler.defineConstant("IO", 248);
+        assembler.defineConstant("IO", new LabelExpr(new Address(248, INSTRUCTION_BANK), null));
         assembler.defineConstant("IN_A", 6);
         assembler.defineConstant("IN_B", 7);
         assembler.defineConstant("OUT_0", 0);

@@ -60,7 +60,7 @@ image:
 
 start:
 # Setup x8 for IO.
-li x8, IO
+la x8, IO
 
 # Clear the screen
 li x1, 0

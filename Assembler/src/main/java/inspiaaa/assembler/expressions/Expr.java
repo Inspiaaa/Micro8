@@ -28,5 +28,6 @@ public abstract class Expr {
         return location;
     }
 
+    // Returns a copy of this value with new location information. Used when unwrapping symbols.
     public abstract Expr withLocation(Location location);
 }

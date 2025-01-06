@@ -3,7 +3,7 @@
 .text
 li sp, STACK_END
 
-li x1, IO
+la x1, IO
 
 # Clear screen
 li x4, 0

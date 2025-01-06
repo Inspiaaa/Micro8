@@ -13,7 +13,7 @@ li x1, N
 call fib
 
 # Clear the screen
-li x2, IO
+la x2, IO
 li x3, 0
 sb x3, OUT_1(x2)
 sb x3, OUT_2(x2)

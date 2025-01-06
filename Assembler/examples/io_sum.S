@@ -4,7 +4,7 @@
 
 # Wait for user input (wait for button in row B to be pressed, n should be in A).
 wait_input:
-li x6, IO
+la x6, IO
 li x7, 0
 li x4, 1
 wait_input_start:

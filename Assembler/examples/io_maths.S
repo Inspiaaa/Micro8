@@ -32,7 +32,7 @@ fibonacci_image:
 
 start:
 # Wait for input
-li x1, IO
+la x1, IO
 li x2, 0
 li x3, 1
 wait_for_input:
@@ -64,7 +64,7 @@ sum:
 la x1, sum_image
 call show_image
 
-li x1, IO
+la x1, IO
 lb x1, IN_A(x1)
 call compute_sum
 j end
@@ -73,7 +73,7 @@ factorial:
 la x1, factorial_image
 call show_image
 
-li x1, IO
+la x1, IO
 lb x1, IN_A(x1)
 call compute_factorial
 j end
@@ -82,7 +82,7 @@ fibonacci:
 la x1, fibonacci_image
 call show_image
 
-li x1, IO
+la x1, IO
 lb x1, IN_A(x1)
 call compute_fibonacci
 j end
@@ -92,7 +92,7 @@ end:
 call clear_lower_screen
 
 # Wait for input field to be cleared.
-li x1, IO
+la x1, IO
 li x2, 0
 
 wait_no_input:
@@ -104,7 +104,7 @@ wait_no_input:
 compute_sum:
     li x2, 0  # Counter
     li x3, 0  # Sum
-    li x4, IO # IO
+    la x4, IO # IO
 
     _sum_loop:
         add x3, x3, x2
@@ -124,7 +124,7 @@ compute_sum:
 compute_factorial:
     li x2, 1  # Counter
     li x3, 1  # Factorial
-    li x4, IO # IO
+    la x4, IO # IO
 
     _fac_loop:
         mul x3, x3, x2
@@ -145,7 +145,7 @@ compute_fibonacci:
     li x2, 1  # Counter
     li x3, 0  # fib(n-1), last
     li x4, 1  # fib(n), current
-    li x5, IO # IO
+    la x5, IO # IO
 
     # if n == 0
     li x6, 0
@@ -186,7 +186,7 @@ compute_fibonacci:
 
 # Address of pixel rows in x1
 show_image:
-    li x2, IO
+    la x2, IO
 
     lb x3, 0(x1)
     sb x3, OUT_2(x2)
@@ -201,7 +201,7 @@ show_image:
 
 
 clear_lower_screen:
-    li x1, IO
+    la x1, IO
     li x2, 0
 
     sb x2, OUT_1(x1)
