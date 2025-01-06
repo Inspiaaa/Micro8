@@ -121,6 +121,15 @@ An important class used throughout the entire assembler is the `Location` class.
 
 Most types in the assembler carry location information, such as the `Expr` types or `InstrucionCall` objects.
 
+Example output enabled by storing location information:
+
+```
+Warning --> examples/warnings.S:28:8 (4)
+28 | li x1, -129
+            ^^^^
+Integer -129 is out of bounds for 8-bit integer.
+```
+
 ### Expression
 
 Values are represented by the `Expr` class, with each operand being an instance of `Expr`. Subclasses implement different types, such as strings, characters, and more.
@@ -129,6 +138,22 @@ Since integer types are the most common, they receive special handling: the `isN
 
 When a symbol is used in place of a direct value, its corresponding value usually needs to be looked up. For numeric types, this lookup happens automatically in the symbol table. However, for other types, you must remove the indirection using the `unwrap()` method manually, which recursively resolve symbols.
 
+
+### Overloading and Type Checking
+
+The assembler supports overloading based on operand types. Each instruction defines a list of parameter types, which are checked using parameter type checkers (see the `ParameterType` interface). This system allows you to implement a potentially complex set of rules that determine which values are accepted and which are incompatible. 
+
+In addition to validating whether a value is legal, parameter type checkers also help identify potentially incorrect or suspicious values during static analysis.
+
+Example of a potentially erroneous, but legal value:
+
+```
+Warning --> examples/warnings.S:24:13 (2)
+24 | bne x1, x2, 10
+                 ^^
+Expected label, but received direct offset: NUMBER(10)
+```
+
 ### Registers
 
 The assembler has no direct register type. Instead, it employs a more general and flexible concept: **distinct integers**. These consist of a type ID and an integer value, where the type represents the register type, and the value serves as the specific register's ID.
@@ -136,6 +161,8 @@ The assembler has no direct register type. Instead, it employs a more general an
 Different register types, such as integer and floating-point registers, can be implemented similarly by assigning different `type` values.
 
 Distinct integers are provided by the assembler and can only be referenced in the user program; they cannot be created. They are stored in the assembler’s symbol table as constants.
+
+It is also worth mentioning that although distinct integers have a numeric value (see `getNumericValue()`), the `isNumeric()` method returns false. This is because they only have an internal numeric representation that should  not be used as a regular number in the assembly program.
 
 ### Memory
 
