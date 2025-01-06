@@ -92,7 +92,7 @@ public class Micro8Assembler {
         assembler.defineInstruction(new BranchPseudoInstruction("bleu", "bgeu"));
         assembler.defineInstruction(new BranchPseudoInstruction("bgtu", "bltu"));
 
-        assembler.defineConstant("IO", new LabelExpr(new Address(248, INSTRUCTION_BANK), null));
+        assembler.defineConstant("IO", new LabelExpr(new Address(248, DATA_BANK), null));
         assembler.defineConstant("IN_A", 6);
         assembler.defineConstant("IN_B", 7);
         assembler.defineConstant("OUT_0", 0);
