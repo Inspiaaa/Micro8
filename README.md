@@ -2,7 +2,17 @@
 
 ![](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Images/Animations/HelloWorld.gif)
 
-## What is this project?
+Are you learning about adders and registers in your computer architecture class?
+Have you ever wondered how to make the step from a simple adder to a complete CPU?
+Did you ask yourself what else is needed before a CPU is part of a computer that can be programmed and actually do something?
+
+This project is not a tutorial, but through the example and documentation I have put together, you can explore (hierarchically) how to start from simple logic gates like NAND and NOR, to build a functioning computer architecture, that you can finally bring to life with your own instructions and a custom assembler.
+
+On the journey from gates to a computer, you will have the chance to really understand just how the details and design choices make a difference in both software and hardware, hopefully all at the same time as having fun.
+
+My example project ended up with >66,000 gates and is able to calculate factorial and Fibonacci numbers. What will your computer be able to do?
+
+## What is in this project?
 
 - A custom 8-bit RISC **instruction set architecture** (ISA) similar to RISC-V.
 - A **computer built from scratch** that implements this ISA, designed using the digital logic simulation software [Digital](https://github.com/hneemann/Digital).
