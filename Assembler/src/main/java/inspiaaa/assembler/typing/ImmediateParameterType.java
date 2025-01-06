@@ -27,7 +27,7 @@ public class ImmediateParameterType implements ParameterType {
 
         value = value.unwrap();
 
-        if (!(value instanceof NumberExpr)) {
+        if (!(value instanceof NumberExpr) && !(value instanceof CharExpr)) {
             errorReporter.reportWarning(
                     "Expected and immediate, but received: " + value,
                     value.getLocation());
