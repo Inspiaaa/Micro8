@@ -157,32 +157,32 @@ Notes:
 
 ## Built-in Constants
 
-| Name        | Value | Description                                                                                                     |
-| ----------- | ----- | --------------------------------------------------------------------------------------------------------------- |
-| `IO`        | `248` | start address of the memory-mapped IO                                                                           |
-| `OUT_0`     | `0`   | relative address of output row 0 from `IO`                                                                      |
-| `OUT_1`     | `1`   | ... row 1 ...                                                                                                   |
-| `OUT_2`     | `2`   | ... row 2 ...                                                                                                   |
-| `OUT_3`     | `3`   | ... row 3 ...                                                                                                   |
-| `OUT_4`     | `4`   | ... row 4 ...                                                                                                   |
-| `OUT_5`     | `5`   | ... row 5 ...                                                                                                   |
-| `IN_A`      | `6`   | ... input row `A`  ...                                                                                          |
-| `IN_B`      | `7`   | ... input row `B` ...                                                                                           |
-| `STACK_END` | `247` | Highest possible address without interacting<br>with IO. Useful value for setting up the stack<br>pointer `sp`. |
+| Name        | Value | Type    | Description                                                                                                     |
+| ----------- | ----- | ------- | --------------------------------------------------------------------------------------------------------------- |
+| `IO`        | `248` | address | start address of the memory-mapped IO                                                                           |
+| `OUT_0`     | `0`   | number  | relative address of output row 0 from `IO`                                                                      |
+| `OUT_1`     | `1`   | number  | ... row 1 ...                                                                                                   |
+| `OUT_2`     | `2`   | number  | ... row 2 ...                                                                                                   |
+| `OUT_3`     | `3`   | number  | ... row 3 ...                                                                                                   |
+| `OUT_4`     | `4`   | number  | ... row 4 ...                                                                                                   |
+| `OUT_5`     | `5`   | number  | ... row 5 ...                                                                                                   |
+| `IN_A`      | `6`   | number  | ... input row `A`  ...                                                                                          |
+| `IN_B`      | `7`   | number  | ... input row `B` ...                                                                                           |
+| `STACK_END` | `247` | address | Highest possible address without interacting<br>with IO. Useful value for setting up the stack<br>pointer `sp`. |
 
 Example:
 
 ```assembly
-# Setup the stack
-li sp, STACK_END
+# Setup the stack.
+la sp, STACK_END  # Use la instead of li to load an address.
 
-# Prepare to read/write from IO
-li x1, IO
+# Prepare to read/write from IO.
+la x1, IO
 
-# Read from IO
+# Read from IO.
 lb x2, IN_A(x1)
 
-# Write to second output row
+# Write to second output row.
 sb x2, OUT_1(x1)
 ```
 

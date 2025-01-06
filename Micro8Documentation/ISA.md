@@ -55,7 +55,6 @@ All values, including addresses, are stored as 8-bit binary integers. Negative n
 | `and`    | bitwise and         | `rd = rs1 & rs2`       |
 | `or`     | bitwise or          | `rd = rs1 \| rs2`      |
 | `xor`    | bitwise xor         | `rd = rs1 ^ rs2`       |
-|          |                     |                        |
 
 > [!NOTE]
 > As bitwise shifts are only useful for offsets of 0 to 7 bits, only the lower 3 bits of the specified value are used. See `rs2[0:2]`. Same applies to instruction versions with immediates.
@@ -144,9 +143,9 @@ See the pseudo instructions for syntactic sugar for the `gtu` and `leu` conditio
 
 ### Misc Instructions
 
-| Mnemonic | Description    |
-| -------- | -------------- |
-| `nop`    | has no effect. |
+| Mnemonic | Description   |
+| -------- | ------------- |
+| `nop`    | has no effect |
 
 > [!NOTE]
 > The `nop` instruction was added so that if the programs execution is finished, the following non-existent instructions (zeroed data) have no effect. That's why the `nop` instruction is encoded as all-zeroes.
@@ -155,15 +154,14 @@ See the pseudo instructions for syntactic sugar for the `gtu` and `leu` conditio
 
 ### Pseudo Instructions
 
-| Pseudo Instruction   | Translation           |
-| -------------------- | --------------------- |
-| `bleu rs1, rs2, imm` | `bgeu rs2, rs1, imm`  |
-| `bgtu rs1, rs2, imm` | `bltu rs2, rs1, imm`  |
-| `call label`         | `jal ra, label`       |
-| `ret`                | `jr ra`               |
-| `ret rs`             | `jr rs`               |
-| `not rd`             | `xori rd, 0b11111111` |
-| `la rd, label`       | `li rd, label`        |
+| Pseudo Instruction   | Description                                | Translation           |
+| -------------------- | ------------------------------------------ | --------------------- |
+| `bleu rs1, rs2, imm` | branch on less than or<br>equal (unsigned) | `bgeu rs2, rs1, imm`  |
+| `bgtu rs1, rs2, imm` | branch on greater than<br>(unsigned)       | `bltu rs2, rs1, imm`  |
+| `call label`         | call a function                            | `jal ra, label`       |
+| `ret`                | return                                     | `jr ra`               |
+| `not rd`             | bitwise logical not                        | `xori rd, 0b11111111` |
+| `la rd, label`       | load an address                            | `li rd, label`        |
 
 ## IO
 
