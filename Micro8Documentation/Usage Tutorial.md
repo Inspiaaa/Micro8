@@ -29,7 +29,7 @@ To assemble your program and generate these files you have two options:
 1. Download the `.jar` assembler file from the [releases](https://github.com/Inspiaaa/Micro8/releases).
 2. Run the assembler on your file, specifying the output path of the instruction (`-i path`) and of the data memory (`-d path`) files. These files should have a `.hex` file extension so that they can be loaded into Digital.
 	```
-	java -jar assembler.jar file.S -i file.instr.hex -d file.data.hex`
+	java -jar assembler.jar file.S -i file.instr.hex -d file.data.hex
 	```
 
 ### Update the `Main.java` program.
@@ -53,7 +53,7 @@ To load the data:
 1. Open the `COMPUTER.dig` file.
 2. Start the simulation by pressing the play button in Digital.
 3. To load the data and instructions into the internal memory units, click the `PROGRAM` button (this is the programming/flashing mode). This will iterate through all addresses and transfer the data from external memory into the internal memory. Note that the address counter may not be at 0 when programming starts. Since this computer uses memory-mapped I/O, you’ll see the screen clear at some point as it begins writing to these addresses.
-4. . Once all addresses have been programmed, turn off programming mode by toggling the `PROGRAM` button.
+4. Once all addresses have been programmed, turn off the programming mode by toggling the `PROGRAM` button.
 5. The computer is now reset and running.
 6. To manually control the clock, toggle the `CLK_MODE` switch and then generate the clock signal by toggling the `CLK` button.
 7. To reset the computer, re-enable the `PROGRAM` mode. This will immediately reset the program counter and begin resetting the memory.
