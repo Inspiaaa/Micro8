@@ -10,7 +10,7 @@ import inspiaaa.assembler.memory.MemoryBankInformation;
 
 public class ZeroDirective extends Instruction {
     public ZeroDirective(String mnemonic) {
-        super(mnemonic, Parameter.IMMEDIATE);
+        super(mnemonic, Parameter.REGULAR_NUMBER);
     }
 
     @Override

@@ -8,7 +8,7 @@ import inspiaaa.assembler.Instruction;
 
 public class AlignDirective extends Instruction {
     public AlignDirective(String mnemonic) {
-        super(mnemonic, Parameter.IMMEDIATE);
+        super(mnemonic, Parameter.REGULAR_NUMBER);
     }
 
     @Override

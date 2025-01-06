@@ -10,7 +10,7 @@ public class UnalignedDataDirective extends Instruction {
     protected final int wordSize;
 
     public UnalignedDataDirective(String mnemonic, int wordSize) {
-        super(mnemonic, true, Parameter.IMMEDIATE);
+        super(mnemonic, true, Parameter.NUMERIC);
         this.wordSize = wordSize;
     }
 
