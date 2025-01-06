@@ -12,7 +12,7 @@ public class Parameter {
             NUMERIC = new NumericParameterType(),
             STRING = new ExactClassParameterType(StringExpr.class, "string");
 
-    public static ParameterType distinctNumber(String type) {
+    public static ParameterType distinctInteger(String type) {
         return new DistinctIntegerParameterType(type);
     }
 

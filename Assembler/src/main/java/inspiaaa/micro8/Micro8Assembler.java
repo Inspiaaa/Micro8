@@ -15,7 +15,7 @@ public class Micro8Assembler {
     public static final String DATA_BANK = "data";
 
     public static final String REGISTER = "register";
-    public static final ParameterType REGISTER_TYPE = Parameter.distinctNumber(REGISTER);
+    public static final ParameterType REGISTER_TYPE = Parameter.distinctInteger(REGISTER);
 
     public static Assembler createAssembler(String file, String code) {
         var march = new MemoryArchitecture(INSTRUCTION_BANK);
