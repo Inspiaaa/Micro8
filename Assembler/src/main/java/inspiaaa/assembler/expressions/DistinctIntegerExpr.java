@@ -14,7 +14,7 @@ public class DistinctIntegerExpr extends Expr {
 
     @Override
     public boolean isNumeric() {
-        return true;
+        return false;
     }
 
     @Override
