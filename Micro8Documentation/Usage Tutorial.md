@@ -60,4 +60,6 @@ To load the data:
 
 ## Video showing steps 3 and 4
 
-![](Images/Tutorials/FlashingTutorial.mp4)
+https://github.com/user-attachments/assets/fc253faf-d575-4dac-8814-a6c9ded96613
+
+*[original video file](https://github.com/Inspiaaa/Micro8/blob/master/Micro8Documentation/Images/Tutorials/FlashingTutorial.mp4)*
